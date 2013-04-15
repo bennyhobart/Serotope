@@ -1,17 +1,10 @@
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.*;
+import org.newdawn.slick.state.*;
 
-
-public class gPanel extends StateBasedGame {
-
-	public gPanel(String name) {
-		super(name);
-	}
-
+public class gPanel extends StateBasedGame
+{
 	final static String gameName = "Serotope";
-	final static String VERSION = "0.15.4.13";
+	final static String VERSION = "0.1.22.2";
 	
 	
 	public static final int MAINMENUID = 0;
@@ -21,10 +14,16 @@ public class gPanel extends StateBasedGame {
 	public static final int PHEIGHT=800;
 	public static final int FPS = 60;
 	
+	
+	
+	public static InputManager Input;
+	
+	
 	public static void main(String[] args) {
 		try {
-			AppGameContainer app = new AppGameContainer(new gPanel("Serotope" + VERSION));
+			AppGameContainer app = new AppGameContainer(new gPanel());
 			app.setDisplayMode(PWIDTH, PHEIGHT, false);
+			Input = new InputManager(app); 
 			app.setShowFPS(true);
 			app.setTargetFrameRate(FPS);
 			app.start();
@@ -33,12 +32,18 @@ public class gPanel extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public gPanel(){
+		super(gameName+ " " +VERSION );
+		this.addState(new MainMenu(MAINMENUID));
+		this.addState(new Play(PLAYID));
+	}
+	
+	
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(MAINMENUID).init(gc,this);
 		this.getState(PLAYID).init(gc, this);
 		this.enterState(MAINMENUID);
 	}
-
 }
