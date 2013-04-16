@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -8,4 +10,6 @@ public abstract class GameObject {
 	int id;
 	abstract public void update(int delta, GameContainer gc);
 	abstract public void render(Graphics g);
+	
+	
 }

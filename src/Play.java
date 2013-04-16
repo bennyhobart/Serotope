@@ -15,7 +15,7 @@ public class Play extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		world = new World("testWorld");
+		world = World.getWorld();
 	
 		}
 

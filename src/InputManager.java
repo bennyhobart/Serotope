@@ -25,9 +25,9 @@ public class InputManager {
 	static boolean isKeyEscape;
 	static boolean isKeyStart;
 	
-	static private final int KEYBOARD =0;
-	static private final int GAMEPAD=1;
-	static private final int ANDROID=2;
+	static public final int KEYBOARD =0;
+	static public final int GAMEPAD=1;
+	static public final int ANDROID=2;
 	static int CONTROLDEVICE;
 	GameContainer gc;
 	public InputManager(GameContainer gc) {

@@ -44,12 +44,12 @@ public class MainMenu extends BasicGameState {
 			throws SlickException {
 		
 		fadestartmessage(delta);
-		if(gc.getInput().isKeyDown(InputManager.KeyStart)) {
+		if(gc.getInput().isKeyDown(InputManager.KeyStart)&&gameStarting==false) {
 			gameStarting=true;
-			sbg.enterState(gPanel.PLAYID);
 			STARTGAMESOUND.play();
 		}
-		if(gameStarting) {
+		if(gameStarting&&ALPHAFORSTARTGAMEMESSAGE>0.9) {
+			sbg.enterState(gPanel.PLAYID);
 		}
 		
 	}
