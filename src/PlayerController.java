@@ -48,12 +48,6 @@ public class PlayerController extends Controller {
 		
 	}
 
-	@Override
-	void update(int delta) {
-		move(delta);
-		shoot(delta);
-	}
-
 
 
 }

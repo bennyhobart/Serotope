@@ -4,7 +4,7 @@ import org.newdawn.slick.state.*;
 public class gPanel extends StateBasedGame
 {
 	final static String gameName = "Serotope";
-	final static String VERSION = "0.1.22.2";
+	final static String VERSION = "0.18.4.13";
 	
 	
 	public static final int MAINMENUID = 0;

@@ -6,11 +6,6 @@ public class AIController extends Controller {
 	}
 
 	@Override
-	public void update(int delta) {
-		
-	}
-
-	@Override
 	void shoot(int delta) {
 		
 	}
