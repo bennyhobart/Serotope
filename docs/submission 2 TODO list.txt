@@ -1,0 +1,14 @@
+Submission 2 (8 marks) due 5pm Sunday May 5th (week 8)
+
+Analysis Models (4 marks): The analysis UML models including at least:
+- your 2 or 3 major use case models, 
+- domain class diagrams, 
+- interaction models, 
+- state models and 
+- paper prototypes. 
+Not all types of diagrams may be required/appropriate depending on the product, but you must show the models that you used to derive a design for your product.
+
+Design Models (4 marks): 
+- Design class diagrams, 
+- design interaction models, 
+- design state models.
