@@ -1,6 +1,0 @@
-===README===
-src -> this is where our code goes.
-assets -> this is where all the assets used by our code goes. audio images & video
-docs-> this is where all design documents and other information (prototypes etc..) will go
-lib -> this is where all library files will go slick.jar etc... (including the java docs if the URL aren't supplied)
-
