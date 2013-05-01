@@ -11,7 +11,7 @@ public class Bullet extends GameObject {
 	int speed;
 	private float size=5;
 	
-	public Bullet(int xShoot, int yShoot, float x, float y, int damage) {
+	public Bullet(int xShoot, int yShoot, double x, double y, int damage) {
 		this.x=x;
 		this.y=y;
 		xDir=xShoot;
@@ -30,10 +30,10 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
-		float xRenderLoc = -World.getWorld().getCamera().target.x + x + gPanel.PWIDTH/2 - size/2;
-		float yRenderLoc = -World.getWorld().getCamera().target.y + y + gPanel.PHEIGHT/2 - size/2;
+		double xRenderLoc = -World.getWorld().getCamera().target.x + x + gPanel.PWIDTH/2 - size/2;
+		double yRenderLoc = -World.getWorld().getCamera().target.y + y + gPanel.PHEIGHT/2 - size/2;
 		g.setColor(Color.red);
-		g.fillOval(xRenderLoc,yRenderLoc,size, size);
+		g.fillOval((float)xRenderLoc,(float)yRenderLoc,size, size);
 	}
 
 }
