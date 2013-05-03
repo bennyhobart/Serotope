@@ -1,11 +1,9 @@
 
 
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -16,15 +14,17 @@ public abstract class GameObject {
 	int id;
 	Body body;
 	boolean solid;
-	GameObject(int id, float x, float y, Image image,boolean solid) {
+	GameObject(Vec2 position, Image image,boolean solid) {
 		this.solid=solid;
-		this.id=id;
+		GameWorld.getGameWorld().getGameObjects().add(this);
+		id = GameWorld.getGameWorld().idnum++;
 		if(solid==false) {
 			BodyDef bd = new BodyDef();
 			bd.fixedRotation=true;
+			bd.userData = this;
 			bd.type=BodyType.KINEMATIC;
-			bd.position.set(new Vec2(x,y));
-			body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
+			bd.position.set(position);
+			body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);	
 		}
 		this.image=image;
 	}

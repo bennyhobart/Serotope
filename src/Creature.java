@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 
 public class Creature extends GameObject {
@@ -28,10 +29,14 @@ public class Creature extends GameObject {
 	int damage;
 	Controller controller;
 	
-	public Creature(int id,float x, float y,Image image,boolean playercontrolled) {
-		super(id,x,y,image,true);
+	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
+		super(position,new Image(Utils.creatureImage),true);
+		attackSpeed=600;
+		timeSinceLastAttack=0;
+		damage=5;
+		topSpeed=5f;
+		acceleration=1f;
 		if(playercontrolled){
-			topSpeed=1f;
 			controller = new PlayerController(this);
 		}
 		else {
@@ -40,20 +45,27 @@ public class Creature extends GameObject {
 		BodyDef bd = new BodyDef();
 		bd.fixedRotation=true;
 		bd.type=BodyType.DYNAMIC;
-		bd.position.set(new Vec2((float)x/Utils.scale,(float)y/Utils.scale));
+		bd.userData=this;
+		bd.position.set(position);
 		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
 		CircleShape dynamicCircle = new CircleShape();
 		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.scale;
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape=dynamicCircle;
-		fixtureDef.density=1f;
+		fixtureDef.density=2f;
 		body.createFixture(fixtureDef);
-		body.m_linearDamping=0.01f;
+		body.m_linearDamping=3f;
 	}
 
 	@Override
 	public void update(int delta, GameContainer gc) {
 		controller.update(delta);
+		timeSinceLastAttack+=delta;
+	}
+
+	public void hit(int damage) {
+		currHealth-=(damage-defence);
+		
 	}
 
 

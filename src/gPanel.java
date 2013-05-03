@@ -10,8 +10,8 @@ public class gPanel extends StateBasedGame
 	public static final int MAINMENUID = 0;
 	public static final int PLAYID = 1;
 	
-	public static final int PWIDTH = 1280;
-	public static final int PHEIGHT=800;
+	public static final int PWIDTH = 800;
+	public static final int PHEIGHT=600;
 	public static final int FPS = 60;
 	
 	

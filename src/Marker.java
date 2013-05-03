@@ -2,8 +2,10 @@
 
 
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 
 public class Marker extends GameObject {
@@ -11,11 +13,8 @@ public class Marker extends GameObject {
 	float yVel;
 	int damage;
 	
-	public Marker(int id,int x,int y, Image picture,float xVel,float yVel,int damage) {
-		super(id,x,y,picture,false);
-		this.xVel=xVel;
-		this.yVel=yVel;
-		this.damage=damage;
+	public Marker(Vec2 position) throws SlickException {
+		super(position,new Image("assets/image/creature2.png"),false);
 	}
 
 	@Override

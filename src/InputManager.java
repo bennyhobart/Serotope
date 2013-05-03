@@ -93,7 +93,7 @@ public class InputManager {
 			isShootUp=true;
 		}
 		else {
-			isShootDown=false;
+			isShootUp=false;
 		}
 		if(gc.getInput().isKeyDown(KeyEscape)) {
 			isKeyEscape=true;
