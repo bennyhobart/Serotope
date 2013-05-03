@@ -1,23 +1,16 @@
+import org.jbox2d.common.Vec2;
+
+
+
+
+
 
 public class PlayerController extends Controller {
-
-	
-
 	public PlayerController(Creature creature) {
 		super(creature);
 	}
-
 	@Override
 	void shoot(int delta) {
-		
-	}
-
-	@Override
-	void move(int delta) {
-		double addMove=0;
-		double addSpeed=target.acceleration;
-		boolean moving=false;
-		
 		switch(InputManager.CONTROLDEVICE) {
 		case InputManager.ANDROID:
 			
@@ -26,28 +19,40 @@ public class PlayerController extends Controller {
 		
 			break;
 		case InputManager.KEYBOARD:
-			if(InputManager.isMoveUp) {
-				moving=true;
-			}
-			if(InputManager.isMoveRight) {
-				addMove+=90;
-				moving=true;
-			}
+			int verticleFlag=0;
+			int horizontalFlag=0;
 			if(InputManager.isMoveDown) {
-				addMove+=180;
-				moving=true;
+				verticleFlag-=1;
+			}
+			if(InputManager.isMoveUp) {
+				verticleFlag+=1;
 			}
 			if(InputManager.isMoveLeft) {
-				addMove+=270;
-				addMove%=360;
-				moving=true;
+				horizontalFlag-=1;
 			}
+			if(InputManager.isMoveRight) {
+				horizontalFlag+=1;
+			}
+			
+			Vec2 move = new Vec2(horizontalFlag,verticleFlag);
+			move.normalize();
+			move.mul(target.topSpeed);
+			target.body.applyLinearImpulse(move, target.body.getPosition());
 			break;
-		}
-		
-		
+		}	
 	}
-
-
-
+	@Override
+	void move(int delta) {
+		switch(InputManager.CONTROLDEVICE) {
+		case InputManager.ANDROID:
+			
+			break;
+		case InputManager.GAMEPAD:
+		
+			break;
+		case InputManager.KEYBOARD:
+			
+			break;
+		}	
+	}
 }
