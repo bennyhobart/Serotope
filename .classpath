@@ -14,5 +14,10 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jar/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/jar/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/jar/jbox2d-library-2.2.1.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/SerotopeSWEN30006/lib/jar/jbox2d-library-2.2.1.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

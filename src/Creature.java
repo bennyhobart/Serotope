@@ -1,58 +1,60 @@
-import java.util.Vector;
 
-import org.newdawn.slick.Color;
+
+
+
+import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 
 public class Creature extends GameObject {
-	//Draw Variables
-	private int size;
-	
-	
 	//Move Variables
-	double topSpeed = 0.5;
-	double acceleration=0.05;
-	double currSpeed= 0;
-	double currMove = 0;
-	
+	float topSpeed;
+	float acceleration;
+	float currSpeed;
+	float currMove;
 	//Health Variables
-	int maxHealth = 100;
-	int currHealth = 100;
-	int defence = 5;
-	
-	
+	int maxHealth;
+	int currHealth;
+	int lifeSpan;
+	int defence;
 	//Damage Variables
-	double attackSpeed=0.2;
-	int timeSinceLastAttack=0;
-	int damage=5;
+	int attackSpeed;
+	int timeSinceLastAttack;
+	int damage;
+	Controller controller;
 	
-	Vector<Component> components;
-	
-	public Creature(int x, int y) {
-		this.x=x;
-		this.y=y;
-		components = new Vector<Component>();
-		components.add(new PlayerController(this));
+	public Creature(int id,float x, float y,Image image,boolean playercontrolled) {
+		super(id,x,y,image,true);
+		if(playercontrolled){
+			topSpeed=1f;
+			controller = new PlayerController(this);
+		}
+		else {
+			controller = new AIController(this);
+		}
+		BodyDef bd = new BodyDef();
+		bd.fixedRotation=true;
+		bd.type=BodyType.DYNAMIC;
+		bd.position.set(new Vec2((float)x/Utils.scale,(float)y/Utils.scale));
+		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
+		CircleShape dynamicCircle = new CircleShape();
+		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.scale;
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape=dynamicCircle;
+		fixtureDef.density=1f;
+		body.createFixture(fixtureDef);
+		body.m_linearDamping=0.01f;
 	}
 
 	@Override
 	public void update(int delta, GameContainer gc) {
+		controller.update(delta);
+	}
 
-		for(int i=0;i<components.size();i++) {
-			components.get(i).update(delta);
-		}
-		
-	}
-	
-	@Override
-	public void render(Graphics g) {
-		g.setColor(Color.blue);
-		g.drawOval((float)x,(float)y, (float)10, (float)10);
-	}
-	
-	public void hit(int damage) {
-		currHealth-=(damage-defence);
-	}
 
 }

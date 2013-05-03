@@ -4,8 +4,10 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
+
+
 public class Play extends BasicGameState {
-	static World world;
+	static GameWorld world;
 	private int id;
 
 	public Play(int id) {
@@ -15,7 +17,7 @@ public class Play extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		world = World.getWorld();
+		world = GameWorld.getGameWorld();
 	
 		}
 
