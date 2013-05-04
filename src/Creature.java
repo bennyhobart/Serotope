@@ -31,11 +31,16 @@ public class Creature extends GameObject {
 	
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
 		super(position,new Image(Utils.creatureImage),true);
-		attackSpeed=600;
+		
+		
+		attackSpeed=200;
 		timeSinceLastAttack=0;
 		damage=5;
 		topSpeed=5f;
 		acceleration=1f;
+		currHealth=20;
+		
+		
 		if(playercontrolled){
 			controller = new PlayerController(this);
 		}
@@ -60,7 +65,20 @@ public class Creature extends GameObject {
 	@Override
 	public void update(int delta, GameContainer gc) {
 		controller.update(delta);
+		if(currHealth<=0) {
+			die();
+		}
 		timeSinceLastAttack+=delta;
+	}
+
+	private void die() {
+		GameWorld.getGameWorld().getGameObjects().remove(this);
+		body.m_world.destroyBody(this.body);
+		try {
+			this.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void hit(int damage) {

@@ -30,9 +30,9 @@ public class GameWorld {
 		physicsWorld = new World(new Vec2(0,0));
 		setGameObjects(new ArrayList<GameObject>());
 		try {
-			new Creature(new Vec2(1,1), true);
+			new Creature(new Vec2(10,0), true);
 			new Marker(new Vec2(0,0));
-			new Creature(new Vec2(1,0), false);
+			new Creature(new Vec2(0,0), false);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

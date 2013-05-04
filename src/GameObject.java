@@ -33,6 +33,7 @@ public abstract class GameObject {
 		if(image==null) {
 			return;
 		}
+		image.setRotation((float) (-body.getAngle()*180/Math.PI));
 		image.drawCentered(xrender, yrender);
 	}
 	

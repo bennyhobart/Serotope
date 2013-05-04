@@ -31,8 +31,10 @@ public class Bullet extends GameObject {
 		fixtureDef.density=0f;
 		body.createFixture(fixtureDef);
 		direction=velocity;
-		body.setLinearVelocity(direction.mul(5));
+		body.setLinearVelocity(velocity.mul(10));
 		this.damage=damage;
+		body.setFixedRotation(true);
+		body.setTransform(body.getPosition(),(float) Math.atan2(direction.y, direction.x));
 	}
 
 	@Override
@@ -46,16 +48,16 @@ public class Bullet extends GameObject {
 					contact=contact.next;
 					continue;
 				}
-				
 				creature.hit(damage);
-				/*GameWorld.getGameWorld().getGameObjects().remove(this);
+				
+				GameWorld.getGameWorld().getGameObjects().remove(this);
 				body.m_world.destroyBody(this.body);
 				try {
 					this.finalize();
 				} catch (Throwable e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}*/
+				}
+				
 			}
 			contact=contact.next;
 		}

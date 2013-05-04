@@ -35,11 +35,15 @@ public class PlayerController extends Controller {
 			if(InputManager.isMoveRight) {
 				horizontalFlag+=1;
 			}
+			if(horizontalFlag==0&&verticleFlag==0) {
+				return;
+			}
 			Vec2 move = new Vec2(horizontalFlag,verticleFlag);
 			move.normalize();
 			move.mulLocal((target.topSpeed-target.body.getLinearVelocity().clone().normalize()) * target.acceleration);
 			move.mulLocal(target.body.getMass());
 			target.body.applyLinearImpulse(move,target.body.getPosition());
+			target.body.setTransform(target.body.getPosition(), (float) Math.atan2(horizontalFlag, verticleFlag));
 			break;
 		}	
 	}
