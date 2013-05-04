@@ -34,9 +34,12 @@ public class GameWorld {
 		setGameObjects(new ArrayList<GameObject>());
 		try {
 			//always spawn player creature first
-			new Creature(new Vec2(0,6), true);
+			new Creature(new Vec2(0,0), true);
 			for(int i=-5; i<5 ;i++) {
 				for(int j=-5;j<5;j++) {
+					if(i==0&&j==0) {
+						continue;
+					}
 					new Creature(new Vec2(i*2,j*2),false);
 				}
 			}
