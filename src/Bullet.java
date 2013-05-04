@@ -16,16 +16,22 @@ public class Bullet extends GameObject {
 	private int creatorId;
 	Bullet(Vec2 position, Vec2 velocity,int damage, int id) throws SlickException {
 		super(position, new Image(Utils.bulletImage), true);
+		//keeps a handle on creator so it knows not to kill his own creator.
 		creatorId=id;
+		//solid object needs a body
 		BodyDef bd = new BodyDef();
+		//has a fixed rotation in the direction of its velocity, it should despawn after any physics interactions anyway
+		//unless it interacts with its creator
 		bd.fixedRotation=true;
+		//seting the user data to point to this object
 		bd.userData = this;
+		//dynamic object can interact with other objects as well as vica versa
 		bd.type=BodyType.DYNAMIC;
 		bd.position.set(position);
 		bd.bullet=true;
 		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
 		CircleShape dynamicCircle = new CircleShape();
-		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.scale;
+		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.SCALE;
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape=dynamicCircle;
 		fixtureDef.density=0f;
@@ -41,7 +47,6 @@ public class Bullet extends GameObject {
 	public void update(int delta, GameContainer gc) {
 		ContactEdge contact = body.getContactList();
 		while(contact!=null) {
-			System.out.println(contact.other.getUserData().toString());
 			if(contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
 				if(creature.id==creatorId) {
@@ -49,7 +54,6 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				creature.hit(damage);
-				
 				GameWorld.getGameWorld().getGameObjects().remove(this);
 				body.m_world.destroyBody(this.body);
 				try {

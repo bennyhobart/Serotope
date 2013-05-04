@@ -2,6 +2,7 @@
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -13,11 +14,12 @@ import org.newdawn.slick.SlickException;
 
 public class GameWorld {
 	
-	private World physicsWorld;
+	private static World physicsWorld;
 	static GameWorld gameWorld;
-	private ArrayList<GameObject> gameObjects;
-	private Camera focus;
-	int idnum=0;
+	private static ArrayList<GameObject> gameObjects;
+	private static Camera focus;
+	static int idnum=0;
+	static Random randomGenerator;
 	
 	public static GameWorld getGameWorld() {
 		if(gameWorld==null) {
@@ -26,13 +28,18 @@ public class GameWorld {
 		return gameWorld;
 	}
 	public GameWorld(String string) {
+		randomGenerator = new Random(System.nanoTime());
 		gameWorld=this;
 		physicsWorld = new World(new Vec2(0,0));
 		setGameObjects(new ArrayList<GameObject>());
 		try {
-			new Creature(new Vec2(10,0), true);
-			new Marker(new Vec2(0,0));
-			new Creature(new Vec2(0,0), false);
+			//always spawn player creature first
+			new Creature(new Vec2(0,6), true);
+			for(int i=-5; i<5 ;i++) {
+				for(int j=-5;j<5;j++) {
+					new Creature(new Vec2(i*2,j*2),false);
+				}
+			}
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -49,7 +56,10 @@ public class GameWorld {
 			objectScreenLoc = worldToScreen(getGameObjects().get(i).body.getPosition());
 			float xRender = objectScreenLoc.x-camScreenLoc.x+gPanel.PWIDTH/2;
 			float yRender= gPanel.PHEIGHT/2-objectScreenLoc.y+camScreenLoc.y;
-			if(xRender<-target.image.getWidth()/2||xRender>gPanel.PWIDTH+target.image.getWidth()/2||yRender<-target.image.getHeight()/2||yRender>gPanel.PHEIGHT+target.image.getHeight()/2);
+			if(xRender<-target.image.getWidth()/2
+					||xRender>gPanel.PWIDTH+target.image.getWidth()/2
+					||yRender<-target.image.getHeight()/2
+					||yRender>gPanel.PHEIGHT+target.image.getHeight()/2);
 			else
 				getGameObjects().get(i).render(g, xRender,yRender);
 		}
@@ -79,7 +89,7 @@ public class GameWorld {
 		this.physicsWorld = physicsWorld;
 	}
 	public Vec2 worldToScreen(Vec2 position) {
-		return new Vec2(position).mul(Utils.scale);
+		return new Vec2(position).mul(Utils.SCALE);
 	}
 	public ArrayList<GameObject> getGameObjects() {
 		return gameObjects;

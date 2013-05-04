@@ -16,52 +16,69 @@ public class Creature extends GameObject {
 	//Move Variables
 	float topSpeed;
 	float acceleration;
-	float currSpeed;
-	float currMove;
+	float handling;
 	//Health Variables
-	int maxHealth;
+	int health;
 	int currHealth;
-	int lifeSpan;
-	int defence;
+	int stamina;
+	boolean shield;
 	//Damage Variables
+	int damage;
 	int attackSpeed;
 	int timeSinceLastAttack;
-	int damage;
-	Controller controller;
+	int attackType;
 	
+	Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
-		super(position,new Image(Utils.creatureImage),true);
+		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.randomGenerator.nextInt(Utils.CREATUREIMAGES.length)]),true);
+		//initialize base stats
+		//move
+		topSpeed=Utils.topSpeed;
+		acceleration=Utils.acceleration;
+		handling=Utils.handling;
+		//health
+		health=Utils.health;
+		currHealth=health;
+		stamina=Utils.stamina;
+		shield=Utils.shield;
+		//damage
+		damage=Utils.damage;
+		attackSpeed=Utils.attackSpeed;
+		timeSinceLastAttack=attackSpeed;
+		attackType=1;
 		
-		
-		attackSpeed=200;
-		timeSinceLastAttack=0;
-		damage=5;
-		topSpeed=5f;
-		acceleration=1f;
-		currHealth=20;
-		
-		
+		//set controller
 		if(playercontrolled){
 			controller = new PlayerController(this);
 		}
 		else {
 			controller = new AIController(this);
 		}
+		
+		//build physics body
 		BodyDef bd = new BodyDef();
+		//only should rotate when player tells it to by moving
 		bd.fixedRotation=true;
+		//Should be acted on by other objects as well as act upon other objects
 		bd.type=BodyType.DYNAMIC;
+		//setting the user data to this so the body has a reference to its corresponding game object
 		bd.userData=this;
+		//set bodies position
 		bd.position.set(position);
+		//build body
 		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
+		//all creatures are circular
 		CircleShape dynamicCircle = new CircleShape();
-		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.scale;
+		//circle radius is equal to the size of the image divided by the scale
+		dynamicCircle.setRadius((image.getWidth()/2)/Utils.SCALE);
+		//body is solid creating fixture
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape=dynamicCircle;
-		fixtureDef.density=2f;
+		//density
+		fixtureDef.density=Utils.stamina;
 		body.createFixture(fixtureDef);
-		body.m_linearDamping=3f;
+		body.setLinearDamping(Utils.handling);
 	}
-
 	@Override
 	public void update(int delta, GameContainer gc) {
 		controller.update(delta);
@@ -72,6 +89,7 @@ public class Creature extends GameObject {
 	}
 
 	private void die() {
+		dropDna();
 		GameWorld.getGameWorld().getGameObjects().remove(this);
 		body.m_world.destroyBody(this.body);
 		try {
@@ -81,9 +99,35 @@ public class Creature extends GameObject {
 		}
 	}
 
-	public void hit(int damage) {
-		currHealth-=(damage-defence);
+	private void dropDna() {
 		
+	}
+	public void hit(int damage) {
+		if(shield) {
+			shield=false;
+			return;
+		}
+		currHealth-=(damage);
+		
+	}
+	public void Shoot(Vec2 velocity) {
+		Vec2 spawnLoc = new Vec2(body.getPosition());
+		Vec2 tempAdd = new Vec2(velocity);
+		tempAdd.mulLocal(image.getWidth()/2+Utils.bullet1Width/2);
+		tempAdd.mulLocal(1/Utils.SCALE);
+		spawnLoc.addLocal(tempAdd);
+		
+		try {
+			new Bullet(spawnLoc, velocity, damage,id);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}		
+	}
+	public void move(Vec2 move) {
+		move.mulLocal((topSpeed-body.getLinearVelocity().length()) * acceleration);
+		move.mulLocal(body.getMass());
+		body.applyLinearImpulse(move,body.getPosition());
+		body.setTransform(body.getPosition(), (float) Math.atan2(move.x,move.y));		
 	}
 
 
