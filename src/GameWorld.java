@@ -40,7 +40,7 @@ public class GameWorld {
 					if(i==0&&j==0) {
 						continue;
 					}
-					new Creature(new Vec2(i*2,j*2),false);
+					new Creature(new Vec2(i,j),false);
 				}
 			}
 		} catch (SlickException e) {
