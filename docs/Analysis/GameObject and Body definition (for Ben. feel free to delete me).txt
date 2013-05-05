@@ -1,0 +1,22 @@
+GameObject is an abstract class that defines the base attributes for ojects in the game (such as creatures, projectiles, and DNA)
+
+It's attributes include:
+	Image image;
+	int id;
+	Body body;
+	boolean solid;
+	
+id is a unique number used to identify the game object
+solid is a flag used for determining game physics. A solid object will capable of colliding.
+
+It's methods include:
+	abstract public void update(int delta, GameContainer gc);
+	void render(Graphics g,float xrender,float yrender) 
+	
+render enables the object's image to be displayed ont he screen
+update enables the object to update based on changes int he game state
+
+Body
+
+Body is a jbox2d class that defines the attributes of an object that affect the way it physically interacts in the game world.
+It requires a BodyDef, which difines the objects start position and type (static, dynamic, or kinematic) and a FixtureDef, which defines the shape, density, friction, and restitution (bounciness) of the object.
