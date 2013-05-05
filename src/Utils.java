@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 
 
 public class Utils {
@@ -15,9 +16,6 @@ public class Utils {
 	public static final String[] CREATUREIMAGES = {CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	public static final String bulletImage = "assets/image/Bullet.png";
 	public static final int bullet1Width = 16;
-	public static float distBetween(Vec2 a, Vec2 b) {
-		return (a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y);
-	}
 	//creature default stats
 	//Move Variables
 	public static final float topSpeed=5f;
@@ -31,5 +29,24 @@ public class Utils {
 	public static final int damage=10;
 	public static final int attackSpeed=200;
 	public static final int attackType=1;
+	
+	//Body Utils
+	//clockwise to the vector between a and b
+	public static Vec2 tangentialVector(Vec2 a,Vec2 b) {
+		Vec2 dir=vectorBetween(a,b);
+		dir.set(dir.y, -dir.x);
+		dir.normalize();
+		return dir;
+	}
+	//returns a unit vector directed from a to be
+	public static Vec2 vectorBetween(Vec2 a, Vec2 b) {
+		Vec2 dir = new Vec2(b.sub(a));
+		dir.normalize();
+		return dir;
+	}
+	public static float lengthBetween(Vec2 a, Vec2 b) {
+		return a.sub(b).length();
+		
+	}
 
 }

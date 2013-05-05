@@ -38,9 +38,6 @@ public class PlayerController extends Controller {
 	}
 	@Override
 	void shoot(int delta) {
-		if(target.timeSinceLastAttack<target.attackSpeed) {
-			return;
-		}
 		Vec2 velocity=new Vec2(0,0);
 		switch(InputManager.CONTROLDEVICE) {
 		case InputManager.ANDROID:
@@ -67,11 +64,10 @@ public class PlayerController extends Controller {
 			if(horizontalFlag==0&&verticleFlag==0) {
 				return;
 			}
-			target.timeSinceLastAttack=0;
 			velocity.x=horizontalFlag;
 			velocity.y=verticleFlag;
 			velocity.normalize();
 		}
-		target.Shoot(velocity);
+		target.shoot(velocity);
 	}
 }

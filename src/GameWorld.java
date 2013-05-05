@@ -35,16 +35,17 @@ public class GameWorld {
 		try {
 			//always spawn player creature first
 			new Creature(new Vec2(0,0), true);
-			for(int i=-5; i<5 ;i++) {
+			/*for(int i=-5;i<5;i++) {
 				for(int j=-5;j<5;j++) {
 					if(i==0&&j==0) {
 						continue;
 					}
 					new Creature(new Vec2(i,j),false);
+					
 				}
-			}
+			}*/
+			new Creature(new Vec2(1,1),false);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setFocus(new Camera(getGameObjects().get(0)));
@@ -82,14 +83,14 @@ public class GameWorld {
 		return focus;
 	}
 	public void setFocus(Camera focus) {
-		this.focus = focus;
+		GameWorld.focus = focus;
 	}
 
 	public World getPhysicsWorld() {
 		return physicsWorld;
 	}
 	public void setPhysicsWorld(World physicsWorld) {
-		this.physicsWorld = physicsWorld;
+		GameWorld.physicsWorld = physicsWorld;
 	}
 	public Vec2 worldToScreen(Vec2 position) {
 		return new Vec2(position).mul(Utils.SCALE);
@@ -98,7 +99,7 @@ public class GameWorld {
 		return gameObjects;
 	}
 	public void setGameObjects(ArrayList<GameObject> gameObjects) {
-		this.gameObjects = gameObjects;
+		GameWorld.gameObjects = gameObjects;
 	}
 
 

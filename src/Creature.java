@@ -91,7 +91,7 @@ public class Creature extends GameObject {
 	private void die() {
 		dropDna();
 		GameWorld.getGameWorld().getGameObjects().remove(this);
-		body.m_world.destroyBody(this.body);
+		body.getWorld().destroyBody(this.body);
 		try {
 			this.finalize();
 		} catch (Throwable e) {
@@ -110,7 +110,13 @@ public class Creature extends GameObject {
 		currHealth-=(damage);
 		
 	}
-	public void Shoot(Vec2 velocity) {
+	public void shoot(Vec2 velocity) {
+		if(velocity.length()==0) {
+			return;
+		}
+		if(timeSinceLastAttack<attackSpeed) {
+			return;
+		}
 		Vec2 spawnLoc = new Vec2(body.getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
 		tempAdd.mulLocal(image.getWidth()/2+Utils.bullet1Width/2);
@@ -121,7 +127,8 @@ public class Creature extends GameObject {
 			new Bullet(spawnLoc, velocity, damage,id);
 		} catch (SlickException e) {
 			e.printStackTrace();
-		}		
+		}
+		timeSinceLastAttack=0;
 	}
 	public void move(Vec2 move) {
 		move.mulLocal((topSpeed-body.getLinearVelocity().length()) * acceleration);
