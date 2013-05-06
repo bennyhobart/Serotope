@@ -16,7 +16,10 @@
    id="svg3005"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="StartGamePrototype.svg">
+   sodipodi:docname="StartGamePrototype.svg"
+   inkscape:export-filename="C:\Users\jburdett\Desktop\uni\oosd project2\SerotopeSWEN30006\docs\Analysis\prototypes\StartGamePrototype.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs3007">
     <linearGradient
@@ -216,7 +219,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
      inkscape:cx="539.58231"
-     inkscape:cy="424.37019"
+     inkscape:cy="537.50728"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
@@ -233,7 +236,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
