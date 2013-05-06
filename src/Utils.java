@@ -20,7 +20,7 @@ public class Utils {
 	//Move Variables
 	public static final float topSpeed=10f;
 	public static final float acceleration=0.5f;
-	public static final float handling=7f;
+	public static final float handling=0.2f;
 	//Health Variables
 	public static final int health=100;
 	public static final int stamina=3;

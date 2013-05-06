@@ -31,21 +31,7 @@ public class Creature extends GameObject {
 	Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
 		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.randomGenerator.nextInt(Utils.CREATUREIMAGES.length)]),true);
-		//initialize base stats
-		//move
-		topSpeed=Utils.topSpeed;
-		acceleration=Utils.acceleration;
-		handling=Utils.handling;
-		//health
-		health=Utils.health;
-		currHealth=health;
-		stamina=Utils.stamina;
-		shield=Utils.shield;
-		//damage
-		damage=Utils.damage;
-		attackSpeed=Utils.attackSpeed;
-		timeSinceLastAttack=attackSpeed;
-		attackType=Utils.attackType;
+	
 		
 		
 		
@@ -72,6 +58,22 @@ public class Creature extends GameObject {
 		fixtureDef.density=Utils.stamina;
 		body.createFixture(fixtureDef);
 		body.setLinearDamping(Utils.handling);
+
+		//initialize base stats
+		//move
+		topSpeed=Utils.topSpeed*body.getMass();
+		acceleration=Utils.acceleration;
+		handling=Utils.handling;
+		//health
+		health=Utils.health;
+		currHealth=health;
+		stamina=Utils.stamina;
+		shield=Utils.shield;
+		//damage
+		damage=Utils.damage;
+		attackSpeed=Utils.attackSpeed;
+		timeSinceLastAttack=attackSpeed;
+		attackType=Utils.attackType;
 		//set controller
 		if(playercontrolled){
 			controller = new PlayerController(this);
@@ -154,8 +156,8 @@ public class Creature extends GameObject {
 		}
 		move.mulLocal((topSpeed-body.getLinearVelocity().length()) * acceleration);
 		move.mulLocal(body.getMass());
-		body.applyLinearImpulse(move,body.getPosition());
-		body.setTransform(body.getPosition(), (float) Math.atan2(move.x,move.y));		
+		body.applyForce(move,body.getPosition());
+		body.setTransform(body.getPosition(), (float) -Math.atan2(move.x,move.y));		
 	}
 
 

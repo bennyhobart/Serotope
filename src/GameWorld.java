@@ -54,7 +54,7 @@ public class GameWorld {
 					
 				}
 			}*/
-			new Creature(new Vec2(5,5),false);
+			new Creature(new Vec2(0,0),false);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

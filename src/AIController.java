@@ -48,7 +48,10 @@ public class AIController extends Controller implements QueryCallback {
 	}
 	public void update(int delta) {
 		if(AIRefresh<REFRESHTIME) {
-			if(prevMove==null) {
+			prevMove=new Vec2(1,1);
+			prevShoot=new Vec2(1,1);
+			currentState=STATEBORED;
+			/*if(prevMove==null) {
 				prevMove=new Vec2(1,0);
 			}
 			if(prevShoot==null) {
@@ -65,9 +68,8 @@ public class AIController extends Controller implements QueryCallback {
 			
 			//find closest creature
 			creatures = Utils.getCreatures(Utils.getGameObjectsAABB(zone));
-			Creature closest=null;
-			float distanceClosest;
-			distanceClosest = -1;
+			Creature closest=creatures.get(0);
+			float distanceClosest = Utils.vectorBetween(target.body.getPosition(), closest.body.getPosition()).length();
 			Creature compare;
 			for(int i=0;i<creatures.size();i++) {
 				if(creatures.get(i).id==target.id) {
@@ -84,20 +86,14 @@ public class AIController extends Controller implements QueryCallback {
 					Utils.lengthBetween(target.body.getPosition(), closest.body.getPosition());
 				}
 			}
-			if(closest==null) {
-				//no creatures found
-				currentState=STATEBORED;
+			//creatures found
+			if(distanceClosest<3) {
+				otherCreature = closest;
+				currentState = STATECHASING;
 			}
 			else {
-				//creatures found
-				if(distanceClosest<3) {
-					otherCreature = closest;
-					currentState = STATECHASING;
-				}
-				else {
-					currentState=STATEBORED;
-				}
-			}
+				currentState=STATEBORED;
+			}*/
 			
 		}
 		else {
@@ -110,22 +106,22 @@ public class AIController extends Controller implements QueryCallback {
 	void shoot(int delta) {
 		switch(currentState) { 
 		case STATEFIGHTING:
-			fightingShoot();
+			fightingShoot(delta);
 			break;
 		case STATESCARED:
-			scaredShoot();
+			scaredShoot(delta);
 			break;
 		case STATEBORED:
-			boredShoot();
+			boredShoot(delta);
 			break;
 		case STATEDISTRACTED:
-			distractedShoot();
+			distractedShoot(delta);
 			break;
 		case STATECHASING:
-			chasingShoot();
+			chasingShoot(delta);
 			break;
 		default:
-			defaultShoot();
+			defaultShoot(delta);
 			break;
 		}
 
@@ -133,22 +129,22 @@ public class AIController extends Controller implements QueryCallback {
 	void move(int delta) {
 		switch(currentState) { 
 		case STATEFIGHTING:
-			fightingMove();
+			fightingMove(delta);
 			break;
 		case STATESCARED:
-			scaredMove();
+			scaredMove(delta);
 			return;
 		case STATEBORED:
-			boredMove();
+			boredMove(delta);
 			break;
 		case STATEDISTRACTED:
-			distractedMove();
+			distractedMove(delta);
 			break;
 		case STATECHASING:
-			chasingMove();
+			chasingMove(delta);
 			break;
 		default:
-			defaultMove();
+			defaultMove(delta);
 			break;
 		}
 		
@@ -158,23 +154,23 @@ public class AIController extends Controller implements QueryCallback {
 		stateTime=time;
 		currentStateTime=0;
 	}
-	void defaultMove() {
+	void defaultMove(int delta) {
 		return;
 	}
-	void defaultShoot() {
+	void defaultShoot(int delta) {
 		return;
 	}
-	void fightingMove() {
+	void fightingMove(int delta) {
 		
 	}
-	void fightingShoot() {
+	void fightingShoot(int delta) {
 		
 	}
-	void scaredMove() {
+	void scaredMove(int delta) {
 		prevMove=Utils.vectorBetween(otherCreature.body.getPosition(), target.body.getPosition());
 		target.move(prevMove);
 	}
-	void scaredShoot() {
+	void scaredShoot(int delta) {
 		double randomAngle = GameWorld.randomGenerator.nextDouble();
 		randomAngle%=Math.PI/8;
 		randomAngle-=Math.PI/16;
@@ -182,20 +178,42 @@ public class AIController extends Controller implements QueryCallback {
 		target.shoot(prevShoot);
 		return;
 	}
-	void boredMove() {
-		//double randomAngle = GameWorld.randomGenerator.nextDouble();
-		//randomAngle=randomAngle%Math.PI/8;
-		//randomAngle-=Math.PI/16;
-		//prevMove = Utils.rotateVector(prevMove,Math.PI/16);
-		//target.move(prevMove);
+	void boredMove(int delta) {
+		int randomAngle = GameWorld.randomGenerator.nextInt(16);
+		switch(randomAngle) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			target.move(prevMove);
+			break;
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+			prevMove = Utils.rotateVector(prevMove, Math.PI/delta);
+			target.move(prevMove);
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+			prevMove = Utils.rotateVector(prevMove, -Math.PI/delta);
+			target.move(prevMove);
+			break;
+		}
 	}
-	void boredShoot() {
+	void boredShoot(int delta) {
 		return;
 	}
-	void distractedMove() {
+	void distractedMove(int delta) {
 		return;
 	}
-	void distractedShoot() {
+	void distractedShoot(int delta) {
 		double randomAngle = GameWorld.randomGenerator.nextDouble();
 		randomAngle%=Math.PI/8;
 		randomAngle-=Math.PI/16;
@@ -203,11 +221,11 @@ public class AIController extends Controller implements QueryCallback {
 		target.shoot(prevShoot);
 		return;
 	}
-	void chasingMove() {
+	void chasingMove(int delta) {
 		prevMove=Utils.vectorBetween(target.body.getPosition(), otherCreature.body.getPosition());
 		target.move(prevMove);
 	}
-	void chasingShoot() {
+	void chasingShoot(int delta) {
 		prevShoot=Utils.vectorBetween(target.body.getPosition(), otherCreature.body.getPosition());
 		target.shoot(prevShoot);
 		return;
