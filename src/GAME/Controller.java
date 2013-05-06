@@ -1,11 +1,12 @@
+package GAME;
 
 
 
 
-public abstract class Controller extends Component {
-
+public abstract class Controller {
+	Creature target;
 	public Controller(Creature creature) {
-		super(creature);
+		target=creature;
 	}
 	public void update(int delta) {
 		move(delta);

@@ -1,3 +1,4 @@
+package GAME;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
@@ -7,6 +8,8 @@ import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+import Utils.Utils;
 
 
 public class Bullet extends GameObject {
@@ -29,23 +32,23 @@ public class Bullet extends GameObject {
 		bd.type=BodyType.DYNAMIC;
 		bd.position.set(position);
 		bd.bullet=true;
-		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 		CircleShape dynamicCircle = new CircleShape();
 		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.SCALE;
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape=dynamicCircle;
 		fixtureDef.density=0f;
-		body.createFixture(fixtureDef);
+		getBody().createFixture(fixtureDef);
 		direction=velocity;
-		body.setLinearVelocity(velocity.mul(20));
+		getBody().setLinearVelocity(velocity.mul(20));
 		this.damage=damage;
-		body.setFixedRotation(true);
-		body.setTransform(body.getPosition(),(float) Math.atan2(direction.y, direction.x));
+		getBody().setFixedRotation(true);
+		getBody().setTransform(getBody().getPosition(),(float) Math.atan2(direction.y, direction.x));
 	}
 
 	@Override
 	public void update(int delta, GameContainer gc) {
-		ContactEdge contact = body.getContactList();
+		ContactEdge contact = getBody().getContactList();
 		while(contact!=null) {
 			if(contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
@@ -55,7 +58,7 @@ public class Bullet extends GameObject {
 				}
 				creature.hit(damage);
 				GameWorld.getGameWorld().getGameObjects().remove(this);
-				body.m_world.destroyBody(this.body);
+				getBody().m_world.destroyBody(this.getBody());
 				try {
 					this.finalize();
 				} catch (Throwable e) {

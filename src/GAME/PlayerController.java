@@ -1,3 +1,6 @@
+package GAME;
+import gPanel.InputManager;
+
 import org.jbox2d.common.Vec2;
 
 public class PlayerController extends Controller {

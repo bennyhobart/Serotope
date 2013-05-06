@@ -1,3 +1,4 @@
+package gPanel;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -6,7 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-public class MainMenu extends BasicGameState {
+
+public class Menu extends BasicGameState {
 	
 	
 	private int id;
@@ -18,7 +20,7 @@ public class MainMenu extends BasicGameState {
 	private boolean gameStarting=false;
 	
 
-	public MainMenu(int id) {
+	public Menu(int id) {
 		this.id=id;
 	}
 

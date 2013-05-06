@@ -1,7 +1,13 @@
+package Utils;
 import java.util.ArrayList;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.ContactEdge;
+
+import GAME.Bullet;
+import GAME.Creature;
+import GAME.GameObject;
+import GAME.GameWorld;
 
 
 public class Utils {
@@ -18,12 +24,12 @@ public class Utils {
 	public static final int bullet1Width = 16;
 	//creature default stats
 	//Move Variables
-	public static final float topSpeed=10f;
-	public static final float acceleration=0.5f;
-	public static final float handling=0.2f;
+	public static final float topSpeed=20f;
+	public static final float acceleration=1f;
+	public static final float handling=5f;
 	//Health Variables
 	public static final int health=100;
-	public static final int stamina=3;
+	public static final int stamina=10;
 	public static final boolean shield=false;
 	//Damage Variables
 	public static final int damage=10;
@@ -58,7 +64,16 @@ public class Utils {
 		newvec.y=(float) (x*sn+y*cs);
 		return newvec;
 	}
-	//find creatures
+
+
+	
+	
+	
+	
+	//AI Querys and Defines
+	public static final float WANDERRADIUS = 5f;
+	public static final float WANDERDISTANCE =4f;
+	public static final float WANDERJITTER = 0.1f;
 	public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {
 		ArrayList<Bullet> creatures = new ArrayList<Bullet>();
 		GameObject target;
@@ -94,8 +109,6 @@ public class Utils {
 		}
 		return creatures;
 	}
-	
-	
 	public static ArrayList<Creature> getCreatures(ArrayList<GameObject> gameObjects) {
 		ArrayList<Creature> creatures = new ArrayList<Creature>();
 		GameObject target;

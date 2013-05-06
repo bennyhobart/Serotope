@@ -1,5 +1,9 @@
+package GAME;
 
 
+
+import gPanel.InputManager;
+import gPanel.gPanel;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,6 +14,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Utils.Utils;
+
 
 
 public class GameWorld {
@@ -19,7 +25,7 @@ public class GameWorld {
 	private static ArrayList<GameObject> gameObjects;
 	private static Camera focus;
 	static int idnum=0;
-	static Random randomGenerator;
+	private static Random randomGenerator;
 	
 	public GameObject getGameObject(int id) {
 		for(int i=0;i<gameObjects.size();i++) {
@@ -37,7 +43,7 @@ public class GameWorld {
 		return gameWorld;
 	}
 	public GameWorld(String string) {
-		randomGenerator = new Random(System.nanoTime());
+		setRandomGenerator(new Random(System.nanoTime()));
 		gameWorld=this;
 		physicsWorld = new World(new Vec2(0,0));
 		setGameObjects(new ArrayList<GameObject>());
@@ -45,35 +51,34 @@ public class GameWorld {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
 			new Creature(new Vec2(0,0), true);
-			/*for(int i=-5;i<5;i++) {
-				for(int j=-5;j<5;j++) {
-					if(i==0&&j==0) {
-						continue;
-					}
-					new Creature(new Vec2(i*2,j*2),false);
-					
+			//new Creature(new Vec2(0,0),false);
+			for(int i=-10;i<10;i++) {
+				for(int j=-10;j<10;j++) {
+					new Marker(new Vec2(i,j));
 				}
-			}*/
-			new Creature(new Vec2(0,0),false);
+			}
+			for(int i=-1;i<2;i++) {
+				//for(int j=-1;j<2;j++) {
+					//if(i==0&&j==0) {
+						//continue;
+					//}
+					new Creature(new Vec2(i*2,1*2),false);
+					
+				//}
+			}
 		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		try {
-			new Marker(new Vec2(0,0));
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setFocus(new Camera(getGameObjects().get(0)));
 	}
 
 	public void render(Graphics g) {
-		Vec2 camScreenLoc = worldToScreen(focus.target.body.getPosition());
+		Vec2 camScreenLoc = worldToScreen(focus.target.getBody().getPosition());
 		Vec2 objectScreenLoc;
 		GameObject target;
 		for(int i=0;i<gameObjects.size();i++) {
 			target=gameObjects.get(i);
-			objectScreenLoc = worldToScreen(getGameObjects().get(i).body.getPosition());
+			objectScreenLoc = worldToScreen(getGameObjects().get(i).getBody().getPosition());
 			float xRender = objectScreenLoc.x-camScreenLoc.x+gPanel.PWIDTH/2;
 			float yRender= gPanel.PHEIGHT/2-objectScreenLoc.y+camScreenLoc.y;
 			if(xRender<-target.image.getWidth()/2
@@ -116,6 +121,14 @@ public class GameWorld {
 	}
 	public void setGameObjects(ArrayList<GameObject> gameObjects) {
 		GameWorld.gameObjects = gameObjects;
+	}
+
+	public static Random getRandomGenerator() {
+		return randomGenerator;
+	}
+
+	public static void setRandomGenerator(Random randomGenerator) {
+		GameWorld.randomGenerator = randomGenerator;
 	}
 
 

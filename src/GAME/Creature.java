@@ -1,3 +1,4 @@
+package GAME;
 
 
 
@@ -11,10 +12,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import Utils.Utils;
+
 
 public class Creature extends GameObject {
 	//Move Variables
-	float topSpeed;
+	private float topSpeed;
 	float acceleration;
 	float handling;
 	//Health Variables
@@ -30,7 +33,7 @@ public class Creature extends GameObject {
 	
 	Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
-		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.randomGenerator.nextInt(Utils.CREATUREIMAGES.length)]),true);
+		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),true);
 	
 		
 		
@@ -46,7 +49,7 @@ public class Creature extends GameObject {
 		//set bodies position
 		bd.position.set(position);
 		//build body
-		body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 		//all creatures are circular
 		CircleShape dynamicCircle = new CircleShape();
 		//circle radius is equal to the size of the image divided by the scale
@@ -56,12 +59,12 @@ public class Creature extends GameObject {
 		fixtureDef.shape=dynamicCircle;
 		//density
 		fixtureDef.density=Utils.stamina;
-		body.createFixture(fixtureDef);
-		body.setLinearDamping(Utils.handling);
+		getBody().createFixture(fixtureDef);
+		getBody().setLinearDamping(Utils.handling);
 
 		//initialize base stats
 		//move
-		topSpeed=Utils.topSpeed*body.getMass();
+		setTopSpeed(Utils.topSpeed);
 		acceleration=Utils.acceleration;
 		handling=Utils.handling;
 		//health
@@ -97,7 +100,7 @@ public class Creature extends GameObject {
 	private void die() {
 		dropDna();
 		GameWorld.getGameWorld().getGameObjects().remove(this);
-		body.getWorld().destroyBody(this.body);
+		getBody().getWorld().destroyBody(this.getBody());
 		try {
 			this.finalize();
 		} catch (Throwable e) {
@@ -136,7 +139,7 @@ public class Creature extends GameObject {
 		
 }
 	private void shootForward(Vec2 velocity) {
-		Vec2 spawnLoc = new Vec2(body.getPosition());
+		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
 		tempAdd.mulLocal(image.getWidth()/2+Utils.bullet1Width/2);
 		tempAdd.mulLocal(1/Utils.SCALE);
@@ -154,10 +157,17 @@ public class Creature extends GameObject {
 		if(move==null) {
 			return;
 		}
-		move.mulLocal((topSpeed-body.getLinearVelocity().length()) * acceleration);
-		move.mulLocal(body.getMass());
-		body.applyForce(move,body.getPosition());
-		body.setTransform(body.getPosition(), (float) -Math.atan2(move.x,move.y));		
+		move.normalize();
+		move.mulLocal((getTopSpeed()-getBody().getLinearVelocity().length()) * acceleration);
+		move.mulLocal(getBody().getMass());
+		getBody().applyForce(move,getBody().getPosition());
+		getBody().setTransform(getBody().getPosition(), (float) -Math.atan2(move.x,move.y));		
+	}
+	public float getTopSpeed() {
+		return topSpeed;
+	}
+	public void setTopSpeed(float topSpeed) {
+		this.topSpeed = topSpeed;
 	}
 
 

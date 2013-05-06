@@ -1,3 +1,4 @@
+package GAME;
 
 
 import org.jbox2d.common.Vec2;
@@ -11,7 +12,7 @@ import org.newdawn.slick.Image;
 public abstract class GameObject {
 	Image image;
 	int id;
-	Body body;
+	private Body body;
 	boolean solid;
 	GameObject(Vec2 position, Image image,boolean solid) {
 		this.solid=solid;
@@ -23,7 +24,7 @@ public abstract class GameObject {
 			bd.fixedRotation=true;
 			bd.userData = this;
 			bd.position.set(position);
-			body = GameWorld.getGameWorld().getPhysicsWorld().createBody(bd);	
+			setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));	
 		}
 		this.image=image;
 	}
@@ -32,8 +33,14 @@ public abstract class GameObject {
 		if(image==null) {
 			return;
 		}
-		image.setRotation((float) (-body.getAngle()*180/Math.PI));
+		image.setRotation((float) (-getBody().getAngle()*180/Math.PI));
 		image.drawCentered(xrender, yrender);
+	}
+	public Body getBody() {
+		return body;
+	}
+	public void setBody(Body body) {
+		this.body = body;
 	}
 	
 	

@@ -1,3 +1,4 @@
+package gPanel;
 import org.newdawn.slick.GameContainer;
 import org.lwjgl.input.Keyboard;
 
@@ -14,21 +15,21 @@ public class InputManager {
 	static int KeyEscape;
 	static int KeyStart;
 	
-	static boolean isMoveRight;
-	static boolean isMoveDown;
-	static boolean isMoveUp;
-	static boolean isMoveLeft;
-	static boolean isShootRight;
-	static boolean isShootDown;
-	static boolean isShootUp;
-	static boolean isShootLeft;
-	static boolean isKeyEscape;
-	static boolean isKeyStart;
+	public static boolean isMoveRight;
+	public static boolean isMoveDown;
+	public static boolean isMoveUp;
+	public static boolean isMoveLeft;
+	public static boolean isShootRight;
+	public static boolean isShootDown;
+	public static boolean isShootUp;
+	public static boolean isShootLeft;
+	public static boolean isKeyEscape;
+	public static boolean isKeyStart;
 	
 	static public final int KEYBOARD =0;
 	static public final int GAMEPAD=1;
 	static public final int ANDROID=2;
-	static int CONTROLDEVICE;
+	public static int CONTROLDEVICE;
 	GameContainer gc;
 	public InputManager(GameContainer gc) {
 		this.gc=gc;

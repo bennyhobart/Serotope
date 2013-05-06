@@ -1,5 +1,7 @@
+package gPanel;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+
 
 public class gPanel extends StateBasedGame
 {
@@ -35,7 +37,7 @@ public class gPanel extends StateBasedGame
 	
 	public gPanel(){
 		super(gameName+ " " +VERSION );
-		this.addState(new MainMenu(MAINMENUID));
+		this.addState(new Menu(MAINMENUID));
 		this.addState(new Play(PLAYID));
 	}
 	

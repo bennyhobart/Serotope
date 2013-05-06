@@ -1,8 +1,11 @@
+package gPanel;
 
 
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
+
+import GAME.GameWorld;
 
 
 
