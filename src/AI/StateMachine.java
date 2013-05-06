@@ -1,30 +1,19 @@
-package AI;
-
-import java.util.ArrayList;
-
-public class StateMachine<Actor> {
+package AI;public class StateMachine<Actor> {
 	Actor target;
 	State<Actor> currentState;
 	State<Actor> previousState;
-	ArrayList<Transition<Actor>> transitions;
-	public StateMachine(Actor target,ArrayList<Transition<Actor>> transitions, State<Actor> start) {
-		/*this.target=target;
-		this.transitions = transitions;
+	public StateMachine(Actor target, State<Actor> start) {
+		this.target=target;
 		start.enter(target);
-		currentState=start;*/
+		currentState=start;
 	}
-	public void update() {
-		for(int i=0;i<transitions.size();i++) {
-			if(transitions.get(i).from==currentState) {
-				if(transitions.get(i).condition()) {
-					ChangeState(transitions.get(i).to);
-				}
-			}
-		}
+	public StateMachine() {
+	}
+	public void update(int delta) {
 		if(currentState==null) {
 			return;
 		}
-		currentState.execute(0);
+		currentState.execute(delta);
 	}
 	void ChangeState(State<Actor> newState) {
 		previousState = currentState;
