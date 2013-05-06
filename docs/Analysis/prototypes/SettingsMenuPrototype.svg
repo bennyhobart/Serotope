@@ -50,7 +50,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.67578125"
      inkscape:cx="512"
-     inkscape:cy="324.80925"
+     inkscape:cy="147.237"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
@@ -73,7 +73,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -415,7 +415,15 @@
          sodipodi:role="line"
          x="821.43536"
          y="472.25513"
-         id="tspan3110-8">Pause Game</tspan></text>
+         id="tspan3110-8">Pause Game</tspan><tspan
+         sodipodi:role="line"
+         x="821.43536"
+         y="502.25513"
+         id="tspan3051" /><tspan
+         sodipodi:role="line"
+         x="821.43536"
+         y="532.25513"
+         id="tspan3053">Sprint</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="rect3112-8-2"
@@ -434,5 +442,23 @@
          id="tspan3217-5"
          x="732.03839"
          y="471.39093">ESC</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect3112-8-2-1"
+       width="75"
+       height="49"
+       x="718.66187"
+       y="499.33813" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Tahoma;-inkscape-font-specification:Tahoma"
+       x="724.66187"
+       y="533.73767"
+       id="text3215-4-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3217-5-4"
+         x="724.66187"
+         y="533.73767">SHIFT</tspan></text>
   </g>
 </svg>
