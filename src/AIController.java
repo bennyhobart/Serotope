@@ -1,116 +1,216 @@
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.contacts.ContactEdge;
+import java.util.ArrayList;
+import java.util.Stack;
 
-public class AIController extends Controller {
-	boolean scared;
-	int scaredTime;
-	Creature scaredOfCreature;
-	int currentScaredTime;
-	boolean fighting;
-	int fightingTime;
-	Creature fightingCreature;
-	int currentFightingTime;
+import org.jbox2d.callbacks.QueryCallback;
+import org.jbox2d.collision.AABB;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Fixture;
+
+
+public class AIController extends Controller implements QueryCallback {
 	
-	float chaseRadius=2;
+	private static final int STATEDEFAULT = -1;
+	private static final int STATEFIGHTING = 0;
+	private static final int STATESCARED = 1;
+	private static final int STATEBORED = 2;
+	private static final int STATEDISTRACTED = 3;
+	private static final int STATECHASING = 4;
+	
+	private static final int AISENSOR = 5;
+	
+	Creature otherCreature;
 	
 	
+	//State Stack Details
+	Stack<int[]> stateList;
 	
+	
+	//Current State Details
+	private int currentState;
+	private int stateTime;
+	private int currentStateTime;
+	
+	
+	//AI timers
+	private static final int REFRESHTIME = 2000;
+	private int AIRefresh;
+	private Vec2 prevMove;
+	private Vec2 prevShoot;
+	
+	ArrayList<GameObject> local;
+	public boolean reportFixture(Fixture fixture) {
+		local.add((GameObject) fixture.getBody().getUserData());
+		return true;
+	}
 	public AIController(Creature creature) {
 		super(creature);
+		local = new ArrayList<GameObject>();
 	}
-
-	@Override
+	public void update(int delta) {
+		if(AIRefresh<REFRESHTIME) {
+			if(prevMove==null) {
+				prevMove=new Vec2(1,0);
+			}
+			if(prevShoot==null) {
+				prevShoot = new Vec2(1,0);
+			}
+			ArrayList<Creature> creatures;
+			Vec2 topLeft = new Vec2(target.body.getPosition().x+AISENSOR,target.body.getPosition().y+AISENSOR);
+			Vec2 bottomRight = new Vec2(target.body.getPosition().x-AISENSOR,target.body.getPosition().y-AISENSOR);
+			AABB zone = new AABB(bottomRight,topLeft);
+			
+			
+			
+			
+			
+			//find closest creature
+			creatures = Utils.getCreatures(Utils.getGameObjectsAABB(zone));
+			Creature closest=null;
+			float distanceClosest;
+			distanceClosest = -1;
+			Creature compare;
+			for(int i=0;i<creatures.size();i++) {
+				if(creatures.get(i).id==target.id) {
+					continue;
+				}
+				if(closest==null) {
+					closest = creatures.get(i);
+					distanceClosest = Utils.lengthBetween(target.body.getPosition(), closest.body.getPosition());
+					continue;
+				}
+				compare = creatures.get(i);
+				if(Utils.lengthBetween(target.body.getPosition(), compare.body.getPosition())<distanceClosest) {
+					closest=compare;
+					Utils.lengthBetween(target.body.getPosition(), closest.body.getPosition());
+				}
+			}
+			if(closest==null) {
+				//no creatures found
+				currentState=STATEBORED;
+			}
+			else {
+				//creatures found
+				if(distanceClosest<3) {
+					otherCreature = closest;
+					currentState = STATECHASING;
+				}
+				else {
+					currentState=STATEBORED;
+				}
+			}
+			
+		}
+		else {
+			AIRefresh=0;
+		}
+		move(delta);
+		shoot(delta);
+		AIRefresh+=delta;
+	}
 	void shoot(int delta) {
-		if(fightingCheck(delta)) {
-			return;
+		switch(currentState) { 
+		case STATEFIGHTING:
+			fightingShoot();
+			break;
+		case STATESCARED:
+			scaredShoot();
+			break;
+		case STATEBORED:
+			boredShoot();
+			break;
+		case STATEDISTRACTED:
+			distractedShoot();
+			break;
+		case STATECHASING:
+			chasingShoot();
+			break;
+		default:
+			defaultShoot();
+			break;
 		}
-		ContactEdge contacts = target.body.getContactList();
-		Vec2 shoot = new Vec2(0,0);
-		while(contacts!=null) {
-			if(contacts.other.getUserData() instanceof Creature) {
-				Creature creature = (Creature) contacts.other.getUserData();
-				shoot.addLocal(Utils.vectorBetween(target.body.getPosition(), creature.body.getPosition()));
-				fightingTime=3000;
-				fighting=true;
-				currentFightingTime=0;
-				fightingCreature=creature;
 
-			}
-			contacts=contacts.next;
-		}
-		target.shoot(shoot);
 	}
-
-	private boolean fightingCheck(int delta) {
-		if(fighting) {
-			if(fightingTime<currentFightingTime) {
-				fighting=false;
-				fightingTime=0;
-				currentFightingTime=0;
-			}
-			else {
-				target.shoot(Utils.vectorBetween(target.body.getPosition(), fightingCreature.body.getPosition()));
-				currentFightingTime+=delta;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	
-
-	@Override
 	void move(int delta) {
-		/*if(scaredCheck(delta)) {
+		switch(currentState) { 
+		case STATEFIGHTING:
+			fightingMove();
+			break;
+		case STATESCARED:
+			scaredMove();
 			return;
-		}*/
-		if(fightingMoveCheck(delta)) {
-			return;
+		case STATEBORED:
+			boredMove();
+			break;
+		case STATEDISTRACTED:
+			distractedMove();
+			break;
+		case STATECHASING:
+			chasingMove();
+			break;
+		default:
+			defaultMove();
+			break;
 		}
-		ContactEdge contacts = target.body.getContactList();
-		Vec2 move = new Vec2(0,0);
-		while(contacts!=null) {
-			if(contacts.other.getUserData() instanceof Creature) {
-				Creature creature = (Creature) contacts.other.getUserData();
-				move.addLocal(Utils.vectorBetween(creature.body.getPosition(), target.body.getPosition()));
-				scaredTime=3000;
-				scared=true;
-				currentScaredTime=0;
-				scaredOfCreature=creature;
-
-			}
-			contacts=contacts.next;
-		}
-		target.move(move);
+		
 	}
-	private boolean fightingMoveCheck(int delta) {
-		if(fighting) {
-			Vec2 move;
-			if(Utils.lengthBetween(target.body.getPosition(), fightingCreature.body.getPosition())<chaseRadius) {
-				move = Utils.tangentialVector(target.body.getPosition(),fightingCreature.body.getPosition());
-			}
-			else {
-				target.move(Utils.vectorBetween(target.body.getPosition(),fightingCreature.body.getPosition()));
-			}
-			return true;
-		}
-		return false;
+	void goToState(int state, int time) {
+		currentState=state;
+		stateTime=time;
+		currentStateTime=0;
 	}
-	private boolean scaredCheck(int delta) {
-		if(scared) {
-			if(scaredTime<currentScaredTime) {
-				scared=false;
-				scaredTime=0;
-				currentScaredTime=0;
-			}
-			else {
-				target.move(Utils.vectorBetween(scaredOfCreature.body.getPosition(),target.body.getPosition()));
-				currentScaredTime+=delta;
-				return true;
-			}
-		}
-		return false;
+	void defaultMove() {
+		return;
 	}
-	
-
+	void defaultShoot() {
+		return;
+	}
+	void fightingMove() {
+		
+	}
+	void fightingShoot() {
+		
+	}
+	void scaredMove() {
+		prevMove=Utils.vectorBetween(otherCreature.body.getPosition(), target.body.getPosition());
+		target.move(prevMove);
+	}
+	void scaredShoot() {
+		double randomAngle = GameWorld.randomGenerator.nextDouble();
+		randomAngle%=Math.PI/8;
+		randomAngle-=Math.PI/16;
+		prevShoot = Utils.rotateVector(prevMove,randomAngle);
+		target.shoot(prevShoot);
+		return;
+	}
+	void boredMove() {
+		//double randomAngle = GameWorld.randomGenerator.nextDouble();
+		//randomAngle=randomAngle%Math.PI/8;
+		//randomAngle-=Math.PI/16;
+		//prevMove = Utils.rotateVector(prevMove,Math.PI/16);
+		//target.move(prevMove);
+	}
+	void boredShoot() {
+		return;
+	}
+	void distractedMove() {
+		return;
+	}
+	void distractedShoot() {
+		double randomAngle = GameWorld.randomGenerator.nextDouble();
+		randomAngle%=Math.PI/8;
+		randomAngle-=Math.PI/16;
+		prevShoot = Utils.rotateVector(prevShoot, randomAngle);
+		target.shoot(prevShoot);
+		return;
+	}
+	void chasingMove() {
+		prevMove=Utils.vectorBetween(target.body.getPosition(), otherCreature.body.getPosition());
+		target.move(prevMove);
+	}
+	void chasingShoot() {
+		prevShoot=Utils.vectorBetween(target.body.getPosition(), otherCreature.body.getPosition());
+		target.shoot(prevShoot);
+		return;
+	}
 }
+

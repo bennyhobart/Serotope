@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
 
 	private int damage;
 	private Vec2 direction;
-	private int creatorId;
+	public int creatorId;
 	Bullet(Vec2 position, Vec2 velocity,int damage, int id) throws SlickException {
 		super(position, new Image(Utils.bulletImage), true);
 		//keeps a handle on creator so it knows not to kill his own creator.
@@ -37,7 +37,7 @@ public class Bullet extends GameObject {
 		fixtureDef.density=0f;
 		body.createFixture(fixtureDef);
 		direction=velocity;
-		body.setLinearVelocity(velocity.mul(10));
+		body.setLinearVelocity(velocity.mul(20));
 		this.damage=damage;
 		body.setFixedRotation(true);
 		body.setTransform(body.getPosition(),(float) Math.atan2(direction.y, direction.x));

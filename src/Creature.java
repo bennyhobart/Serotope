@@ -45,15 +45,9 @@ public class Creature extends GameObject {
 		damage=Utils.damage;
 		attackSpeed=Utils.attackSpeed;
 		timeSinceLastAttack=attackSpeed;
-		attackType=1;
+		attackType=Utils.attackType;
 		
-		//set controller
-		if(playercontrolled){
-			controller = new PlayerController(this);
-		}
-		else {
-			controller = new AIController(this);
-		}
+		
 		
 		//build physics body
 		BodyDef bd = new BodyDef();
@@ -78,6 +72,16 @@ public class Creature extends GameObject {
 		fixtureDef.density=Utils.stamina;
 		body.createFixture(fixtureDef);
 		body.setLinearDamping(Utils.handling);
+		//set controller
+		if(playercontrolled){
+			controller = new PlayerController(this);
+			attackType=1;
+			health=99999999;
+			currHealth=health;
+		}
+		else {
+			controller = new AIController(this);
+		}
 	}
 	@Override
 	public void update(int delta, GameContainer gc) {
@@ -117,6 +121,19 @@ public class Creature extends GameObject {
 		if(timeSinceLastAttack<attackSpeed) {
 			return;
 		}
+		switch(attackType) {
+		case 0:
+			shootForward(velocity);
+			break;
+		case 1:
+			shootForward(velocity);
+			shootForward(Utils.rotateVector(velocity, Math.toRadians(1)));
+			shootForward(Utils.rotateVector(velocity, Math.toRadians(-1)));
+			break;
+		}
+		
+}
+	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(body.getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
 		tempAdd.mulLocal(image.getWidth()/2+Utils.bullet1Width/2);
@@ -129,8 +146,12 @@ public class Creature extends GameObject {
 			e.printStackTrace();
 		}
 		timeSinceLastAttack=0;
+		
 	}
 	public void move(Vec2 move) {
+		if(move==null) {
+			return;
+		}
 		move.mulLocal((topSpeed-body.getLinearVelocity().length()) * acceleration);
 		move.mulLocal(body.getMass());
 		body.applyLinearImpulse(move,body.getPosition());

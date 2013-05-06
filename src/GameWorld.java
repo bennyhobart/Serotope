@@ -21,6 +21,15 @@ public class GameWorld {
 	static int idnum=0;
 	static Random randomGenerator;
 	
+	public GameObject getGameObject(int id) {
+		for(int i=0;i<gameObjects.size();i++) {
+			if(gameObjects.get(i).id==id) {
+				return gameObjects.get(i);
+			}
+		}
+		return null;
+	}
+	
 	public static GameWorld getGameWorld() {
 		if(gameWorld==null) {
 			gameWorld=new GameWorld("test world");
@@ -34,18 +43,25 @@ public class GameWorld {
 		setGameObjects(new ArrayList<GameObject>());
 		try {
 			//always spawn player creature first
+			//testing ai so i ignored the above rule
 			new Creature(new Vec2(0,0), true);
 			/*for(int i=-5;i<5;i++) {
 				for(int j=-5;j<5;j++) {
 					if(i==0&&j==0) {
 						continue;
 					}
-					new Creature(new Vec2(i,j),false);
+					new Creature(new Vec2(i*2,j*2),false);
 					
 				}
 			}*/
-			new Creature(new Vec2(1,1),false);
+			new Creature(new Vec2(5,5),false);
 		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		try {
+			new Marker(new Vec2(0,0));
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setFocus(new Camera(getGameObjects().get(0)));
