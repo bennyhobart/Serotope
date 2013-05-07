@@ -1,27 +1,44 @@
 package AI;
 
+import java.util.ArrayList;
+
+import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import GAME.Creature;
 import GAME.GameWorld;
-
-public class SteeringBehaviours {
+import Utils.Utils;;
+public class CreatureBehaviours {
 	Creature target;
+	
+	//Flags for action
+	boolean seeking;
+	boolean fleeing;
+	boolean pursuing;
+	boolean evading;
+	boolean wandering;
+	boolean arriving;
+	
 	
 	//used by wander
 	float wanderRadius;
 	float wanderDistance;
 	float wanderJitter;
 	Vec2 wanderTarget;
-	public SteeringBehaviours(Creature target) {
+	public CreatureBehaviours(Creature target) {
 		this.target=target;
-		wanderRadius = Utils.Utils.WANDERRADIUS;
-		wanderDistance = Utils.Utils.WANDERDISTANCE;
-		wanderJitter = Utils.Utils.WANDERJITTER;
+		wanderRadius = Utils.WANDERRADIUS;
+		wanderDistance = Utils.WANDERDISTANCE;
+		wanderJitter = Utils.WANDERJITTER;
 		wanderTarget = randomUnitVector();
 	}
 	
+	public ArrayList<Creature> getLocalCreatures() {
+		AABB zone = new AABB(target.getBody().getPosition().add(new Vec2(-Utils.AISEEK,-Utils.AISEEK)),target.getBody().getPosition().add(new Vec2(Utils.AISEEK,Utils.AISEEK)));
+		ArrayList<Creature> targets = Utils.getCreatures(Utils.getGameObjectsAABB(zone));
+		return targets;
+	}
 	public Vec2 seek(Vec2 position) {
 		Vec2 targetVelocity = position.sub(target.getBody().getPosition());
 		targetVelocity.mulLocal(target.getTopSpeed());
@@ -72,6 +89,19 @@ public class SteeringBehaviours {
 		Vec2 toEvader = body.getPosition().sub(target.getBody().getPosition());
 		float timeToInteract = toEvader.length()/(target.getTopSpeed()+body.getLinearVelocity().length());
 		return flee(body.getPosition().add(body.getLinearVelocity().mul(timeToInteract)));
+	}
+	
+	public Creature findClosest(ArrayList<Creature> targets) {
+		Creature closest=null;
+		float distance=-1;
+		for(int i=0;i<targets.size();i++) {
+			float temp = Utils.lengthBetween(target.getBody().getPosition(), targets.get(i).getBody().getPosition());
+			if((temp<distance||distance==-1)&&targets.get(i).id!=target.id) {
+				closest=targets.get(i);
+				distance =temp;
+			}
+		}
+		return closest;
 	}
 	
 }

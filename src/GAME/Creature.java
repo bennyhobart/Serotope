@@ -31,7 +31,7 @@ public class Creature extends GameObject {
 	int timeSinceLastAttack;
 	int attackType;
 	
-	Controller controller;
+	public Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
 		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),true);
 	
@@ -79,10 +79,9 @@ public class Creature extends GameObject {
 		attackType=Utils.attackType;
 		//set controller
 		if(playercontrolled){
+			health=9999;
+			currHealth=9999;
 			controller = new PlayerController(this);
-			attackType=1;
-			health=99999999;
-			currHealth=health;
 		}
 		else {
 			controller = new AIController(this);

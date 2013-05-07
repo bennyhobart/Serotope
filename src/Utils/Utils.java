@@ -24,12 +24,12 @@ public class Utils {
 	public static final int bullet1Width = 16;
 	//creature default stats
 	//Move Variables
-	public static final float topSpeed=20f;
+	public static final float topSpeed=10f;
 	public static final float acceleration=1f;
-	public static final float handling=5f;
+	public static final float handling=1f;
 	//Health Variables
 	public static final int health=100;
-	public static final int stamina=10;
+	public static final int stamina=5;
 	public static final boolean shield=false;
 	//Damage Variables
 	public static final int damage=10;
@@ -71,6 +71,7 @@ public class Utils {
 	
 	
 	//AI Querys and Defines
+	public static final float AISEEK = 2;
 	public static final float WANDERRADIUS = 5f;
 	public static final float WANDERDISTANCE =4f;
 	public static final float WANDERJITTER = 0.1f;

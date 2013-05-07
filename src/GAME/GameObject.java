@@ -11,7 +11,7 @@ import org.newdawn.slick.Image;
 
 public abstract class GameObject {
 	Image image;
-	int id;
+	public int id;
 	private Body body;
 	boolean solid;
 	GameObject(Vec2 position, Image image,boolean solid) {

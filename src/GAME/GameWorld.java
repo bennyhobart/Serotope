@@ -51,21 +51,19 @@ public class GameWorld {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
 			new Creature(new Vec2(0,0), true);
-			//new Creature(new Vec2(0,0),false);
-			for(int i=-10;i<10;i++) {
-				for(int j=-10;j<10;j++) {
-					new Marker(new Vec2(i,j));
+			new Creature(new Vec2(2,-2),false);
+			new Creature(new Vec2(2,2),false);
+			new Creature(new Vec2(-2,2),false);
+			new Creature(new Vec2(-2,-2),false);
+			for(int i=-5;i<5;i++) {
+				for(int j=-5;j<5;j++) {
+					if(i==0&&j==0) {
+						continue;
+					}
+					new Creature(new Vec2(i*3,j*3),false);
 				}
 			}
-			for(int i=-1;i<2;i++) {
-				//for(int j=-1;j<2;j++) {
-					//if(i==0&&j==0) {
-						//continue;
-					//}
-					new Creature(new Vec2(i*2,1*2),false);
-					
-				//}
-			}
+			new CreatureSpawner(new Vec2(0,0));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +79,7 @@ public class GameWorld {
 			objectScreenLoc = worldToScreen(getGameObjects().get(i).getBody().getPosition());
 			float xRender = objectScreenLoc.x-camScreenLoc.x+gPanel.PWIDTH/2;
 			float yRender= gPanel.PHEIGHT/2-objectScreenLoc.y+camScreenLoc.y;
-			if(xRender<-target.image.getWidth()/2
+			if(target.image==null||xRender<-target.image.getWidth()/2
 					||xRender>gPanel.PWIDTH+target.image.getWidth()/2
 					||yRender<-target.image.getHeight()/2
 					||yRender>gPanel.PHEIGHT+target.image.getHeight()/2);

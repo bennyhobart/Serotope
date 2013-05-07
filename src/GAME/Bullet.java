@@ -40,7 +40,7 @@ public class Bullet extends GameObject {
 		fixtureDef.density=0f;
 		getBody().createFixture(fixtureDef);
 		direction=velocity;
-		getBody().setLinearVelocity(velocity.mul(20));
+		getBody().setLinearVelocity(velocity.mul(10));
 		this.damage=damage;
 		getBody().setFixedRotation(true);
 		getBody().setTransform(getBody().getPosition(),(float) Math.atan2(direction.y, direction.x));
