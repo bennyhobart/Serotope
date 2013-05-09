@@ -1,12 +1,17 @@
-package GAME;
+package Serotope;
 
 import java.util.ArrayList;
 
-import Serotope.Creature;
+import Genes.HealthGene;
+
 
 public class DNA {
 
 	private ArrayList<Gene> genes = new ArrayList<Gene>();
+	
+	public DNA(){
+		genes.add(new HealthGene(0,0));
+	}
 	
 	public DNA(ArrayList<Gene> genes){
 		this.genes = genes;
