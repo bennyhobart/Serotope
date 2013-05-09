@@ -18,28 +18,28 @@ import Utils.Utils;
 public class Creature extends GameObject {
 	//Move Variables
 	private float topSpeed;
-	float acceleration;
-	float handling;
-	boolean sprinting;
-	float sprintTime;
-	float currSprint;
-	float sprintRestitution;
-	boolean tired;
+	private float acceleration;
+	private float handling;
+	private boolean sprinting;
+	private float sprintTime;
+	private float currSprint;
+	private float sprintRestitution;
+	private boolean tired;
 	//Health Variables
-	int health;
-	int currHealth;
-	float stamina;
-	boolean shield;
+	private int health;
+	private int currHealth;
+	private float stamina;
+	private boolean shield;
 	//Damage Variables
-	int damage;
-	int attackSpeed;
-	int timeSinceLastAttack;
-	int attackType;
+	private int damage;
+	private int attackSpeed;
+	private int timeSinceLastAttack;
+	private int attackType;
 	
 
 	
 	//AI Behaviours
-	CreatureBehaviours behaviour;
+	public CreatureBehaviours behaviour;
 	
 	public Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
@@ -95,8 +95,9 @@ public class Creature extends GameObject {
 			controller = new PlayerController(this);
 		}
 		else {
-			behaviour = new CreatureBehaviours(this);
+			
 			controller = new AIController(this);
+			behaviour = new CreatureBehaviours(this,((AIController)controller).stateMachine);
 		}
 		switch(attackType) {
 		case 1:
@@ -117,7 +118,7 @@ public class Creature extends GameObject {
 			die();
 		}
 		timeSinceLastAttack+=delta;
-		if(sprinting) {
+		if(isSprinting()) {
 			currSprint-=delta;
 		}
 		else {
@@ -128,15 +129,9 @@ public class Creature extends GameObject {
 		}
 	}
 
-	private void die() {
+	protected void die() {
+		doomed=true;
 		dropDna();
-		GameWorld.getGameWorld().getGameObjects().remove(this);
-		getBody().getWorld().destroyBody(this.getBody());
-		try {
-			this.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void dropDna() {
@@ -150,8 +145,9 @@ public class Creature extends GameObject {
 		currHealth-=(damage);
 		
 	}
-	public void shoot(Vec2 velocity) {
-		if(velocity.length()==0) {
+	public void shoot(Vec2 direction) {
+		direction.normalize();
+		if(direction.length()==0) {
 			return;
 		}
 		if(timeSinceLastAttack<attackSpeed) {
@@ -159,17 +155,17 @@ public class Creature extends GameObject {
 		}
 		switch(attackType) {
 		case 0:
-			shootForward(velocity);
+			shootForward(direction);
 			break;
 		case 1:
 			double angle = -(Utils.NUMSHOTGUNBULLETS-1)*Math.PI/(Utils.bullet1Width*2);
 			for(int i=0;i<Utils.NUMSHOTGUNBULLETS;i++) {
-				shootForwardAngle(velocity,angle);
+				shootForwardAngle(direction,angle);
 				angle+= Math.PI/(Utils.bullet1Width);
 			}
 			break;
 		case 2:
-			shootForwardRandom(velocity.mul(Utils.MACHINEGUNBULLETSPEED), Utils.MACHINEGUNSPRAY);
+			shootForwardRandom(direction.mul(Utils.MACHINEGUNBULLETSPEED), Utils.MACHINEGUNSPRAY);
 		}
 		
 	}
@@ -207,9 +203,9 @@ public class Creature extends GameObject {
 		}
 		if(currSprint<0||tired) {
 			tired=true;
-			sprinting=false;
+			setSprinting(false);
 		}
-		if(sprinting) {
+		if(isSprinting()) {
 			move.mulLocal(Utils.sprintModifier);
 		}
 		move.mulLocal((getTopSpeed()-getBody().getLinearVelocity().length()) * acceleration);
@@ -218,7 +214,7 @@ public class Creature extends GameObject {
 		getBody().setTransform(getBody().getPosition(), (float) -Math.atan2(move.x,move.y));		
 	}
 	public float getTopSpeed() {
-		if(sprinting) {
+		if(isSprinting()) {
 			return topSpeed*Utils.sprintModifier;
 		}
 		return topSpeed;
@@ -229,6 +225,12 @@ public class Creature extends GameObject {
 	
 	public void setController(Controller controller) {
 		this.controller=controller;
+	}
+	public boolean isSprinting() {
+		return sprinting;
+	}
+	public void setSprinting(boolean sprinting) {
+		this.sprinting = sprinting;
 	}
 
 

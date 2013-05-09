@@ -47,13 +47,7 @@ public class Bullet extends GameObject {
 
 	}
 	public void collide(Bullet colidingwith) {
-		GameWorld.getGameWorld().getGameObjects().remove(this);
-		getBody().m_world.destroyBody(this.getBody());
-		try {
-			this.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		this.die();
 	}
 	@Override
 	public void update(int delta, GameContainer gc) {
@@ -66,13 +60,7 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				creature.hit(damage);
-				GameWorld.getGameWorld().getGameObjects().remove(this);
-				getBody().m_world.destroyBody(this.getBody());
-				try {
-					this.finalize();
-				} catch (Throwable e) {
-					e.printStackTrace();
-				}
+				this.die();
 				
 			}
 			if(contact.other.getUserData() instanceof Bullet) {
@@ -82,13 +70,7 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				bullet.collide(this);
-				GameWorld.getGameWorld().getGameObjects().remove(this);
-				getBody().m_world.destroyBody(this.getBody());
-				try {
-					this.finalize();
-				} catch (Throwable e) {
-					e.printStackTrace();
-				}
+				die();
 			}
 			contact=contact.next;
 		}

@@ -45,7 +45,7 @@ public class GameWorld {
 			//testing ai so i ignored the above rule
 			new Creature(new Vec2(0,0), true);
 			playerId=0;
-			new Creature(new Vec2(2,-2),false);
+			/*new Creature(new Vec2(2,-2),false);
 			new Creature(new Vec2(2,2),false);
 			new Creature(new Vec2(-2,2),false);
 			new Creature(new Vec2(-2,-2),false);
@@ -56,7 +56,7 @@ public class GameWorld {
 					}
 					new Creature(new Vec2(i*3,j*3),false);
 				}
-			}
+			}*/
 			new CreatureSpawner(new Vec2(0,0));
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -84,12 +84,21 @@ public class GameWorld {
 
 	public void update(int delta, GameContainer gc) {
 		InputManager.update(gc);
+		//Stats collection
+		for(int i=0;i<getGameObjects().size();i++) {
+			if(gameObjects.get(i).doomed) {
+				
+				physicsWorld.destroyBody(gameObjects.get(i).getBody());
+				gameObjects.remove(i);
+			}
+		}
 		//Game Update
 		for(int i=0;i<getGameObjects().size();i++) {
 			getGameObjects().get(i).update(delta, gc);
 		}
 		//Physics Update
 		physicsWorld.step((float)delta/1000, 6, 3);
+
 		
 	}
 	public Camera getFocus() {

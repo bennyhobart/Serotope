@@ -6,9 +6,11 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
+import AI.StateMachine;
 import Utils.Utils;;
 public class CreatureBehaviours {
-	Creature target;
+	public Creature target;
+	public StateMachine<Creature> stateMachine;
 	
 	//Flags for action
 	boolean seeking;
@@ -25,8 +27,9 @@ public class CreatureBehaviours {
 	float wanderJitter;
 	Vec2 wanderTarget;
 	
-	public CreatureBehaviours(Creature target) {
+	public CreatureBehaviours(Creature target, StateMachine<Creature> stateMachine) {
 		this.target=target;
+		this.stateMachine=stateMachine;
 		wanderRadius = Utils.WANDERRADIUS;
 		wanderDistance = Utils.WANDERDISTANCE;
 		wanderJitter = Utils.WANDERJITTER;

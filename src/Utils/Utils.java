@@ -81,16 +81,14 @@ public class Utils {
 		return newvec;
 	}
 
-
-	
-	
-	
 	
 	//AI Querys and Defines
 	public static final float AISEEK = 2;
 	public static final float WANDERRADIUS = 5f;
 	public static final float WANDERDISTANCE =4f;
 	public static final float WANDERJITTER = 0.1f;
+	
+	public static final int spawnTime = 300;
 	
 	public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {
 		ArrayList<Bullet> creatures = new ArrayList<Bullet>();
@@ -149,9 +147,11 @@ public class Utils {
 		}
 		return gameObjects;
 	}
-	public Vec2 randomUnitVector() {
+	public static Vec2 randomUnitVector() {
 		float random1 = GameWorld.getRandomGenerator().nextFloat()*2-1;
 		float random2 = GameWorld.getRandomGenerator().nextFloat()*2-1;
-		return new Vec2(random1,random2);
+		Vec2 vector = new Vec2(random1,random2);
+		vector.normalize();
+		return vector;
 	}
 }

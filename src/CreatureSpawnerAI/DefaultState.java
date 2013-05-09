@@ -14,14 +14,13 @@ public class DefaultState extends State<CreatureSpawner> {
 
 	@Override
 	public void execute(CreatureSpawner target) {
-		
+		target.behaviour.spawnCreatureSomewhere();
 	}
 
 	@Override
 	public void exit(CreatureSpawner target) {
 		
 	}
-
 	public static State<CreatureSpawner> getInstance() {
 		if(instance==null) {
 			instance = new DefaultState();

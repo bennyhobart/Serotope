@@ -14,7 +14,9 @@ public abstract class GameObject {
 	public int id;
 	private Body body;
 	boolean solid;
+	boolean doomed;
 	GameObject(Vec2 position, Image image,boolean solid) {
+		doomed=false;
 		this.solid=solid;
 		GameWorld.getGameWorld().getGameObjects().add(this);
 		GameWorld.getGameWorld();
@@ -41,6 +43,9 @@ public abstract class GameObject {
 	}
 	public void setBody(Body body) {
 		this.body = body;
+	}
+	protected void die() {
+		doomed=true;
 	}
 	
 	

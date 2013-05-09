@@ -27,7 +27,7 @@ public class PlayerController extends Controller {
 		case InputManager.KEYBOARD:
 			int verticleFlag=0;
 			int horizontalFlag=0;
-			target.sprinting=InputManager.isSprint;
+			target.setSprinting(InputManager.isSprint);
 			if(InputManager.isMoveDown) {
 				verticleFlag-=1;
 			}

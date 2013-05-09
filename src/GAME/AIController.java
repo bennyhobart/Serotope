@@ -5,7 +5,7 @@ import CreatureAI.DefaultState;
 
 
 public class AIController extends Controller {
-	StateMachine<Creature> stateMachine;
+	public StateMachine<Creature> stateMachine;
 	public CreatureBehaviours behaviours;
 	public AIController(Creature creature) {
 		super(creature);
