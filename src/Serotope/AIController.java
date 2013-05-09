@@ -3,7 +3,9 @@ package Serotope;
 import AI.StateMachine;
 import CreatureAI.DefaultState;
 
-
+/**
+ * @author BenedictHobart
+ */
 public class AIController extends Controller {
 	public StateMachine<Creature> stateMachine;
 	public CreatureBehaviours behaviours;
