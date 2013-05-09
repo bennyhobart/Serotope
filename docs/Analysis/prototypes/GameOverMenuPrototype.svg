@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="474.45109"
-     inkscape:cy="365.64851"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="863.94788"
+     inkscape:cy="314.77799"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
@@ -40,7 +40,7 @@
      inkscape:object-paths="true"
      inkscape:snap-global="true"
      inkscape:window-width="1366"
-     inkscape:window-height="706"
+     inkscape:window-height="716"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -52,7 +52,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -63,40 +63,40 @@
     <text
        xml:space="preserve"
        style="font-size:72px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Tahoma;-inkscape-font-specification:Tahoma"
-       x="100"
-       y="188"
+       x="329.1026"
+       y="193.65686"
        id="text2993"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2995"
-         x="100"
-         y="188">Game Over</tspan></text>
+         x="329.1026"
+         y="193.65686">Game Over</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:48px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Tahoma;-inkscape-font-specification:Tahoma"
-       x="103"
-       y="322"
+       style="font-size:48px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Tahoma;-inkscape-font-specification:Tahoma"
+       x="514.55573"
+       y="341.79898"
        id="text2997"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="103"
-         y="322"
+         x="514.55573"
+         y="341.79898"
          id="tspan3003">Final Score 10,800</tspan><tspan
          sodipodi:role="line"
-         x="103"
-         y="382"
+         x="514.55573"
+         y="401.79898"
          id="tspan3008" /><tspan
          sodipodi:role="line"
-         x="103"
-         y="442"
+         x="514.55573"
+         y="461.79898"
          id="tspan3010">Replay</tspan><tspan
          sodipodi:role="line"
-         x="103"
-         y="502"
+         x="514.55573"
+         y="521.79901"
          id="tspan3004" /><tspan
          sodipodi:role="line"
-         x="103"
-         y="562"
+         x="514.55573"
+         y="581.79901"
          id="tspan3006">Return to Main Menu</tspan></text>
   </g>
 </svg>
