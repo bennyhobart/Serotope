@@ -8,8 +8,10 @@ import java.util.Random;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import Menu.InputManager;
@@ -19,6 +21,8 @@ import Utils.Utils;
 
 
 public class GameWorld {
+	
+	private Image background;
 	
 	private static World physicsWorld;
 	static GameWorld gameWorld;
@@ -38,6 +42,12 @@ public class GameWorld {
 	public GameWorld(String string) {
 		setRandomGenerator(new Random(System.nanoTime()));
 		gameWorld=this;
+		try {
+			background = new Image(Utils.BACKGROUND);
+		} catch (SlickException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		physicsWorld = new World(new Vec2(0,0));
 		setGameObjects(new ArrayList<GameObject>());
 		try {
@@ -68,6 +78,7 @@ public class GameWorld {
 		Vec2 camScreenLoc = worldToScreen(focus.target.getBody().getPosition());
 		Vec2 objectScreenLoc;
 		GameObject target;
+		background.draw(-64-focus.target.getBody().getPosition().x*Utils.SCALE%64,-64+focus.target.getBody().getPosition().y*Utils.SCALE%64,Color.gray);
 		for(int i=0;i<gameObjects.size();i++) {
 			target=gameObjects.get(i);
 			objectScreenLoc = worldToScreen(getGameObjects().get(i).getBody().getPosition());

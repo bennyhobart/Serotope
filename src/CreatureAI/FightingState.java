@@ -15,6 +15,9 @@ public class FightingState extends State<Creature> {
 	public void execute(Creature target) {
 		// TODO Auto-generated method stub
 		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
+		if(target.getCurrHealth()<target.getHealth()*0.25f) {
+			target.behaviour.stateMachine.changeState(FleeingState.getInstance());
+		}
 		if(closest==null||closest.id==target.id) {
 			target.behaviour.stateMachine.changeState(WanderState.getInstance());
 		}

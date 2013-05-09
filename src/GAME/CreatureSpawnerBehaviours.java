@@ -1,7 +1,6 @@
 package GAME;
 
 import org.jbox2d.common.Vec2;
-import org.newdawn.slick.SlickException;
 
 import Menu.gPanel;
 

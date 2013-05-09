@@ -91,7 +91,7 @@ public class Creature extends GameObject {
 		if(playercontrolled){
 			health=9999;
 			currHealth=9999;
-			attackType=1;
+			attackType=0;
 			controller = new PlayerController(this);
 		}
 		else {
@@ -231,6 +231,90 @@ public class Creature extends GameObject {
 	}
 	public void setSprinting(boolean sprinting) {
 		this.sprinting = sprinting;
+	}
+	public float getAcceleration() {
+		return acceleration;
+	}
+	public void setAcceleration(float acceleration) {
+		this.acceleration = acceleration;
+	}
+	public float getHandling() {
+		return handling;
+	}
+	public void setHandling(float handling) {
+		this.handling = handling;
+	}
+	public float getSprintTime() {
+		return sprintTime;
+	}
+	public void setSprintTime(float sprintTime) {
+		this.sprintTime = sprintTime;
+	}
+	public float getCurrSprint() {
+		return currSprint;
+	}
+	public void setCurrSprint(float currSprint) {
+		this.currSprint = currSprint;
+	}
+	public float getSprintRestitution() {
+		return sprintRestitution;
+	}
+	public void setSprintRestitution(float sprintRestitution) {
+		this.sprintRestitution = sprintRestitution;
+	}
+	public boolean isTired() {
+		return tired;
+	}
+	public void setTired(boolean tired) {
+		this.tired = tired;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	public int getCurrHealth() {
+		return currHealth;
+	}
+	public void setCurrHealth(int currHealth) {
+		this.currHealth = currHealth;
+	}
+	public float getStamina() {
+		return stamina;
+	}
+	public void setStamina(float stamina) {
+		this.stamina = stamina;
+	}
+	public boolean isShield() {
+		return shield;
+	}
+	public void setShield(boolean shield) {
+		this.shield = shield;
+	}
+	public int getDamage() {
+		return damage;
+	}
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	public int getAttackSpeed() {
+		return attackSpeed;
+	}
+	public void setAttackSpeed(int attackSpeed) {
+		this.attackSpeed = attackSpeed;
+	}
+	public int getTimeSinceLastAttack() {
+		return timeSinceLastAttack;
+	}
+	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
+		this.timeSinceLastAttack = timeSinceLastAttack;
+	}
+	public int getAttackType() {
+		return attackType;
+	}
+	public void setAttackType(int attackType) {
+		this.attackType = attackType;
 	}
 
 

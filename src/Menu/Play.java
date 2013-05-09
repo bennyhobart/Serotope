@@ -27,7 +27,7 @@ public class Play extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		g.setBackground(Color.black);
+		g.setBackground(Color.white);
 		world.render(g);
 		
 	}

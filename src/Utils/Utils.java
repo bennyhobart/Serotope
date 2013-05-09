@@ -13,6 +13,9 @@ import GAME.GameWorld;
 
 public class Utils {
 	public static final float SCALE = 100;
+	
+	public static final String BACKGROUND = "assets/image/Background.png";
+	
 	public static final String CREATUREIMAGE1 = "assets/image/Creature1.png";
 	public static final String CREATUREIMAGE2 = "assets/image/Creature2.png";
 	public static final String CREATUREIMAGE3 = "assets/image/Creature3.png";
@@ -23,7 +26,7 @@ public class Utils {
 	public static final String[] CREATUREIMAGES = {CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	public static final String bulletImage1 = "assets/image/Bullet1.png";
 	public static final String bulletImage2 = "assets/image/Bullet2.png";
-	public static final String[] BULLETIMAGES = {bulletImage1,bulletImage1,bulletImage2};
+	public static final String[] BULLETIMAGES = {bulletImage2,bulletImage2,bulletImage2};
 
 	public static final int bullet1Width = 16;
 	//creature default stats
