@@ -29,6 +29,7 @@ public class gPanel extends StateBasedGame
 			app.setShowFPS(true);
 			app.setTargetFrameRate(FPS);
 			app.start();
+		
 		}
 		catch(SlickException e) {
 			e.printStackTrace();
@@ -44,6 +45,7 @@ public class gPanel extends StateBasedGame
 	
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		gc.setVSync(true);
 		this.getState(MAINMENUID).init(gc,this);
 		this.getState(PLAYID).init(gc, this);
 		this.enterState(MAINMENUID);

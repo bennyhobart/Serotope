@@ -92,7 +92,7 @@ public class Creature extends GameObject {
 		if(playercontrolled){
 			health=9999;
 			currHealth=9999;
-			attackType=0;
+			attackType=1;
 			controller = new PlayerController(this);
 		}
 		else {
