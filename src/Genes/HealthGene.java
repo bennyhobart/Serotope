@@ -1,10 +1,14 @@
 package Genes;
 
 import Serotope.Creature;
-import GAME.Gene;
+import Serotope.Gene;
 import Utils.Utils;
 
 public class HealthGene extends Gene {
+
+	public HealthGene(int left, int right) {
+		super(left, right);
+	}
 
 	@Override
 	public void buffCreature(Creature creature) {

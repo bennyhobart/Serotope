@@ -53,7 +53,7 @@ public class GameWorld {
 		try {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
-			new Creature(new Vec2(0,0), true);
+			new Creature(new Vec2(0,0), true, new DNA());
 			playerId=0;
 			/*new Creature(new Vec2(2,-2),false);
 			new Creature(new Vec2(2,2),false);

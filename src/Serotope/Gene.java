@@ -1,11 +1,15 @@
-package GAME;
+package Serotope;
 
-import Serotope.Creature;
 
 public abstract class Gene {
 	
 	private int leftAllele;
 	private int rightAllele;
+	
+	public Gene(int leftAllele, int rightAllele){
+		this.leftAllele = leftAllele;
+		this.rightAllele = rightAllele;
+	}
 
 	public int getLeftAllele() {
 		return leftAllele;
