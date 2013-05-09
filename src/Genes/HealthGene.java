@@ -6,8 +6,8 @@ import Utils.Utils;
 
 public class HealthGene extends Gene {
 
-	public HealthGene(int i, int j) {
-		super(i,j);
+	public HealthGene(int left, int right) {
+		super(left, right);
 	}
 
 	@Override

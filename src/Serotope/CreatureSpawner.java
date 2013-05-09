@@ -30,13 +30,18 @@ public class CreatureSpawner extends GameObject {
 		lastSpawnTime += delta;
 	}
 
-	public void spawn(Vec2 location) throws SlickException {
+	public void spawn(Vec2 location) {
 		if (lastSpawnTime < spawnTime) {
 			return;
 		}
 		lastSpawnTime = 0;
 		DNA dna = randomDna();
-		new Creature(location, false, dna);
+		try {
+			new Creature(location, false, dna);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
