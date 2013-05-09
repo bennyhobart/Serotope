@@ -1,4 +1,4 @@
-package AI;
+package Serotope;
 
 import java.util.ArrayList;
 
@@ -6,34 +6,29 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import GAME.Creature;
-import GAME.GameWorld;
+import AI.StateMachine;
 import Utils.Utils;;
 public class CreatureBehaviours {
-	Creature target;
-	
-	//Flags for action
-	boolean seeking;
-	boolean fleeing;
-	boolean pursuing;
-	boolean evading;
-	boolean wandering;
-	boolean arriving;
-	
-	
+	public Creature target;
+	public StateMachine<Creature> stateMachine;
+	public Creature stateTarget;
 	//used by wander
 	float wanderRadius;
 	float wanderDistance;
 	float wanderJitter;
 	Vec2 wanderTarget;
-	public CreatureBehaviours(Creature target) {
+	
+	public CreatureBehaviours(Creature target, StateMachine<Creature> stateMachine) {
 		this.target=target;
+		this.stateMachine=stateMachine;
 		wanderRadius = Utils.WANDERRADIUS;
 		wanderDistance = Utils.WANDERDISTANCE;
 		wanderJitter = Utils.WANDERJITTER;
 		wanderTarget = randomUnitVector();
 	}
 	
+	
+
 	public ArrayList<Creature> getLocalCreatures() {
 		AABB zone = new AABB(target.getBody().getPosition().add(new Vec2(-Utils.AISEEK,-Utils.AISEEK)),target.getBody().getPosition().add(new Vec2(Utils.AISEEK,Utils.AISEEK)));
 		ArrayList<Creature> targets = Utils.getCreatures(Utils.getGameObjectsAABB(zone));

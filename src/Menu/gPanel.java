@@ -1,4 +1,4 @@
-package gPanel;
+package Menu;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -6,7 +6,7 @@ import org.newdawn.slick.state.*;
 public class gPanel extends StateBasedGame
 {
 	final static String gameName = "Serotope";
-	final static String VERSION = "0.18.4.13";
+	final static String VERSION = "0.9.5.13";
 	
 	
 	public static final int MAINMENUID = 0;
@@ -29,6 +29,7 @@ public class gPanel extends StateBasedGame
 			app.setShowFPS(true);
 			app.setTargetFrameRate(FPS);
 			app.start();
+		
 		}
 		catch(SlickException e) {
 			e.printStackTrace();
@@ -44,6 +45,7 @@ public class gPanel extends StateBasedGame
 	
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		gc.setVSync(true);
 		this.getState(MAINMENUID).init(gc,this);
 		this.getState(PLAYID).init(gc, this);
 		this.enterState(MAINMENUID);
