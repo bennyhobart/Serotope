@@ -2,8 +2,6 @@ package GAME;
 
 
 
-import gPanel.InputManager;
-import gPanel.gPanel;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,6 +12,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Menu.InputManager;
+import Menu.gPanel;
 import Utils.Utils;
 
 
@@ -26,15 +26,8 @@ public class GameWorld {
 	private static Camera focus;
 	static int idnum=0;
 	private static Random randomGenerator;
-	
-	public GameObject getGameObject(int id) {
-		for(int i=0;i<gameObjects.size();i++) {
-			if(gameObjects.get(i).id==id) {
-				return gameObjects.get(i);
-			}
-		}
-		return null;
-	}
+	private static int playerId;
+
 	
 	public static GameWorld getGameWorld() {
 		if(gameWorld==null) {
@@ -51,6 +44,7 @@ public class GameWorld {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
 			new Creature(new Vec2(0,0), true);
+			playerId=0;
 			new Creature(new Vec2(2,-2),false);
 			new Creature(new Vec2(2,2),false);
 			new Creature(new Vec2(-2,2),false);
@@ -128,6 +122,34 @@ public class GameWorld {
 	public static void setRandomGenerator(Random randomGenerator) {
 		GameWorld.randomGenerator = randomGenerator;
 	}
+	public GameObject getGameObject(int id) {
+		GameObject target=null;
+		for(int i=0;i<gameObjects.size();i++)  {
+			if(gameObjects.get(i).id==id) {
+				target=gameObjects.get(i);
+				break;
+			}
+		}
+		return target;
+	}
+	public Creature getPlayer() {
+		for(int i=0;i<gameObjects.size();i++) {
+			if(gameObjects.get(i).id==playerId) {
+				return (Creature)gameObjects.get(i);
+			}
+		}
+		return null;
+	}
+	public boolean setPlayer(int id) {
+		playerId=id;
+		for(int i=0;i<gameObjects.size();i++) {
+			if(gameObjects.get(i).id==playerId) {
+				focus.target=gameObjects.get(i);
+			}
+		}
+		return true;
+	}
+	
 
 
 }

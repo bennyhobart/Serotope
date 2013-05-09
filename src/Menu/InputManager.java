@@ -1,4 +1,4 @@
-package gPanel;
+package Menu;
 import org.newdawn.slick.GameContainer;
 import org.lwjgl.input.Keyboard;
 
@@ -14,7 +14,9 @@ public class InputManager {
 	static int ShootLeft;
 	static int KeyEscape;
 	static int KeyStart;
+	static int KeySprint;
 	
+	public static boolean isSprint;
 	public static boolean isMoveRight;
 	public static boolean isMoveDown;
 	public static boolean isMoveUp;
@@ -45,6 +47,7 @@ public class InputManager {
 		ShootLeft = Keyboard.KEY_LEFT;
 		KeyEscape = Keyboard.KEY_ESCAPE;
 		KeyStart = Keyboard.KEY_RETURN;
+		KeySprint = Keyboard.KEY_RSHIFT;
 	}
 	public static void update(GameContainer gc) {
 		//input
@@ -107,6 +110,12 @@ public class InputManager {
 		}
 		else {
 			isKeyStart=false;
+		}
+		if(gc.getInput().isKeyDown(KeySprint)) {
+			isSprint=true;
+		}
+		else {
+			isSprint=false;
 		}
 	}
 	

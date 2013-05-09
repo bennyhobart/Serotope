@@ -1,13 +1,21 @@
 package GAME;
-import gPanel.InputManager;
 
 import org.jbox2d.common.Vec2;
 
+import Menu.InputManager;
+
+
 public class PlayerController extends Controller {
+
+	
 	public PlayerController(Creature creature) {
 		super(creature);
 	}
-	@Override
+	
+	public void update(int delta) {
+		move(delta);
+		shoot(delta);
+	}
 	void move(int delta) {
 		switch(InputManager.CONTROLDEVICE) {
 		case InputManager.ANDROID:
@@ -19,6 +27,7 @@ public class PlayerController extends Controller {
 		case InputManager.KEYBOARD:
 			int verticleFlag=0;
 			int horizontalFlag=0;
+			target.sprinting=InputManager.isSprint;
 			if(InputManager.isMoveDown) {
 				verticleFlag-=1;
 			}
@@ -39,7 +48,6 @@ public class PlayerController extends Controller {
 			target.move(move);
 		}	
 	}
-	@Override
 	void shoot(int delta) {
 		Vec2 velocity=new Vec2(0,0);
 		switch(InputManager.CONTROLDEVICE) {

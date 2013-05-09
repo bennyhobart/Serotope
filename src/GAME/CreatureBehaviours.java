@@ -1,4 +1,4 @@
-package AI;
+package GAME;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,6 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
-import GAME.Creature;
-import GAME.GameWorld;
 import Utils.Utils;;
 public class CreatureBehaviours {
 	Creature target;
@@ -26,6 +24,7 @@ public class CreatureBehaviours {
 	float wanderDistance;
 	float wanderJitter;
 	Vec2 wanderTarget;
+	
 	public CreatureBehaviours(Creature target) {
 		this.target=target;
 		wanderRadius = Utils.WANDERRADIUS;
@@ -34,6 +33,8 @@ public class CreatureBehaviours {
 		wanderTarget = randomUnitVector();
 	}
 	
+	
+
 	public ArrayList<Creature> getLocalCreatures() {
 		AABB zone = new AABB(target.getBody().getPosition().add(new Vec2(-Utils.AISEEK,-Utils.AISEEK)),target.getBody().getPosition().add(new Vec2(Utils.AISEEK,Utils.AISEEK)));
 		ArrayList<Creature> targets = Utils.getCreatures(Utils.getGameObjectsAABB(zone));

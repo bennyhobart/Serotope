@@ -20,10 +20,15 @@ public class Creature extends GameObject {
 	private float topSpeed;
 	float acceleration;
 	float handling;
+	boolean sprinting;
+	float sprintTime;
+	float currSprint;
+	float sprintRestitution;
+	boolean tired;
 	//Health Variables
 	int health;
 	int currHealth;
-	int stamina;
+	float stamina;
 	boolean shield;
 	//Damage Variables
 	int damage;
@@ -31,12 +36,14 @@ public class Creature extends GameObject {
 	int timeSinceLastAttack;
 	int attackType;
 	
+
+	
+	//AI Behaviours
+	CreatureBehaviours behaviour;
+	
 	public Controller controller;
 	public Creature(Vec2 position,boolean playercontrolled) throws SlickException {
 		super(position,new Image(Utils.CREATUREIMAGES[GameWorld.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),true);
-	
-		
-		
 		
 		//build physics body
 		BodyDef bd = new BodyDef();
@@ -67,6 +74,9 @@ public class Creature extends GameObject {
 		setTopSpeed(Utils.topSpeed);
 		acceleration=Utils.acceleration;
 		handling=Utils.handling;
+		sprintTime=Utils.sprintTime;
+		currSprint=sprintTime;
+		sprintRestitution = Utils.sprintRestitution;
 		//health
 		health=Utils.health;
 		currHealth=health;
@@ -81,10 +91,23 @@ public class Creature extends GameObject {
 		if(playercontrolled){
 			health=9999;
 			currHealth=9999;
+			attackType=1;
 			controller = new PlayerController(this);
 		}
 		else {
+			behaviour = new CreatureBehaviours(this);
 			controller = new AIController(this);
+		}
+		switch(attackType) {
+		case 1:
+			attackSpeed*=Utils.NUMSHOTGUNBULLETS;
+			break;
+		case 2:
+			attackSpeed/=Utils.MACHINEGUNSPEED;
+			damage/=Utils.MACHINEGUNSPEED;
+			break;
+		default:
+			break;
 		}
 	}
 	@Override
@@ -94,6 +117,15 @@ public class Creature extends GameObject {
 			die();
 		}
 		timeSinceLastAttack+=delta;
+		if(sprinting) {
+			currSprint-=delta;
+		}
+		else {
+			currSprint+=delta*sprintRestitution;
+			if(tired&&(currSprint>=sprintTime)) {
+				tired=false;
+			}
+		}
 	}
 
 	private void die() {
@@ -130,13 +162,26 @@ public class Creature extends GameObject {
 			shootForward(velocity);
 			break;
 		case 1:
-			shootForward(velocity);
-			shootForward(Utils.rotateVector(velocity, Math.toRadians(1)));
-			shootForward(Utils.rotateVector(velocity, Math.toRadians(-1)));
+			double angle = -(Utils.NUMSHOTGUNBULLETS-1)*Math.PI/(Utils.bullet1Width*2);
+			for(int i=0;i<Utils.NUMSHOTGUNBULLETS;i++) {
+				shootForwardAngle(velocity,angle);
+				angle+= Math.PI/(Utils.bullet1Width);
+			}
 			break;
+		case 2:
+			shootForwardRandom(velocity.mul(Utils.MACHINEGUNBULLETSPEED), Utils.MACHINEGUNSPRAY);
 		}
 		
-}
+	}
+	private void shootForwardAngle(Vec2 velocity,double angle) {
+		shootForward(Utils.rotateVector(velocity,angle));
+		return;
+	}
+	private void shootForwardRandom(Vec2 velocity, double angle) {
+		double randomAngle =GameWorld.getRandomGenerator().nextFloat()*angle-angle/2;
+		shootForwardAngle(velocity, (randomAngle));
+		return;
+	}
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
@@ -145,7 +190,7 @@ public class Creature extends GameObject {
 		spawnLoc.addLocal(tempAdd);
 		
 		try {
-			new Bullet(spawnLoc, velocity, damage,id);
+			new Bullet(spawnLoc, velocity, damage,id,attackType);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -157,16 +202,33 @@ public class Creature extends GameObject {
 			return;
 		}
 		move.normalize();
+		if(currSprint>sprintTime) {
+			currSprint=sprintTime;
+		}
+		if(currSprint<0||tired) {
+			tired=true;
+			sprinting=false;
+		}
+		if(sprinting) {
+			move.mulLocal(Utils.sprintModifier);
+		}
 		move.mulLocal((getTopSpeed()-getBody().getLinearVelocity().length()) * acceleration);
 		move.mulLocal(getBody().getMass());
 		getBody().applyForce(move,getBody().getPosition());
 		getBody().setTransform(getBody().getPosition(), (float) -Math.atan2(move.x,move.y));		
 	}
 	public float getTopSpeed() {
+		if(sprinting) {
+			return topSpeed*Utils.sprintModifier;
+		}
 		return topSpeed;
 	}
 	public void setTopSpeed(float topSpeed) {
 		this.topSpeed = topSpeed;
+	}
+	
+	public void setController(Controller controller) {
+		this.controller=controller;
 	}
 
 

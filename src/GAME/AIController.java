@@ -1,8 +1,7 @@
 package GAME;
 
-import AI.CreatureBehaviours;
-import AI.DefaultCreatureState;
 import AI.StateMachine;
+import CreatureAI.DefaultState;
 
 
 public class AIController extends Controller {
@@ -10,25 +9,12 @@ public class AIController extends Controller {
 	public CreatureBehaviours behaviours;
 	public AIController(Creature creature) {
 		super(creature);
-		behaviours = new CreatureBehaviours(creature);
-		stateMachine = new StateMachine<Creature>(creature, null, behaviours);
-		stateMachine.changeState(new DefaultCreatureState(stateMachine));
-		
-		
+		stateMachine = new StateMachine<Creature>(creature);
+		stateMachine.setCurrentState(DefaultState.getInstance());
 	}
 	@Override
 	public void update(int delta) {
 		stateMachine.update();
-	}
-
-	@Override
-	void shoot(int delta) {
-		
-	}
-
-	@Override
-	void move(int delta) {
-		
 	}
 	
 	

@@ -17,8 +17,8 @@ public class Bullet extends GameObject {
 	private int damage;
 	private Vec2 direction;
 	public int creatorId;
-	Bullet(Vec2 position, Vec2 velocity,int damage, int id) throws SlickException {
-		super(position, new Image(Utils.bulletImage), true);
+	Bullet(Vec2 position, Vec2 velocity,int damage, int id, int attackType) throws SlickException {
+		super(position, new Image(Utils.BULLETIMAGES[attackType]), true);
 		//keeps a handle on creator so it knows not to kill his own creator.
 		creatorId=id;
 		//solid object needs a body
@@ -40,12 +40,21 @@ public class Bullet extends GameObject {
 		fixtureDef.density=0f;
 		getBody().createFixture(fixtureDef);
 		direction=velocity;
-		getBody().setLinearVelocity(velocity.mul(10));
-		this.damage=damage;
 		getBody().setFixedRotation(true);
 		getBody().setTransform(getBody().getPosition(),(float) Math.atan2(direction.y, direction.x));
-	}
+		getBody().setLinearVelocity(velocity.mul(Utils.BULLETVELOCITY));
+		this.damage=damage;
 
+	}
+	public void collide(Bullet colidingwith) {
+		GameWorld.getGameWorld().getGameObjects().remove(this);
+		getBody().m_world.destroyBody(this.getBody());
+		try {
+			this.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public void update(int delta, GameContainer gc) {
 		ContactEdge contact = getBody().getContactList();
@@ -65,6 +74,21 @@ public class Bullet extends GameObject {
 					e.printStackTrace();
 				}
 				
+			}
+			if(contact.other.getUserData() instanceof Bullet) {
+				Bullet bullet = (Bullet) contact.other.getUserData();
+				if(bullet.creatorId==this.creatorId) {
+					contact=contact.next;
+					continue;
+				}
+				bullet.collide(this);
+				GameWorld.getGameWorld().getGameObjects().remove(this);
+				getBody().m_world.destroyBody(this.getBody());
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
 			}
 			contact=contact.next;
 		}

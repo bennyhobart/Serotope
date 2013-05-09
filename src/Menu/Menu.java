@@ -1,4 +1,4 @@
-package gPanel;
+package Menu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
