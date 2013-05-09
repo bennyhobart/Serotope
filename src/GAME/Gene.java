@@ -1,5 +1,7 @@
 package GAME;
 
+import Serotope.Creature;
+
 public abstract class Gene {
 	
 	private int leftAllele;

@@ -2,6 +2,8 @@ package GAME;
 
 import java.util.ArrayList;
 
+import Serotope.Creature;
+
 public class DNA {
 
 	private ArrayList<Gene> genes = new ArrayList<Gene>();
