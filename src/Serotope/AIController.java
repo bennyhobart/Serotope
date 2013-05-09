@@ -1,4 +1,4 @@
-package GAME;
+package Serotope;
 
 import AI.StateMachine;
 import CreatureAI.DefaultState;

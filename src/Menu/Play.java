@@ -5,7 +5,7 @@ package Menu;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
-import GAME.GameWorld;
+import Serotope.GameWorld;
 
 
 

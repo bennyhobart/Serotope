@@ -1,4 +1,4 @@
-package GAME;
+package Serotope;
 
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;

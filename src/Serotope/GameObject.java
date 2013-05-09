@@ -1,4 +1,4 @@
-package GAME;
+package Serotope;
 
 
 import org.jbox2d.common.Vec2;
@@ -14,7 +14,7 @@ public abstract class GameObject {
 	public int id;
 	private Body body;
 	boolean solid;
-	boolean doomed;
+	public boolean doomed;
 	GameObject(Vec2 position, Image image,boolean solid) {
 		doomed=false;
 		this.solid=solid;

@@ -1,7 +1,7 @@
 package CreatureSpawnerAI;
 
 import AI.State;
-import GAME.CreatureSpawner;
+import Serotope.CreatureSpawner;
 
 public class DefaultState extends State<CreatureSpawner> {
 	

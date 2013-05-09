@@ -1,4 +1,4 @@
-package GAME;
+package Serotope;
 
 import java.util.ArrayList;
 
@@ -11,16 +11,7 @@ import Utils.Utils;;
 public class CreatureBehaviours {
 	public Creature target;
 	public StateMachine<Creature> stateMachine;
-	
-	//Flags for action
-	boolean seeking;
-	boolean fleeing;
-	boolean pursuing;
-	boolean evading;
-	boolean wandering;
-	boolean arriving;
-	
-	
+	public Creature stateTarget;
 	//used by wander
 	float wanderRadius;
 	float wanderDistance;

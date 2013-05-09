@@ -1,7 +1,7 @@
 package CreatureAI;
 
 import AI.State;
-import GAME.Creature;
+import Serotope.Creature;
 
 public class FleeingState extends State<Creature> {
 	static FleeingState instance;

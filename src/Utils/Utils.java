@@ -5,10 +5,10 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.ContactEdge;
 
-import GAME.Bullet;
-import GAME.Creature;
-import GAME.GameObject;
-import GAME.GameWorld;
+import Serotope.Bullet;
+import Serotope.Creature;
+import Serotope.GameObject;
+import Serotope.GameWorld;
 
 
 public class Utils {
@@ -26,7 +26,7 @@ public class Utils {
 	public static final String[] CREATUREIMAGES = {CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	public static final String bulletImage1 = "assets/image/Bullet1.png";
 	public static final String bulletImage2 = "assets/image/Bullet2.png";
-	public static final String[] BULLETIMAGES = {bulletImage2,bulletImage2,bulletImage2};
+	public static final String[] BULLETIMAGES = {bulletImage2,bulletImage1,bulletImage2};
 
 	public static final int bullet1Width = 16;
 	//creature default stats
@@ -49,10 +49,10 @@ public class Utils {
 	public static final float BULLETVELOCITY = 8;
 	
 	//AttackType Variables
-	public static final int NUMSHOTGUNBULLETS = 4;
+	public static final int NUMSHOTGUNBULLETS = 6;
 	public static final double MACHINEGUNSPEED = 10;
 	public static final double MACHINEGUNSPRAY = Math.PI/8;
-	public static final float MACHINEGUNBULLETSPEED = 0.5f;
+	public static final float MACHINEGUNBULLETSPEED = 0.7f;
 	
 	
 	//Body Utils

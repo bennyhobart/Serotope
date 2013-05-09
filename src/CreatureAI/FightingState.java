@@ -1,38 +1,41 @@
 package CreatureAI;
 
 import AI.State;
-import GAME.Creature;
+import Serotope.Creature;
 
 public class FightingState extends State<Creature> {
 	static FightingState instance;
 	@Override
 	public void enter(Creature target) {
-		// TODO Auto-generated method stub
-		
+		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
+		target.behaviour.stateTarget=closest;
+
 	}
 
 	@Override
 	public void execute(Creature target) {
-		// TODO Auto-generated method stub
-		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
-		if(target.getCurrHealth()<target.getHealth()*0.25f) {
-			target.behaviour.stateMachine.changeState(FleeingState.getInstance());
-		}
-		if(closest==null||closest.id==target.id) {
+		if(target.behaviour.stateTarget.doomed) {
 			target.behaviour.stateMachine.changeState(WanderState.getInstance());
+			return;
+		}
+		if(Utils.Utils.lengthBetween(target.getBody().getPosition(),target.behaviour.stateTarget.getBody().getPosition())>8) {
+			target.behaviour.stateMachine.changeState(WanderState.getInstance());
+			return;
+		}
+		if(target.getCurrHealth()<target.getHealth()*0.4f) {
+			target.behaviour.stateMachine.changeState(FleeingState.getInstance());
+			return;
 		}
 		else {
-			target.shoot(target.behaviour.seek(closest.getBody().getPosition()));
-			target.move(target.behaviour.pursuit(closest.getBody()));
+			target.shoot(target.behaviour.seek(target.behaviour.stateTarget.getBody().getPosition()));
+			target.move(target.behaviour.pursuit(target.behaviour.stateTarget.getBody()));
 		}
-		
 		
 	}
 
 	@Override
 	public void exit(Creature target) {
-		// TODO Auto-generated method stub
-		
+		target.behaviour.stateTarget=null;
 	}
 	public static State<Creature> getInstance() {
 		if(instance==null) {
