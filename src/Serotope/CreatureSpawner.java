@@ -20,7 +20,7 @@ public class CreatureSpawner extends GameObject {
 	CreatureSpawner(Vec2 position) throws SlickException {
 		super(position, null, false);
 		behaviour = new CreatureSpawnerBehaviours(this);
-		target = (Creature) GameWorld.getGameWorld().getGameObject(0);
+		target = GameWorld.getGameWorld().getPlayer();
 		stateMachine = new StateMachine<CreatureSpawner>(this);
 		stateMachine.setCurrentState(DefaultState.getInstance());
 		spawnTime = Utils.Utils.spawnTime;
@@ -33,7 +33,7 @@ public class CreatureSpawner extends GameObject {
 		lastSpawnTime += delta;
 	}
 
-	public void spawn(Vec2 location) {
+	public void spawn(Vec2 location) throws SlickException {
 		if (lastSpawnTime < spawnTime) {
 			return;
 		}
@@ -47,9 +47,14 @@ public class CreatureSpawner extends GameObject {
 		}
 
 	}
+	
+	public void spawnChild(Vec2 location, DNA dna1, DNA dna2) throws SlickException{
+		DNA dna = mergeDNA(dna1, dna2);
+		new Creature(location, true, dna);
+	}
 
 	// Creates a new dna object using a random value for each allele (0 or 1)
-	private DNA randomDna() {
+	private DNA randomDna() throws SlickException {
 		DNA dna = new DNA();
 
 		for (int i = 1; i < dna.getGenes().size(); i++){
@@ -63,7 +68,7 @@ public class CreatureSpawner extends GameObject {
 	
 	// randomly picks one allele from each of the two given dna's for
 	// each gene. Then joins them together to form a new dna object.
-	private DNA mergeDNA(DNA dna1, DNA dna2){
+	private DNA mergeDNA(DNA dna1, DNA dna2) throws SlickException{
 		DNA dna = new DNA();
 		for (int i = 1; i < dna.getGenes().size(); i++){
 			int left = dna1.getGenes().get(i).getRandomAllele();

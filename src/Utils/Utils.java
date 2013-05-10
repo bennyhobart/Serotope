@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.ContactEdge;
+import org.newdawn.slick.opengl.Texture;
 
 import Serotope.Bullet;
 import Serotope.Creature;
@@ -26,6 +27,7 @@ public class Utils {
         public static final String[] CREATUREIMAGES = {CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
         public static final String bulletImage1 = "assets/image/Bullet1.png";
         public static final String bulletImage2 = "assets/image/Bullet2.png";
+		public static final String dnaImage = "assets/image/Dna.png";
         public static final String[] BULLETIMAGES = {bulletImage2,bulletImage1,bulletImage2};
 
         public static final int bullet1Width = 16;
@@ -100,6 +102,8 @@ public class Utils {
 		public static final float ACCELERATION_BUFF = 0.5f;
 		public static final int ATTACK_SPEED_BUFF = 50;
 		public static final int DAMAGE_BUFF = 5;
+
+
         
         public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {
                 ArrayList<Bullet> creatures = new ArrayList<Bullet>();

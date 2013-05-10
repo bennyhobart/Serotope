@@ -100,6 +100,7 @@ public class Creature extends GameObject {
 			currHealth = 9999;
 			attackType = 1;
 			controller = new PlayerController(this);
+			GameWorld.getGameWorld().setPlayerId(id);
 		} else {
 
 			controller = new AIController(this);
@@ -142,7 +143,10 @@ public class Creature extends GameObject {
 	}
 
 	private void dropDna() {
-
+		DNA dna = this.getDna();
+		Vec2 position = this.getBody().getPosition();
+		this.dna.getBody().getPosition().set(position);
+		dna.setDropped(true);
 	}
 
 	public void hit(int damage) {
@@ -366,5 +370,11 @@ public class Creature extends GameObject {
 	public void setAttackType(int attackType) {
 		this.attackType = attackType;
 	}
+
+	public DNA getDna() {
+		return dna;
+	}
+	
+	
 
 }

@@ -12,7 +12,7 @@ public class CreatureSpawnerBehaviours {
 		target = creatureSpawner;
 	}
 	
-	public void spawnCreatureSomewhere() {
+	public void spawnCreatureSomewhere() throws SlickException {
 		float radius = Math.max(gPanel.PWIDTH, gPanel.PHEIGHT);
 		radius/=Utils.Utils.SCALE;
 		Vec2 randomDir = Utils.Utils.randomUnitVector();

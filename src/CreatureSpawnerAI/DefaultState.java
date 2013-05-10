@@ -1,5 +1,7 @@
 package CreatureSpawnerAI;
 
+import org.newdawn.slick.SlickException;
+
 import AI.State;
 import Serotope.CreatureSpawner;
 
@@ -14,7 +16,12 @@ public class DefaultState extends State<CreatureSpawner> {
 
 	@Override
 	public void execute(CreatureSpawner target) {
-		target.behaviour.spawnCreatureSomewhere();
+		try {
+			target.behaviour.spawnCreatureSomewhere();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

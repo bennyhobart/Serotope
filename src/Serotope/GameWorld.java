@@ -53,8 +53,8 @@ public class GameWorld {
 		try {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
-			new Creature(new Vec2(0,0), true, new DNA());
-			playerId=0;
+			Creature creature = new Creature(new Vec2(0,0), true, new DNA());
+			playerId=creature.getId();
 			/*new Creature(new Vec2(2,-2),false);
 			new Creature(new Vec2(2,2),false);
 			new Creature(new Vec2(-2,2),false);
@@ -71,7 +71,7 @@ public class GameWorld {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		setFocus(new Camera(getGameObjects().get(0)));
+		setFocus(new Camera(this.getPlayer()));
 	}
 
 	public void render(Graphics g) {
@@ -170,6 +170,9 @@ public class GameWorld {
 		return true;
 	}
 	
+	public void setPlayerId(int id){
+		playerId = id;
+	}
 
 
 }
