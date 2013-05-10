@@ -52,8 +52,8 @@ public class DNA extends GameObject {
 		bd.fixedRotation = true;
 		bd.type = BodyType.DYNAMIC;
 		bd.userData = this;
+		bd.linearDamping=0.5f;
 		bd.position.set(new Vec2(0, 0));
-
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
 

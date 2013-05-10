@@ -101,9 +101,6 @@ public class Creature extends GameObject {
 
 		// set controller
 		if (playercontrolled) {
-			health = 9999;
-			currHealth = 9999;
-			attackType = 1;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayerId(id);
 		} else {
@@ -172,7 +169,8 @@ public class Creature extends GameObject {
 				coolDown = Utils.cooldown;
 				timeSinceLastAttack = coolDown;
 				attackType = Utils.attackType;
-				
+				dna1.buffCreature(this);
+				this.dna=dna1;
 				if(controller instanceof AIController ) {
 					this.controller = new AIController(this);
 					this.behaviour=new CreatureBehaviours(this,((AIController)this.controller).stateMachine);
@@ -181,8 +179,6 @@ public class Creature extends GameObject {
 					this.controller=controller;
 					controller.target=this;
 					GameWorld.getGameWorld().setPlayer(this.id);
-					health=99999;
-					currHealth=99999;
 
 				}
 				
