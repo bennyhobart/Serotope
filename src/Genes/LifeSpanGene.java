@@ -5,14 +5,18 @@ import Utils.Utils;
 
 public class LifeSpanGene extends Gene {
 	
-	public LifeSpanGene(int left, int right) {
+	public LifeSpanGene(boolean left, boolean right) {
 		super(left, right);
 	}
 	
+	public LifeSpanGene() {
+		super();
+	}
+
 	@Override
 	public void buffCreature(Creature creature) {
-		int modifier = this.getLeftAllele() + this.getRightAllele();
-		creature.incrementStamina(modifier * Utils.STAMINA_BUFF);
+		if (this.isExpressed())
+			creature.incrementStamina(Utils.STAMINA_BUFF);
 	}
 	
 	

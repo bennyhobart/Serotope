@@ -5,15 +5,20 @@ import Utils.Utils;
 
 public class HealthGene extends Gene {
 
-	public HealthGene(int left, int right) {
+	public HealthGene(boolean left, boolean right) {
 		super(left, right);
+	}
+
+	public HealthGene() {
+		super();
 	}
 
 	@Override
 	public void buffCreature(Creature creature) {
-		int modifier = this.getLeftAllele() + this.getRightAllele();
-		creature.incrementHealth(modifier * Utils.HEALTH_BUFF);
-		creature.setCurrHealth(creature.getHealth());
+		if (this.isExpressed()){
+			creature.incrementHealth(Utils.HEALTH_BUFF);
+			creature.setCurrHealth(creature.getHealth());
+		}
 	}
 
 }

@@ -8,16 +8,25 @@ import Serotope.Creature;
 public abstract class Gene {
 	
 	// 0 for recessive, 1 for dominant
-	private int leftAllele;
-	private int rightAllele;
+	private boolean leftAllele;
+	private boolean rightAllele;
 	private Random randomGenerator = new Random(System.nanoTime());
 	
-	public Gene(int leftAllele, int rightAllele){
+	public Gene(boolean leftAllele, boolean rightAllele){
 		this.leftAllele = leftAllele;
 		this.rightAllele = rightAllele;
 	}
 	
-	public int getRandomAllele(){
+	public Gene() {
+		this.leftAllele = false;
+		this.rightAllele = false;
+	}
+	
+	public boolean isExpressed(){
+		return (leftAllele && rightAllele);
+	}
+
+	public boolean getRandomAllele(){
 		boolean left = randomGenerator.nextBoolean();
 		if (left)
 			return leftAllele;
@@ -25,29 +34,30 @@ public abstract class Gene {
 			return rightAllele;
 	}
 
-	public int getLeftAllele() {
+	public boolean getLeftAllele() {
 		return leftAllele;
 	}
 
-	public int getRightAllele() {
+	public boolean getRightAllele() {
 		return rightAllele;
 	}
 	
-	public void setLeftAllele(int leftAllele) {
+	public void setLeftAllele(boolean leftAllele) {
 		this.leftAllele = leftAllele;
 	}
 
-	public void setRightAllele(int rightAllele) {
+	public void setRightAllele(boolean rightAllele) {
 		this.rightAllele = rightAllele;
 	}
 
 	public boolean isLeftAllele() {
-		return (leftAllele == 1);
+		return (leftAllele);
 	}
 	
 	public boolean isRightAllele() {
-		return (rightAllele == 1);
+		return (rightAllele);
 	}
+	
 
 	public abstract void buffCreature(Creature creature);
 }

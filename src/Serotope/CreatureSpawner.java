@@ -58,8 +58,8 @@ public class CreatureSpawner extends GameObject {
 		DNA dna = new DNA();
 
 		for (int i = 1; i < dna.getGenes().size(); i++){
-			int left = randomGenerator.nextInt(2);
-			int right = randomGenerator.nextInt(2);
+			boolean left = randomGenerator.nextBoolean();
+			boolean right = randomGenerator.nextBoolean();
 			dna.getGenes().get(i).setLeftAllele(left);
 			dna.getGenes().get(i).setRightAllele(right);
 		}
@@ -71,8 +71,8 @@ public class CreatureSpawner extends GameObject {
 	private DNA mergeDNA(DNA dna1, DNA dna2) throws SlickException{
 		DNA dna = new DNA();
 		for (int i = 1; i < dna.getGenes().size(); i++){
-			int left = dna1.getGenes().get(i).getRandomAllele();
-			int right = dna2.getGenes().get(i).getRandomAllele();
+			boolean left = dna1.getGenes().get(i).getRandomAllele();
+			boolean right = dna2.getGenes().get(i).getRandomAllele();
 			dna.getGenes().get(i).setLeftAllele(left);
 			dna.getGenes().get(i).setRightAllele(right);
 		}

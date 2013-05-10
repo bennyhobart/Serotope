@@ -29,15 +29,15 @@ public class DNA extends GameObject{
 	
 	public DNA() throws SlickException{
 		super(new Vec2(0,0), new Image(Utils.dnaImage), false);
-		genes.add(new HealthGene(0,0));
-		genes.add(new LifeSpanGene(0,0));
-		genes.add(new ShieldGene(0,0));
-		genes.add(new SpeedGene(0,0));
-		genes.add(new AccelerationGene(0,0));
-		genes.add(new HandlingGene(0,0));
-		genes.add(new DamageGene(0,0));
-		genes.add(new AttackSpeedGene(0,0));
-		genes.add(new AttackTypeGene(0,0));
+		genes.add(new HealthGene());
+		genes.add(new LifeSpanGene());
+		genes.add(new ShieldGene());
+		genes.add(new SpeedGene());
+		genes.add(new AccelerationGene());
+		genes.add(new HandlingGene());
+		genes.add(new DamageGene());
+		genes.add(new AttackSpeedGene());
+		genes.add(new AttackTypeGene());
 	}
 	
 	public DNA(ArrayList<Gene> genes) throws SlickException{
