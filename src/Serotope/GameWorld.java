@@ -54,6 +54,7 @@ public class GameWorld {
 			//always spawn player creature first
 			//testing ai so i ignored the above rule
 			Creature creature = new Creature(new Vec2(0,0), true, new DNA());
+			focus = new Camera(getPlayer());
 			playerId=creature.getId();
 			/*new Creature(new Vec2(2,-2),false);
 			new Creature(new Vec2(2,2),false);
@@ -71,7 +72,6 @@ public class GameWorld {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		setFocus(new Camera(this.getPlayer()));
 	}
 
 	public void render(Graphics g) {
@@ -158,7 +158,7 @@ public class GameWorld {
 	public Creature getPlayer() {
 		//player is yet to be initialized
 		if(player==null) {
-			setPlayer(0);
+			setPlayer(playerId);
 			return player;
 		}
 		else {
@@ -170,7 +170,6 @@ public class GameWorld {
 		for(int i=0;i<gameObjects.size();i++) {
 			if(gameObjects.get(i).id==playerId) {
 				player=(Creature) gameObjects.get(i);
-				focus.target=gameObjects.get(i);
 				return true;
 			}
 		}
