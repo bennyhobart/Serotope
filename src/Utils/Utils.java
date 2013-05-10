@@ -8,6 +8,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import Serotope.Bullet;
 import Serotope.Creature;
+import Serotope.DNA;
 import Serotope.GameObject;
 import Serotope.GameWorld;
 
@@ -140,6 +141,17 @@ public class Utils {
                 }
                 return creatures;
         }
+        public static ArrayList<DNA> getDNA(ArrayList<GameObject> gameObjects) {
+        	ArrayList<DNA> DNAList = new ArrayList<DNA>();
+            GameObject target;
+            for(int i=0;i<gameObjects.size();i++) {
+                    target = gameObjects.get(i);
+                    if(target instanceof DNA) {
+                            DNAList.add((DNA) target);
+                    }
+            }
+            return DNAList;
+        }
         public static ArrayList<Creature> getCreatures(ArrayList<GameObject> gameObjects) {
                 ArrayList<Creature> creatures = new ArrayList<Creature>();
                 GameObject target;
@@ -169,4 +181,16 @@ public class Utils {
                 vector.normalize();
                 return vector;
         }
+		public static ArrayList<DNA> getDNA(ContactEdge contacts) {
+			ArrayList<DNA> DNAList = new ArrayList<DNA>();
+            GameObject target;
+            while(contacts!=null) {
+                    target = (GameObject) contacts.other.getUserData();
+                    if(target instanceof DNA) {
+                            DNAList.add((DNA) target);
+                    }
+                    contacts=contacts.next;
+            }
+            return DNAList;
+		}
 }

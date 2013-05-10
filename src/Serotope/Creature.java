@@ -1,10 +1,13 @@
 package Serotope;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -376,7 +379,8 @@ public class Creature extends GameObject {
 	}
 
 	public void pickUpDna() {
-		// TODO Auto-generated method stub
+		ContactEdge contacts = this.getBody().getContactList();
+		ArrayList<DNA> DNAList = Utils.getDNA(contacts);
 		
 	}
 	
