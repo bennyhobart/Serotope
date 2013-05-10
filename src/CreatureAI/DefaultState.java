@@ -18,6 +18,14 @@ public class DefaultState extends State<Creature> {
 
 	@Override
 	public void execute(Creature target) {
+		if(target==null) {
+			try {
+				this.finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		target.behaviour.stateMachine.changeState(WanderState.getInstance());	
 	}
 

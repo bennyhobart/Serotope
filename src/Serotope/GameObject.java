@@ -3,6 +3,7 @@ package Serotope;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,6 +25,7 @@ public abstract class GameObject {
 			BodyDef bd = new BodyDef();
 			bd.fixedRotation = true;
 			bd.userData = this;
+			bd.awake=false;
 			bd.position.set(position);
 			setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 		}

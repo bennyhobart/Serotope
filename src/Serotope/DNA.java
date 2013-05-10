@@ -35,8 +35,6 @@ public class DNA extends GameObject {
 		super(new Vec2(0, 0), new Image(Utils.dnaImage), true);
 
 		initialiseBodyDefinition();
-		initialiseFixture();
-		this.getBody().setType(BodyType.STATIC);
 
 		genes.add(new HealthGene());
 		genes.add(new LifeSpanGene());
@@ -52,7 +50,7 @@ public class DNA extends GameObject {
 	private void initialiseBodyDefinition() {
 		BodyDef bd = new BodyDef();
 		bd.fixedRotation = true;
-		bd.type = BodyType.KINEMATIC;
+		bd.type = BodyType.DYNAMIC;
 		bd.userData = this;
 		bd.position.set(new Vec2(0, 0));
 
@@ -62,7 +60,7 @@ public class DNA extends GameObject {
 	private void initialiseFixture() {
 
 		CircleShape circle = new CircleShape();
-		circle.m_radius = (image.getWidth() / 2) / Utils.SCALE;
+		circle.setRadius((image.getWidth() / 2) / Utils.SCALE);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
 
@@ -87,22 +85,22 @@ public class DNA extends GameObject {
 		if (!dropped) {
 			return;
 		}
+		if(this.getBody().getFixtureList()==null) {
+			initialiseFixture();
+		}
 
 		ContactEdge contact = this.getBody().getContactList();
-
-		while (contact != null) {
-			if (contact.other.getUserData() instanceof Creature) {
-				//System.out.println("creature");
-				Creature creature = (Creature) contact.other.getUserData();
-				creature.pickUpDna();
-
-				this.setDropped(false);
-				
-				return;
-			}
-			contact = contact.next;
+		ArrayList<Creature> creatures = Utils.getCreatures(contact);
+		if(!creatures.isEmpty()) {
+			creatures.get(0).pickUpDna(this);
+			this.dropped=false;
+			this.destroyFixture();
 		}
 		return;
+	}
+
+	private void destroyFixture() {
+		this.getBody().destroyFixture(getBody().getFixtureList());
 	}
 
 	@Override

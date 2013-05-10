@@ -129,7 +129,7 @@ public class Utils {
                 }
                 return bullets;
         }
-        public ArrayList<Creature> getCreatures(ContactEdge contacts) {
+        public static ArrayList<Creature> getCreatures(ContactEdge contacts) {
                 ArrayList<Creature> creatures = new ArrayList<Creature>();
                 GameObject target;
                 while(contacts!=null) {
