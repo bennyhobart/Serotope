@@ -50,53 +50,13 @@ public class Creature extends GameObject {
 				true);
 
 		// dna
-		this.dna = dna;
 
-		// build physics body
-		BodyDef bd = new BodyDef();
-		// only should rotate when player tells it to by moving
-		bd.fixedRotation = true;
-		// Should be acted on by other objects as well as act upon other objects
-		bd.type = BodyType.DYNAMIC;
-		// setting the user data to this so the body has a reference to its
-		// corresponding game object
-		bd.userData = this;
-		// set bodies position
-		bd.position.set(position);
-		// build body
-		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
-		// all creatures are circular
-		CircleShape dynamicCircle = new CircleShape();
-		// circle radius is equal to the size of the image divided by the scale
-		dynamicCircle.setRadius((image.getWidth() / 2) / Utils.SCALE);
-		// body is solid creating fixture
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = dynamicCircle;
-		// density
-		fixtureDef.density = Utils.stamina;
-		getBody().createFixture(fixtureDef);
-		getBody().setLinearDamping(Utils.handling);
-
-		// initialize base stats
-		// move
-		topSpeed = (Utils.topSpeed);
-		acceleration = Utils.acceleration;
-		handling = Utils.handling;
-		sprintTime = Utils.sprintTime;
-		currSprint = sprintTime;
-		sprintRestitution = Utils.sprintRestitution;
-		// health
-		health = Utils.health;
-		currHealth = health;
-		stamina = Utils.stamina;
-		shield = Utils.shield;
-		// damage
-		damage = Utils.damage;
-		coolDown = Utils.cooldown;
-		timeSinceLastAttack = coolDown;
-		attackType = Utils.attackType;
+		initialiseBodyDef(position);
+		initialiseFixtureDef();
+		initialiseStats();
 
 		// apply DNA modifiers to base stats
+		this.dna = dna;
 		dna.buffCreature(this);
 
 		// set controller
@@ -109,10 +69,10 @@ public class Creature extends GameObject {
 					((AIController) controller).stateMachine);
 		}
 		switch (attackType) {
-		case 1:
+		case Utils.shotgunBullets:
 			coolDown *= Utils.NUMSHOTGUNBULLETS;
 			break;
-		case 2:
+		case Utils.machineGunBullets:
 			coolDown /= Utils.MACHINEGUNSPEED;
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
@@ -121,67 +81,44 @@ public class Creature extends GameObject {
 		}
 	}
 
-	public Creature(Vec2 position, Controller controller, DNA dna1, DNA dna2) throws SlickException {
+	public Creature(Vec2 position, Controller controller, DNA dna)
+			throws SlickException {
 		super(position, new Image(Utils.CREATUREIMAGES[GameWorld
-		                               				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),
-		                               				true);
-		//implement dna merging here to initialize base stats
-		this.dna=dna1;
-		// build physics body
-				BodyDef bd = new BodyDef();
-				// only should rotate when player tells it to by moving
-				bd.fixedRotation = true;
-				// Should be acted on by other objects as well as act upon other objects
-				bd.type = BodyType.DYNAMIC;
-				// setting the user data to this so the body has a reference to its
-				// corresponding game object
-				bd.userData = this;
-				// set bodies position
-				bd.position.set(position);
-				// build body
-				setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
-				// all creatures are circular
-				CircleShape dynamicCircle = new CircleShape();
-				// circle radius is equal to the size of the image divided by the scale
-				dynamicCircle.setRadius((image.getWidth() / 2) / Utils.SCALE);
-				// body is solid creating fixture
-				FixtureDef fixtureDef = new FixtureDef();
-				fixtureDef.shape = dynamicCircle;
-				// density
-				fixtureDef.density = Utils.stamina;
-				getBody().createFixture(fixtureDef);
-				getBody().setLinearDamping(Utils.handling);
-		// initialize base stats
-				// move
-				topSpeed = (Utils.topSpeed);
-				acceleration = Utils.acceleration;
-				handling = Utils.handling;
-				sprintTime = Utils.sprintTime;
-				currSprint = sprintTime;
-				sprintRestitution = Utils.sprintRestitution;
-				// health
-				health = Utils.health;
-				currHealth = health;
-				stamina = Utils.stamina;
-				shield = Utils.shield;
-				// damage
-				damage = Utils.damage;
-				coolDown = Utils.cooldown;
-				timeSinceLastAttack = coolDown;
-				attackType = Utils.attackType;
-				dna1.buffCreature(this);
-				this.dna=dna1;
-				if(controller instanceof AIController ) {
-					this.controller = new AIController(this);
-					this.behaviour=new CreatureBehaviours(this,((AIController)this.controller).stateMachine);
-				}
-				else {
-					this.controller=controller;
-					controller.target=this;
-					GameWorld.getGameWorld().setPlayer(this.id);
+				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),
+				true);
 
-				}
-				
+		// Creature( position, controller, dna1);
+
+		initialiseBodyDef(position);
+		initialiseFixtureDef();
+		initialiseStats();
+
+		this.dna = dna;
+		dna.buffCreature(this);
+
+		if (controller instanceof AIController) {
+			this.controller = new AIController(this);
+			this.behaviour = new CreatureBehaviours(this,
+					((AIController) this.controller).stateMachine);
+		} else {
+			this.controller = controller;
+			controller.target = this;
+			GameWorld.getGameWorld().setPlayer(this.id);
+
+		}
+		
+		switch (attackType) {
+		case Utils.shotgunBullets:
+			coolDown *= Utils.NUMSHOTGUNBULLETS;
+			break;
+		case Utils.machineGunBullets:
+			coolDown /= Utils.MACHINEGUNSPEED;
+			damage /= Utils.MACHINEGUNSPEED;
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	@Override
@@ -299,6 +236,87 @@ public class Creature extends GameObject {
 		getBody().setTransform(getBody().getPosition(),
 				(float) -Math.atan2(move.x, move.y));
 	}
+
+	public void pickUpDna(DNA dna) {
+		try {
+			DNA newDna = mergeDna(this.getDna(), dna);
+			new Creature(getBody().getPosition(), this.controller, newDna);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (this.controller instanceof PlayerController) {
+			this.controller = new AIController(this);
+			behaviour = new CreatureBehaviours(this,
+					((AIController) this.controller).stateMachine);
+		}
+
+	}
+	
+	// randomly picks one allele from each of the two given dna's for
+	// each gene. Then joins them together to form a new dna object.
+	private DNA mergeDna(DNA dna1, DNA dna2) throws SlickException{
+		DNA dna = new DNA();
+		for (int i = 1; i < dna.getGenes().size(); i++){
+			boolean left = dna1.getGenes().get(i).getRandomAllele();
+			boolean right = dna2.getGenes().get(i).getRandomAllele();
+			dna.getGenes().get(i).setLeftAllele(left);
+			dna.getGenes().get(i).setRightAllele(right);
+		}
+		return dna;
+	}
+
+	private void initialiseBodyDef(Vec2 position) {
+		// build physics body
+		BodyDef bd = new BodyDef();
+		// only should rotate when player tells it to by moving
+		bd.fixedRotation = true;
+		// Should be acted on by other objects as well as act upon other objects
+		bd.type = BodyType.DYNAMIC;
+		// setting the user data to this so the body has a reference to its
+		// corresponding game object
+		bd.userData = this;
+		// set bodies position
+		bd.position.set(position);
+		// build body
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
+	}
+
+	private void initialiseFixtureDef() {
+		// all creatures are circular
+		CircleShape dynamicCircle = new CircleShape();
+		// circle radius is equal to the size of the image divided by the scale
+		dynamicCircle.setRadius((image.getWidth() / 2) / Utils.SCALE);
+		// body is solid creating fixture
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = dynamicCircle;
+		// density
+		fixtureDef.density = Utils.stamina;
+		getBody().createFixture(fixtureDef);
+		getBody().setLinearDamping(Utils.handling);
+	}
+
+	private void initialiseStats() {
+		// movement
+		topSpeed = (Utils.topSpeed);
+		acceleration = Utils.acceleration;
+		handling = Utils.handling;
+		sprintTime = Utils.sprintTime;
+		currSprint = sprintTime;
+		sprintRestitution = Utils.sprintRestitution;
+		// health
+		health = Utils.health;
+		currHealth = health;
+		stamina = Utils.stamina;
+		shield = Utils.shield;
+		// damage
+		damage = Utils.damage;
+		coolDown = Utils.cooldown;
+		timeSinceLastAttack = coolDown;
+		attackType = Utils.attackType;
+	}
+
+	// Getters and Setters
 
 	public float getTopSpeed() {
 		if (isSprinting()) {
@@ -419,40 +437,24 @@ public class Creature extends GameObject {
 		this.coolDown -= cooldown;
 	}
 
-//	public int getTimeSinceLastAttack() {
-//		return timeSinceLastAttack;
-//	}
-//
-//	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
-//		this.timeSinceLastAttack = timeSinceLastAttack;
-//	}
+	// public int getTimeSinceLastAttack() {
+	// return timeSinceLastAttack;
+	// }
+	//
+	// public void setTimeSinceLastAttack(int timeSinceLastAttack) {
+	// this.timeSinceLastAttack = timeSinceLastAttack;
+	// }
 
 	public int getAttackType() {
 		return attackType;
 	}
 
-	public void setAttackType(int attackType) {
-		this.attackType = attackType;
+	public void incrementAttackType(int amount) {
+		this.attackType += amount;
 	}
 
 	public DNA getDna() {
 		return dna;
 	}
-
-	public void pickUpDna(DNA dna){
-		try {
-			new Creature(getBody().getPosition(), this.controller, dna, this.dna);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(this.controller instanceof PlayerController ){ 
-			this.controller=new AIController(this);
-			behaviour = new CreatureBehaviours(this, ((AIController)this.controller).stateMachine);
-		}
-		
-	}
-	
-	
 
 }

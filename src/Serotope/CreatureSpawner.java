@@ -49,10 +49,6 @@ public class CreatureSpawner extends GameObject {
 
 	}
 	
-	public void spawnChild(Vec2 location, DNA dna1, DNA dna2) throws SlickException{
-		DNA dna = mergeDNA(dna1, dna2);
-		new Creature(location, true, dna);
-	}
 
 	// Creates a new dna object using a random value for each allele (0 or 1)
 	private DNA randomDna() throws SlickException {
@@ -67,17 +63,6 @@ public class CreatureSpawner extends GameObject {
 		return dna;
 	}
 	
-	// randomly picks one allele from each of the two given dna's for
-	// each gene. Then joins them together to form a new dna object.
-	private DNA mergeDNA(DNA dna1, DNA dna2) throws SlickException{
-		DNA dna = new DNA();
-		for (int i = 1; i < dna.getGenes().size(); i++){
-			boolean left = dna1.getGenes().get(i).getRandomAllele();
-			boolean right = dna2.getGenes().get(i).getRandomAllele();
-			dna.getGenes().get(i).setLeftAllele(left);
-			dna.getGenes().get(i).setRightAllele(right);
-		}
-		return dna;
-	}
+
 
 }
