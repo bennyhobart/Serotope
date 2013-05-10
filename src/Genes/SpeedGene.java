@@ -6,14 +6,18 @@ import Utils.Utils;
 public class SpeedGene extends Gene {
 
 	
-	public SpeedGene(int left, int right) {
+	public SpeedGene(boolean left, boolean right) {
 		super(left, right);
 	}
 	
+	public SpeedGene() {
+		super();
+	}
+
 	@Override
 	public void buffCreature(Creature creature) {
-		int modifier = this.getLeftAllele() + this.getRightAllele();
-		creature.incrementStamina(modifier * Utils.SPEED_BUFF);
+		if (this.isExpressed())
+			creature.incrementStamina(Utils.SPEED_BUFF);
 	}
 	
 

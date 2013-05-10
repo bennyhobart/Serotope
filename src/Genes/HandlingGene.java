@@ -4,8 +4,12 @@ import Serotope.Creature;
 
 public class HandlingGene extends Gene {
 
-	public HandlingGene(int leftAllele, int rightAllele) {
+	public HandlingGene(boolean leftAllele, boolean rightAllele) {
 		super(leftAllele, rightAllele);
+	}
+
+	public HandlingGene() {
+		super();
 	}
 
 	@Override

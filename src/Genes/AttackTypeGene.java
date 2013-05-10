@@ -5,17 +5,18 @@ import Utils.Utils;
 
 public class AttackTypeGene extends Gene {
 
-	public AttackTypeGene(int leftAllele, int rightAllele) {
+	public AttackTypeGene(boolean leftAllele, boolean rightAllele) {
 		super(leftAllele, rightAllele);
+	}
+
+	public AttackTypeGene() {
+		super();
 	}
 
 	@Override
 	public void buffCreature(Creature creature) {
-		if (this.isLeftAllele() && this.isRightAllele()) {
-			creature.setAttackType(0);
-		}
-		if (!this.isLeftAllele() && !this.isRightAllele()) {
-			creature.setAttackType(2);
+		if (this.isExpressed()){
+			creature.setAttackType(1);
 		} else {
 			creature.setAttackType(1);
 		}

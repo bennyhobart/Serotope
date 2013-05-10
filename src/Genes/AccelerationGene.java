@@ -5,14 +5,18 @@ import Utils.Utils;
 
 public class AccelerationGene extends Gene {
 
-	public AccelerationGene(int left, int right) {
+	public AccelerationGene(boolean left, boolean right) {
 		super(left, right);
 	}
 	
+	public AccelerationGene() {
+		super();
+	}
+
 	@Override
 	public void buffCreature(Creature creature) {
-		int modifier = this.getLeftAllele() + this.getRightAllele();
-		creature.incrementStamina(modifier * Utils.ACCELERATION_BUFF);
+		if (this.isExpressed())
+			creature.incrementStamina(Utils.ACCELERATION_BUFF);
 	}
 	
 
