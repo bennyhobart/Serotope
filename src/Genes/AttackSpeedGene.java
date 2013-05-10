@@ -1,7 +1,7 @@
-package Serotope;
+package Genes;
 
+import Serotope.Creature;
 import Utils.Utils;
-import Genes.Gene;
 
 public class AttackSpeedGene extends Gene {
 

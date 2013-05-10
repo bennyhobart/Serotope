@@ -1,6 +1,6 @@
-package Serotope;
+package Genes;
 
-import Genes.Gene;
+import Serotope.Creature;
 
 public class HandlingGene extends Gene {
 

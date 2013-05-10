@@ -3,7 +3,11 @@ package Serotope;
 import java.util.ArrayList;
 
 import Genes.AccelerationGene;
+import Genes.AttackSpeedGene;
+import Genes.AttackTypeGene;
+import Genes.DamageGene;
 import Genes.Gene;
+import Genes.HandlingGene;
 import Genes.HealthGene;
 import Genes.LifeSpanGene;
 import Genes.ShieldGene;
@@ -35,6 +39,11 @@ public class DNA {
 			gene.buffCreature(creature);
 		}
 	}
+
+	public ArrayList<Gene> getGenes() {
+		return genes;
+	}
+	
 
 
 

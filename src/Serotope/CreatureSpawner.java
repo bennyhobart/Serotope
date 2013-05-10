@@ -1,5 +1,7 @@
 package Serotope;
 
+import java.util.Random;
+
 import org.jbox2d.common.Vec2;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -13,6 +15,7 @@ public class CreatureSpawner extends GameObject {
 	int lastSpawnTime;
 	int spawnTime;
 	Creature target;
+	private Random randomGenerator = new Random(System.nanoTime());
 
 	CreatureSpawner(Vec2 position) throws SlickException {
 		super(position, null, false);
@@ -45,15 +48,29 @@ public class CreatureSpawner extends GameObject {
 
 	}
 
+	// Creates a new dna object using a random value for each allele (0 or 1)
 	private DNA randomDna() {
 		DNA dna = new DNA();
-		//TODO random generation of genes
+
+		for (int i = 1; i < dna.getGenes().size(); i++){
+			int left = randomGenerator.nextInt(2);
+			int right = randomGenerator.nextInt(2);
+			dna.getGenes().get(i).setLeftAllele(left);
+			dna.getGenes().get(i).setRightAllele(right);
+		}
 		return dna;
 	}
 	
+	// randomly picks one allele from each of the two given dna's for
+	// each gene. Then joins them together to form a new dna object.
 	private DNA mergeDNA(DNA dna1, DNA dna2){
 		DNA dna = new DNA();
-		//TODO merge DNA
+		for (int i = 1; i < dna.getGenes().size(); i++){
+			int left = dna1.getGenes().get(i).getRandomAllele();
+			int right = dna2.getGenes().get(i).getRandomAllele();
+			dna.getGenes().get(i).setLeftAllele(left);
+			dna.getGenes().get(i).setRightAllele(right);
+		}
 		return dna;
 	}
 
