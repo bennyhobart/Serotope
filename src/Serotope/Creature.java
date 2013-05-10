@@ -87,7 +87,7 @@ public class Creature extends GameObject {
 		shield = Utils.shield;
 		// damage
 		damage = Utils.damage;
-		coolDown = Utils.attackSpeed;
+		coolDown = Utils.cooldown;
 		timeSinceLastAttack = coolDown;
 		attackType = Utils.attackType;
 
@@ -373,6 +373,11 @@ public class Creature extends GameObject {
 
 	public DNA getDna() {
 		return dna;
+	}
+
+	public void pickUpDna() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

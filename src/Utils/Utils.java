@@ -46,7 +46,7 @@ public class Utils {
         public static final boolean shield=false;
         //Damage Variables
         public static final int damage=10;
-        public static final int attackSpeed=200;
+        public static final int cooldown=100;
         public static final int attackType=0;
         public static final float BULLETVELOCITY = 8;
         

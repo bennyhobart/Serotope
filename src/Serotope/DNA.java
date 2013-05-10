@@ -2,7 +2,12 @@ package Serotope;
 
 import java.util.ArrayList;
 
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -21,14 +26,18 @@ import Genes.LifeSpanGene;
 import Genes.ShieldGene;
 import Genes.SpeedGene;
 
-
-public class DNA extends GameObject{
+public class DNA extends GameObject {
 
 	private ArrayList<Gene> genes = new ArrayList<Gene>();
 	private boolean dropped = false;
-	
-	public DNA() throws SlickException{
-		super(new Vec2(0,0), new Image(Utils.dnaImage), false);
+
+	public DNA() throws SlickException {
+		super(new Vec2(0, 0), new Image(Utils.dnaImage), true);
+
+		initialiseBodyDefinition();
+		initialiseFixture();
+		this.getBody().setType(BodyType.STATIC);
+
 		genes.add(new HealthGene());
 		genes.add(new LifeSpanGene());
 		genes.add(new ShieldGene());
@@ -39,14 +48,32 @@ public class DNA extends GameObject{
 		genes.add(new AttackSpeedGene());
 		genes.add(new AttackTypeGene());
 	}
-	
-	public DNA(ArrayList<Gene> genes) throws SlickException{
-		super(new Vec2(0,0), new Image(Utils.dnaImage), false);
-		this.genes = genes;
+
+	private void initialiseBodyDefinition() {
+		BodyDef bd = new BodyDef();
+		bd.fixedRotation = true;
+		bd.type = BodyType.KINEMATIC;
+		bd.userData = this;
+		bd.position.set(new Vec2(0, 0));
+
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
-	
-	public void buffCreature(Creature creature){
-		for (Gene gene : genes){
+
+	private void initialiseFixture() {
+
+		CircleShape circle = new CircleShape();
+		circle.m_radius = (image.getWidth() / 2) / Utils.SCALE;
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = circle;
+
+		this.getBody().createFixture(fixtureDef);
+
+		getBody().setFixedRotation(true);
+
+	}
+
+	public void buffCreature(Creature creature) {
+		for (Gene gene : genes) {
 			gene.buffCreature(creature);
 		}
 	}
@@ -57,21 +84,38 @@ public class DNA extends GameObject{
 
 	@Override
 	public void update(int delta, GameContainer gc) {
+		if (!dropped) {
+			return;
+		}
+
+		ContactEdge contact = this.getBody().getContactList();
+
+		while (contact != null) {
+			if (contact.other.getUserData() instanceof Creature) {
+				//System.out.println("creature");
+				Creature creature = (Creature) contact.other.getUserData();
+				creature.pickUpDna();
+
+				this.setDropped(false);
+				
+				return;
+			}
+			contact = contact.next;
+		}
+		return;
 	}
-	
+
 	@Override
 	void render(Graphics g, float xrender, float yrender) {
-		if (dropped){
+		if (dropped) {
 			super.render(g, xrender, yrender);
-		}
+		} else
+			return;
 	}
 
 	public void setDropped(boolean b) {
 		this.dropped = b;
-		
+
 	}
-	
-
-
 
 }
