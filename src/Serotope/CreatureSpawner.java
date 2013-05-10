@@ -29,6 +29,7 @@ public class CreatureSpawner extends GameObject {
 	@Override
 	public void update(int delta, GameContainer gc) {
 		target = GameWorld.getGameWorld().getPlayer();
+		this.getBody().setTransform(target.getBody().getPosition(),0);
 		stateMachine.update();
 		lastSpawnTime += delta;
 	}

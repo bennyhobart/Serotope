@@ -95,10 +95,12 @@ public class GameWorld {
 
 	public void update(int delta, GameContainer gc) {
 		InputManager.update(gc);
-		//Stats collection
+		//Stats collection and garbage collection
 		for(int i=0;i<getGameObjects().size();i++) {
+			if(gameObjects.get(i).getBody().getPosition().sub(focus.target.getBody().getPosition()).lengthSquared()>10000) {
+				gameObjects.get(i).doomed=true;
+			}
 			if(gameObjects.get(i).doomed) {
-				
 				physicsWorld.destroyBody(gameObjects.get(i).getBody());
 				gameObjects.remove(i);
 			}
@@ -152,22 +154,27 @@ public class GameWorld {
 		}
 		return target;
 	}
+	Creature player;
 	public Creature getPlayer() {
-		for(int i=0;i<gameObjects.size();i++) {
-			if(gameObjects.get(i).id==playerId) {
-				return (Creature)gameObjects.get(i);
-			}
+		//player is yet to be initialized
+		if(player==null) {
+			setPlayer(0);
+			return player;
 		}
-		return null;
+		else {
+			return player;
+		}
 	}
 	public boolean setPlayer(int id) {
 		playerId=id;
 		for(int i=0;i<gameObjects.size();i++) {
 			if(gameObjects.get(i).id==playerId) {
+				player=(Creature) gameObjects.get(i);
 				focus.target=gameObjects.get(i);
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 
