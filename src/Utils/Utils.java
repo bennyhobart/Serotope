@@ -99,7 +99,7 @@ public class Utils {
         public static final float WANDERDISTANCE =4f;
         public static final float WANDERJITTER = 0.1f;
         
-        public static final int spawnTime = 300;
+        public static final int spawnTime = 600;
 
         // Modifiers - buffs caused by genes
 		public static final int HEALTH_BUFF = 50;

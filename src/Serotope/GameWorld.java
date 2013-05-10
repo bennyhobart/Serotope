@@ -175,10 +175,5 @@ public class GameWorld {
 		}
 		return false;
 	}
-	
-	public void setPlayerId(int id){
-		playerId = id;
-	}
-
 
 }

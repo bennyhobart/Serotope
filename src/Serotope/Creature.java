@@ -58,7 +58,7 @@ public class Creature extends GameObject {
 		if (playercontrolled) {
 			attackType=3;
 			controller = new PlayerController(this);
-			GameWorld.getGameWorld().setPlayerId(id);
+			GameWorld.getGameWorld().setPlayer(id);
 		} else {
 			controller = new AIController(this);
 			behaviour = new CreatureBehaviours(this,
