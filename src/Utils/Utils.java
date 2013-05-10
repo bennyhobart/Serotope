@@ -95,6 +95,11 @@ public class Utils {
 
         // Modifiers - buffs caused by genes
 		public static final int HEALTH_BUFF = 50;
+		public static final float STAMINA_BUFF = 0.5f;
+		public static final int SPEED_BUFF = 2;
+		public static final float ACCELERATION_BUFF = 0.5f;
+		public static final int ATTACK_SPEED_BUFF = 50;
+		public static final int DAMAGE_BUFF = 5;
         
         public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {
                 ArrayList<Bullet> creatures = new ArrayList<Bullet>();

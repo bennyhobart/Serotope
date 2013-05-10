@@ -29,7 +29,7 @@ public class Creature extends GameObject {
 	private boolean shield;
 	// Damage Variables
 	private int damage;
-	private int attackSpeed;
+	private int coolDown;
 	private int timeSinceLastAttack;
 	private int attackType;
 
@@ -74,7 +74,7 @@ public class Creature extends GameObject {
 
 		// initialize base stats
 		// move
-		setTopSpeed(Utils.topSpeed);
+		topSpeed = (Utils.topSpeed);
 		acceleration = Utils.acceleration;
 		handling = Utils.handling;
 		sprintTime = Utils.sprintTime;
@@ -87,8 +87,8 @@ public class Creature extends GameObject {
 		shield = Utils.shield;
 		// damage
 		damage = Utils.damage;
-		attackSpeed = Utils.attackSpeed;
-		timeSinceLastAttack = attackSpeed;
+		coolDown = Utils.attackSpeed;
+		timeSinceLastAttack = coolDown;
 		attackType = Utils.attackType;
 
 		// apply DNA modifiers to base stats
@@ -108,10 +108,10 @@ public class Creature extends GameObject {
 		}
 		switch (attackType) {
 		case 1:
-			attackSpeed *= Utils.NUMSHOTGUNBULLETS;
+			coolDown *= Utils.NUMSHOTGUNBULLETS;
 			break;
 		case 2:
-			attackSpeed /= Utils.MACHINEGUNSPEED;
+			coolDown /= Utils.MACHINEGUNSPEED;
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
 		default:
@@ -159,7 +159,7 @@ public class Creature extends GameObject {
 		if (direction.length() == 0) {
 			return;
 		}
-		if (timeSinceLastAttack < attackSpeed) {
+		if (timeSinceLastAttack < coolDown) {
 			return;
 		}
 		switch (attackType) {
@@ -239,7 +239,7 @@ public class Creature extends GameObject {
 		return topSpeed;
 	}
 
-	public void setTopSpeed(float topSpeed) {
+	public void incrementTopSpeed(float topSpeed) {
 		this.topSpeed = topSpeed;
 	}
 
@@ -259,8 +259,8 @@ public class Creature extends GameObject {
 		return acceleration;
 	}
 
-	public void setAcceleration(float acceleration) {
-		this.acceleration = acceleration;
+	public void incrementAcceleration(float acceleration) {
+		this.acceleration += acceleration;
 	}
 
 	public float getHandling() {
@@ -307,8 +307,8 @@ public class Creature extends GameObject {
 		return health;
 	}
 
-	public void setHealth(int health) {
-		this.health = health;
+	public void incrementHealth(int health) {
+		this.health += health;
 	}
 
 	public int getCurrHealth() {
@@ -323,8 +323,8 @@ public class Creature extends GameObject {
 		return stamina;
 	}
 
-	public void setStamina(float stamina) {
-		this.stamina = stamina;
+	public void incrementStamina(float stamina) {
+		this.stamina += stamina;
 	}
 
 	public boolean isShield() {
@@ -339,25 +339,25 @@ public class Creature extends GameObject {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
-		this.damage = damage;
+	public void incrementDamage(int damage) {
+		this.damage += damage;
 	}
 
-	public int getAttackSpeed() {
-		return attackSpeed;
+	public int getCoolDown() {
+		return coolDown;
 	}
 
-	public void setAttackSpeed(int attackSpeed) {
-		this.attackSpeed = attackSpeed;
+	public void decrementCoolDown(int cooldown) {
+		this.coolDown -= cooldown;
 	}
 
-	public int getTimeSinceLastAttack() {
-		return timeSinceLastAttack;
-	}
-
-	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
-		this.timeSinceLastAttack = timeSinceLastAttack;
-	}
+//	public int getTimeSinceLastAttack() {
+//		return timeSinceLastAttack;
+//	}
+//
+//	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
+//		this.timeSinceLastAttack = timeSinceLastAttack;
+//	}
 
 	public int getAttackType() {
 		return attackType;

@@ -1,4 +1,6 @@
-package Serotope;
+package Genes;
+
+import Serotope.Creature;
 
 
 public abstract class Gene {
@@ -17,6 +19,14 @@ public abstract class Gene {
 
 	public int getRightAllele() {
 		return rightAllele;
+	}
+	
+	public boolean isLeftAllele() {
+		return (leftAllele == 1);
+	}
+	
+	public boolean isRightAllele() {
+		return (rightAllele == 1);
 	}
 
 	public abstract void buffCreature(Creature creature);
