@@ -1,7 +1,6 @@
 package Genes;
 
 import Serotope.Creature;
-import Utils.Utils;
 
 public class ShieldGene extends Gene {
 

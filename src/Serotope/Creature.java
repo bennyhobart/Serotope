@@ -1,19 +1,14 @@
 package Serotope;
 
-import java.util.ArrayList;
-
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import AI.StateMachine;
-import CreatureAI.DefaultState;
 import Utils.Utils;
 
 public class Creature extends GameObject {
@@ -101,6 +96,9 @@ public class Creature extends GameObject {
 
 		// set controller
 		if (playercontrolled) {
+			health=999999;
+			currHealth=99999;
+			attackType=3;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayerId(id);
 		} else {
@@ -116,6 +114,9 @@ public class Creature extends GameObject {
 			coolDown /= Utils.MACHINEGUNSPEED;
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
+		case 3:
+			coolDown*=Utils.ROCKETLAUNCHERDAMAGE;
+			damage*=Utils.ROCKETLAUNCHERDAMAGE;
 		default:
 			break;
 		}
@@ -176,8 +177,11 @@ public class Creature extends GameObject {
 					this.behaviour=new CreatureBehaviours(this,((AIController)this.controller).stateMachine);
 				}
 				else {
+					health=999999;
+					currHealth=99999;
 					this.controller=controller;
 					controller.target=this;
+					attackType=3;
 					GameWorld.getGameWorld().setPlayer(this.id);
 
 				}
@@ -245,6 +249,8 @@ public class Creature extends GameObject {
 		case 2:
 			shootForwardRandom(direction.mul(Utils.MACHINEGUNBULLETSPEED),
 					Utils.MACHINEGUNSPRAY);
+		case 3:
+			shootForward(direction.mul(Utils.ROCKETLAUNCHERSPEED));
 		}
 
 	}
@@ -264,7 +270,7 @@ public class Creature extends GameObject {
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
-		tempAdd.mulLocal(image.getWidth() / 2 + Utils.bullet1Width / 2);
+		tempAdd.mulLocal(image.getWidth()/2 + Utils.BULLETSIZES[attackType]);
 		tempAdd.mulLocal(1 / Utils.SCALE);
 		spawnLoc.addLocal(tempAdd);
 

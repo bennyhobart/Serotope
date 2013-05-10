@@ -1,4 +1,7 @@
 package Serotope;
+import java.util.ArrayList;
+
+import org.jbox2d.collision.AABB;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
@@ -17,8 +20,10 @@ public class Bullet extends GameObject {
 	private int damage;
 	private Vec2 direction;
 	public int creatorId;
+	public int attackType;
 	Bullet(Vec2 position, Vec2 velocity,int damage, int id, int attackType) throws SlickException {
 		super(position, new Image(Utils.BULLETIMAGES[attackType]), true);
+		this.attackType=attackType;
 		//keeps a handle on creator so it knows not to kill his own creator.
 		creatorId=id;
 		//solid object needs a body
@@ -47,11 +52,15 @@ public class Bullet extends GameObject {
 
 	}
 	public void collide(Bullet colidingwith) {
+		if(attackType==3) {
+			explode();
+		}
 		this.die();
 	}
 	@Override
 	public void update(int delta, GameContainer gc) {
 		ContactEdge contact = getBody().getContactList();
+		
 		while(contact!=null) {
 			if(contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
@@ -60,20 +69,49 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				creature.hit(damage);
+				if(attackType==3) {
+					explode();
+				}
 				this.die();
 				
 			}
-			if(contact.other.getUserData() instanceof Bullet) {
+			else if(contact.other.getUserData() instanceof Bullet) {
 				Bullet bullet = (Bullet) contact.other.getUserData();
 				if(bullet.creatorId==this.creatorId) {
 					contact=contact.next;
 					continue;
 				}
 				bullet.collide(this);
+				if(attackType==3) {
+					explode();
+				}
 				die();
 			}
 			contact=contact.next;
 		}
 		return;
+	}
+	private void explode() {
+		if(attackType!=3) {
+			return;
+		}
+		AABB zone = new AABB(this.getBody().getPosition().add(new Vec2(-Utils.ROCKETEXPLOSIONRADIUS,-Utils.ROCKETEXPLOSIONRADIUS)),this.getBody().getPosition().add(new Vec2(Utils.ROCKETEXPLOSIONRADIUS,Utils.ROCKETEXPLOSIONRADIUS)));
+		ArrayList<GameObject> gameObjects = Utils.getGameObjectsAABB(zone);
+		for(int i=0;i<gameObjects.size();i++) {
+			GameObject target = gameObjects.get(i);
+			if(Utils.lengthBetween(target.getBody().getPosition(), getBody().getPosition())>Utils.ROCKETEXPLOSIONRADIUS||target.doomed||target.id==creatorId) {
+				continue;
+			}
+			if(target instanceof Bullet) {
+				target.doomed=true;
+				if(((Bullet)target).attackType==3) {
+					((Bullet) target).explode();
+				}
+			}
+			else if(target instanceof Creature) {
+				((Creature) target).hit((int)(damage*Utils.ROCKETEXPLOSIONDAMAGE));
+				
+			}
+		}
 	}
 }
