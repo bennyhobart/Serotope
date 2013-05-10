@@ -13,20 +13,24 @@ public class DefaultState extends State<Creature> {
 	
 	@Override
 	public void enter(Creature target) {
-		
 	}
 
 	@Override
 	public void execute(Creature target) {
+		target.behaviour.timer++; 
+		if(target.behaviour.timer>100) {
+			target.behaviour.stateMachine.changeState(WanderState.getInstance());
+		}
+		else {
+			target.move(target.behaviour.wander());
+		}
 		if(target==null) {
 			try {
 				this.finalize();
 			} catch (Throwable e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		target.behaviour.stateMachine.changeState(WanderState.getInstance());	
 	}
 
 	@Override

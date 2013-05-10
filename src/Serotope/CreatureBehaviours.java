@@ -11,6 +11,8 @@ import Utils.Utils;;
 public class CreatureBehaviours {
 	public Creature target;
 	public StateMachine<Creature> stateMachine;
+	//state timer
+	public int timer;
 	public Creature stateTarget;
 	//used by wander
 	float wanderRadius;
@@ -18,8 +20,10 @@ public class CreatureBehaviours {
 	float wanderJitter;
 	Vec2 wanderTarget;
 	
+	
 	public CreatureBehaviours(Creature target, StateMachine<Creature> stateMachine) {
 		this.target=target;
+		timer=0;
 		this.stateMachine=stateMachine;
 		wanderRadius = Utils.WANDERRADIUS;
 		wanderDistance = Utils.WANDERDISTANCE;
