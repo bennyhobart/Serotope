@@ -40,8 +40,8 @@ public class Creature extends GameObject {
 
 	public Creature(Vec2 position, boolean playercontrolled, DNA dna)
 			throws SlickException {
-		super(position, new Image(Utils.CREATUREIMAGES[GameWorld
-				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),
+		super(position,Utils.CREATUREIMAGES[GameWorld
+				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)],
 				true);
 
 		// dna
@@ -82,8 +82,8 @@ public class Creature extends GameObject {
 
 	public Creature(Vec2 position, Controller controller, DNA dna)
 			throws SlickException {
-		super(position, new Image(Utils.CREATUREIMAGES[GameWorld
-		                               				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)]),
+		super(position,Utils.CREATUREIMAGES[GameWorld
+		                               				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)],
 		                               				true);
 
 		// Creature( position, controller, dna1);

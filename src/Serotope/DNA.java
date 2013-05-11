@@ -32,7 +32,7 @@ public class DNA extends GameObject {
 	private boolean dropped = false;
 
 	public DNA() throws SlickException {
-		super(new Vec2(0, 0), new Image(Utils.dnaImage), true);
+		super(new Vec2(0, 0),Utils.dnaImage, true);
 
 		initialiseBodyDefinition();
 

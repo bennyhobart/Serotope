@@ -40,6 +40,12 @@ public class GameWorld {
 		return gameWorld;
 	}
 	public GameWorld(String string) {
+		try {
+			Utils.initImages();
+		} catch (SlickException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		setRandomGenerator(new Random(System.nanoTime()));
 		gameWorld=this;
 		try {
@@ -51,23 +57,9 @@ public class GameWorld {
 		physicsWorld = new World(new Vec2(0,0));
 		setGameObjects(new ArrayList<GameObject>());
 		try {
-			//always spawn player creature first
-			//testing ai so i ignored the above rule
 			Creature creature = new Creature(new Vec2(0,0), true, new DNA());
 			focus = new Camera(getPlayer());
 			playerId=creature.getId();
-			/*new Creature(new Vec2(2,-2),false);
-			new Creature(new Vec2(2,2),false);
-			new Creature(new Vec2(-2,2),false);
-			new Creature(new Vec2(-2,-2),false);
-			for(int i=-5;i<5;i++) {
-				for(int j=-5;j<5;j++) {
-					if(i==0&&j==0) {
-						continue;
-					}
-					new Creature(new Vec2(i*3,j*3),false);
-				}
-			}*/
 			new CreatureSpawner(new Vec2(0,0));
 		} catch (SlickException e) {
 			e.printStackTrace();

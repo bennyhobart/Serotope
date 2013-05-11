@@ -9,13 +9,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public abstract class GameObject {
-	Image image;
+	protected Image image;
 	public int id;
 	private Body body;
 	boolean solid;
 	public boolean doomed;
 
-	GameObject(Vec2 position, Image image, boolean solid) {
+	protected GameObject(Vec2 position, Image image, boolean solid) {
 		doomed = false;
 		this.solid = solid;
 		GameWorld.getGameWorld().getGameObjects().add(this);

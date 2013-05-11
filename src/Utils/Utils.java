@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.contacts.ContactEdge;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import Serotope.Bullet;
 import Serotope.Creature;
@@ -17,21 +19,59 @@ public class Utils {
         
         public static final String BACKGROUND = "assets/image/Background.png";
         
-        public static final String CREATUREIMAGE1 = "assets/image/Creature1.png";
-        public static final String CREATUREIMAGE2 = "assets/image/Creature2.png";
-        public static final String CREATUREIMAGE3 = "assets/image/Creature3.png";
-        public static final String CREATUREIMAGE4 = "assets/image/Creature4.png";
-        public static final String CREATUREIMAGE5 = "assets/image/Creature5.png";
-        public static final String CREATUREIMAGE6 = "assets/image/Creature6.png";
-        public static final String CREATUREIMAGE7 = "assets/image/Creature7.png";
-        public static final String[] CREATUREIMAGES = {CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
-        public static final String bulletImage1 = "assets/image/Bullet1.png";
-        public static final String bulletImage2 = "assets/image/Bullet2.png";
-        public static final String rocketImage = "assets/image/Rocket.png";
-		public static final String dnaImage = "assets/image/Dna.png";
-        public static final String[] BULLETIMAGES = {bulletImage2,bulletImage1,bulletImage2,rocketImage};
+        public static Image CREATUREIMAGE1;
+        public static Image CREATUREIMAGE2;
+        public static Image CREATUREIMAGE3;
+        public static Image CREATUREIMAGE4;
+        public static Image CREATUREIMAGE5;
+        public static Image CREATUREIMAGE6;
+        public static Image CREATUREIMAGE7;
+        public static Image[] CREATUREIMAGES = {};
+        public static Image bulletImage1;
+        public static Image bulletImage2;
+        public static Image rocketImage;
+		public static Image dnaImage;
+        public static Image[] BULLETIMAGES;
 		public static final int[] BULLETSIZES = {8,16,8,32};
-
+		public static Image BLUESPECKIMAGE;
+		public static Image BROWNSPECKIMAGE;
+		public static Image GREENSPECKIMAGE;
+		public static Image ORANGESPECKIMAGE;
+		public static Image PINKSPECKIMAGE;
+		public static Image PURPLESPECKIMAGE;
+		public static Image REDSPECKIMAGE;
+		public static Image WHITESPECKIMAGE;
+		public static Image YELLOWSPECKIMAGE;
+		public static Image[] PARTICLES; 
+		public static void initImages() throws SlickException {
+			 BLUESPECKIMAGE = new Image("assets/image/particles/bluespeck.png");
+			 BROWNSPECKIMAGE = new Image("assets/image/particles/brownspeck.png");
+			 GREENSPECKIMAGE = new Image("assets/image/particles/greenspeck.png");
+			 ORANGESPECKIMAGE = new Image("assets/image/particles/orangespeck.png");
+			 PINKSPECKIMAGE = new Image("assets/image/particles/pinkspeck.png");
+			 PURPLESPECKIMAGE = new Image("assets/image/particles/purplespeck.png");
+			 REDSPECKIMAGE = new Image("assets/image/particles/redspeck.png");
+			 WHITESPECKIMAGE = new Image("assets/image/particles/whitespeck.png");
+			 YELLOWSPECKIMAGE = new Image("assets/image/particles/yellowspeck.png");
+			 bulletImage1 = new Image("assets/image/Bullet1.png");
+	          bulletImage2 = new Image("assets/image/Bullet2.png");
+	          rocketImage = new Image("assets/image/Rocket.png");
+			  dnaImage =new Image( "assets/image/Dna.png");
+	          CREATUREIMAGE1 = new Image("assets/image/Creature1.png");
+	         CREATUREIMAGE2 = new Image("assets/image/Creature2.png");
+	         CREATUREIMAGE3 =new Image( "assets/image/Creature3.png");
+	         CREATUREIMAGE4 = new Image("assets/image/Creature4.png");
+	         CREATUREIMAGE5 =new Image( "assets/image/Creature5.png");
+	         CREATUREIMAGE6 =new Image( "assets/image/Creature6.png");
+	         CREATUREIMAGE7 =new Image( "assets/image/Creature7.png");
+	        bulletImage1 =new Image(  "assets/image/Bullet1.png");
+	        bulletImage2 =new Image(  "assets/image/Bullet2.png");
+	        rocketImage =new Image(  "assets/image/Rocket.png");
+			dnaImage =new Image(  "assets/image/Dna.png");
+			CREATUREIMAGES = new Image[]{CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
+	        BULLETIMAGES = new Image[]{bulletImage2,bulletImage1,bulletImage2,rocketImage};
+	        PARTICLES = new Image[]{BLUESPECKIMAGE,PURPLESPECKIMAGE,REDSPECKIMAGE,PINKSPECKIMAGE,PURPLESPECKIMAGE,ORANGESPECKIMAGE,YELLOWSPECKIMAGE,BROWNSPECKIMAGE,WHITESPECKIMAGE};
+		}
 
         public static final int bullet1Width = 16;
         //creature default stats
@@ -60,7 +100,7 @@ public class Utils {
         public static final float MACHINEGUNBULLETSPEED = 0.7f;
 		public static final float ROCKETLAUNCHERDAMAGE = 4f;
 		public static final float ROCKETLAUNCHERSPEED = 0.8f;
-		public static final float ROCKETEXPLOSIONRADIUS = 1;
+		public static final float ROCKETEXPLOSIONRADIUS = 2;
 		public static final float ROCKETEXPLOSIONDAMAGE = 0.4f;
         
         //Body Utils
@@ -112,6 +152,10 @@ public class Utils {
 		public static final int defaultAttack = 0;
 		public static final int shotgunBullets = 1;
 		public static final int machineGunBullets = 2;
+
+		public static final int NUMPARTICLESEXPLOSION = 30;
+
+		public static final float PARTICLESPEED = 5;
 
 
 

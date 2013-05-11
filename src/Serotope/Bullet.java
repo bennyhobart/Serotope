@@ -12,6 +12,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import ParticleEffects.ExplosionEffect;
 import Utils.Utils;
 
 
@@ -22,7 +23,7 @@ public class Bullet extends GameObject {
 	public int creatorId;
 	public int attackType;
 	Bullet(Vec2 position, Vec2 velocity,int damage, int id, int attackType) throws SlickException {
-		super(position, new Image(Utils.BULLETIMAGES[attackType]), true);
+		super(position,Utils.BULLETIMAGES[attackType], true);
 		this.attackType=attackType;
 		//keeps a handle on creator so it knows not to kill his own creator.
 		creatorId=id;
@@ -52,6 +53,9 @@ public class Bullet extends GameObject {
 
 	}
 	public void collide(Bullet colidingwith) {
+		if(doomed) {
+			return;
+		}
 		if(attackType==3) {
 			explode();
 		}
@@ -95,6 +99,7 @@ public class Bullet extends GameObject {
 		if(attackType!=3) {
 			return;
 		}
+		new ExplosionEffect(getBody().getPosition());
 		AABB zone = new AABB(this.getBody().getPosition().add(new Vec2(-Utils.ROCKETEXPLOSIONRADIUS,-Utils.ROCKETEXPLOSIONRADIUS)),this.getBody().getPosition().add(new Vec2(Utils.ROCKETEXPLOSIONRADIUS,Utils.ROCKETEXPLOSIONRADIUS)));
 		ArrayList<GameObject> gameObjects = Utils.getGameObjectsAABB(zone);
 		for(int i=0;i<gameObjects.size();i++) {
@@ -104,9 +109,7 @@ public class Bullet extends GameObject {
 			}
 			if(target instanceof Bullet) {
 				target.doomed=true;
-				if(((Bullet)target).attackType==3) {
-					((Bullet) target).explode();
-				}
+				((Bullet) target).collide(this);
 			}
 			else if(target instanceof Creature) {
 				((Creature) target).hit((int)(damage*Utils.ROCKETEXPLOSIONDAMAGE));
