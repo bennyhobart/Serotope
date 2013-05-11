@@ -78,7 +78,7 @@ public class Utils {
         public static final int bullet1Width = 16;
         //creature default stats
         //Move Variables
-        public static final float topSpeed=10;
+        public static final float topSpeed=6;
         public static final float acceleration=1f;
         public static final float handling=1;
         
@@ -86,12 +86,12 @@ public class Utils {
         public static final float sprintRestitution = 0.5f;
         public static final float sprintModifier=1.5f;
         //Health Variables
-        public static final int health=100;
-        public static final float stamina=1;
+        public static final int health=600;
+        public static final float stamina=20;
         public static final boolean shield=false;
         //Damage Variables
-        public static final int damage=10;
-        public static final int cooldown=100;
+        public static final int damage=20;
+        public static final int cooldown=300;
         public static final int attackType=0;
         public static final float BULLETVELOCITY = 8;
         
@@ -141,7 +141,7 @@ public class Utils {
         public static final float WANDERDISTANCE =4f;
         public static final float WANDERJITTER = 0.1f;
         
-        public static final int spawnTime = 600;
+        public static final int spawnTime = 1200;
 
         // Modifiers - buffs caused by genes
 		public static final int HEALTH_BUFF = 50;

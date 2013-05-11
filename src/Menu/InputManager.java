@@ -47,7 +47,7 @@ public class InputManager {
 		ShootLeft = Keyboard.KEY_LEFT;
 		KeyEscape = Keyboard.KEY_ESCAPE;
 		KeyStart = Keyboard.KEY_RETURN;
-		KeySprint = Keyboard.KEY_RSHIFT;
+		KeySprint = Keyboard.KEY_LSHIFT;
 	}
 	public static void update(GameContainer gc) {
 		//input
