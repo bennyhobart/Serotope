@@ -24,13 +24,6 @@ public class DefaultState extends State<Creature> {
 		else {
 			target.move(target.behaviour.wander());
 		}
-		if(target==null) {
-			try {
-				this.finalize();
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	@Override

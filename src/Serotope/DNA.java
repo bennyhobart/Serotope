@@ -10,10 +10,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.contacts.ContactEdge;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
-import Utils.Utils;
 
 import Genes.AccelerationGene;
 import Genes.AttackSpeedGene;
@@ -25,6 +22,7 @@ import Genes.HealthGene;
 import Genes.LifeSpanGene;
 import Genes.ShieldGene;
 import Genes.SpeedGene;
+import Utils.Utils;
 
 public class DNA extends GameObject {
 
