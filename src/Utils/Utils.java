@@ -42,6 +42,7 @@ public class Utils {
 		public static Image REDSPECKIMAGE;
 		public static Image WHITESPECKIMAGE;
 		public static Image YELLOWSPECKIMAGE;
+		public static Image BLACKSPECKIMAGE;
 		public static Image[] PARTICLES; 
 		public static void initImages() throws SlickException {
 			 BLUESPECKIMAGE = new Image("assets/image/particles/bluespeck.png");
@@ -53,6 +54,7 @@ public class Utils {
 			 REDSPECKIMAGE = new Image("assets/image/particles/redspeck.png");
 			 WHITESPECKIMAGE = new Image("assets/image/particles/whitespeck.png");
 			 YELLOWSPECKIMAGE = new Image("assets/image/particles/yellowspeck.png");
+			 BLACKSPECKIMAGE = new Image("assets/image/particles/blackspeck.png");
 			 bulletImage1 = new Image("assets/image/Bullet1.png");
 	          bulletImage2 = new Image("assets/image/Bullet2.png");
 	          rocketImage = new Image("assets/image/Rocket.png");
@@ -70,7 +72,7 @@ public class Utils {
 			dnaImage =new Image(  "assets/image/Dna.png");
 			CREATUREIMAGES = new Image[]{CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	        BULLETIMAGES = new Image[]{bulletImage2,bulletImage1,bulletImage2,rocketImage};
-	        PARTICLES = new Image[]{REDSPECKIMAGE,ORANGESPECKIMAGE,YELLOWSPECKIMAGE,WHITESPECKIMAGE,PINKSPECKIMAGE,PURPLESPECKIMAGE,BLUESPECKIMAGE,PURPLESPECKIMAGE,BROWNSPECKIMAGE};
+	        PARTICLES = new Image[]{BLUESPECKIMAGE,PURPLESPECKIMAGE,REDSPECKIMAGE,BLACKSPECKIMAGE};
 		}
 
         public static final int bullet1Width = 16;

@@ -35,7 +35,7 @@ public class Bullet extends GameObject {
 		//seting the user data to point to this object
 		bd.userData = this;
 		//dynamic object can interact with other objects as well as vica versa
-		bd.type=BodyType.DYNAMIC;
+		bd.type=BodyType.KINEMATIC;
 		bd.position.set(position);
 		bd.bullet=true;
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
