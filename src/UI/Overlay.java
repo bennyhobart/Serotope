@@ -11,7 +11,7 @@ import Serotope.GameWorld;
 
 public class Overlay {
 	Creature target;
-	private static final int border=10;
+	private static final int border=30;
 	int backgroundsize;
 	int traitBorderWidth;
 	int traitBorderHeight;
@@ -29,7 +29,7 @@ public class Overlay {
 	}
 	private void drawTraits(Graphics g) {
 		ArrayList<Gene> a =target.getDna().getGenes();
-		int xRender = 4*border+3*backgroundsize;
+		int xRender = 5*border+5/2*backgroundsize;
 		int yRender = border;
 		if(a.isEmpty()) {
 			return;
@@ -41,7 +41,6 @@ public class Overlay {
 			}
 		}
 		g.setColor(Color.red);
-		yRender+=backgroundsize/2;
 		for(int i=0;i<expressedGenes.size();i++) {
 			g.drawString("" + i, xRender, yRender);
 			xRender+=border;
@@ -50,7 +49,7 @@ public class Overlay {
 		
 	}
 	private void drawDynamics(Graphics g) {
-		int xRender = 0;
+		int xRender = border;
 		int yRender = border;
 		
 		//draw Health stuff
@@ -69,8 +68,7 @@ public class Overlay {
 		
 		//draw Damage stuff
 		drawBoxes(((float)target.getTimeSinceLastAttack()/target.getCoolDown()),xRender,yRender,g);
-		
-		g.drawString(" "+(int)target.getDamage(), xRender, yRender);
+		g.drawString(""+(int)target.getDamage(), xRender, yRender);
 
 		
 		xRender+=(backgroundsize+border);		
@@ -82,7 +80,7 @@ public class Overlay {
 	}
 	private void drawBoxes(float i, int xRender, int yRender, Graphics g) {
 		int y = yRender;
-		int x = xRender+backgroundsize/2+1;
+		int x = xRender+backgroundsize/2-Utils.FILLER.getWidth()/2;
 		if(i>7f/8f) {
 			return;
 		}
