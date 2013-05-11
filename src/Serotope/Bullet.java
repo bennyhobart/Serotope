@@ -59,6 +59,9 @@ public class Bullet extends GameObject {
 		if(attackType==3) {
 			explode();
 		}
+		else {
+			new ExplosionEffect(getBody().getPosition(), 6, 200);
+		}
 		this.die();
 	}
 	@Override
@@ -75,6 +78,9 @@ public class Bullet extends GameObject {
 				creature.hit(damage);
 				if(attackType==3) {
 					explode();
+				}
+				else {
+					new ExplosionEffect(getBody().getPosition(),8,300);
 				}
 				this.die();
 				
@@ -99,7 +105,7 @@ public class Bullet extends GameObject {
 		if(attackType!=3) {
 			return;
 		}
-		new ExplosionEffect(getBody().getPosition());
+		new ExplosionEffect(getBody().getPosition(), 15,500);
 		AABB zone = new AABB(this.getBody().getPosition().add(new Vec2(-Utils.ROCKETEXPLOSIONRADIUS,-Utils.ROCKETEXPLOSIONRADIUS)),this.getBody().getPosition().add(new Vec2(Utils.ROCKETEXPLOSIONRADIUS,Utils.ROCKETEXPLOSIONRADIUS)));
 		ArrayList<GameObject> gameObjects = Utils.getGameObjectsAABB(zone);
 		for(int i=0;i<gameObjects.size();i++) {

@@ -8,16 +8,16 @@ import org.newdawn.slick.SlickException;
 import Serotope.GameObject;
 import Utils.Utils;
 public class ExplosionEffect extends GameObject {
-
-	public ExplosionEffect(Vec2 position) {
+	int numParticles;
+	public ExplosionEffect(Vec2 position,int numParticles, int lifeSpan) {
 		super(position, null, false);
-		double angleDiff = (Math.PI*2/Utils.NUMPARTICLESEXPLOSION);
+		double angleDiff = (Math.PI*2/numParticles);
 		Vec2 velocity = new Vec2(1,1);
 		
-		for(int i=0;i<Utils.NUMPARTICLESEXPLOSION;i++) {
+		for(int i=0;i<numParticles;i++) {
 			velocity=Utils.rotateVector(velocity, angleDiff);
 			try {
-				new Speck(position.add(velocity.mul(1/(Utils.PARTICLESPEED*Utils.SCALE))), velocity);
+				new Speck(position.add(velocity.mul(1/(Utils.PARTICLESPEED*Utils.SCALE))), velocity, lifeSpan);
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}

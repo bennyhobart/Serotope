@@ -56,7 +56,7 @@ public class Creature extends GameObject {
 
 		// set controller
 		if (playercontrolled) {
-			attackType=3;
+			attackType=0;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
 		} else {

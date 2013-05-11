@@ -70,7 +70,7 @@ public class Utils {
 			dnaImage =new Image(  "assets/image/Dna.png");
 			CREATUREIMAGES = new Image[]{CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	        BULLETIMAGES = new Image[]{bulletImage2,bulletImage1,bulletImage2,rocketImage};
-	        PARTICLES = new Image[]{BLUESPECKIMAGE,PURPLESPECKIMAGE,REDSPECKIMAGE,PINKSPECKIMAGE,PURPLESPECKIMAGE,ORANGESPECKIMAGE,YELLOWSPECKIMAGE,BROWNSPECKIMAGE,WHITESPECKIMAGE};
+	        PARTICLES = new Image[]{REDSPECKIMAGE,ORANGESPECKIMAGE,YELLOWSPECKIMAGE,WHITESPECKIMAGE,PINKSPECKIMAGE,PURPLESPECKIMAGE,BLUESPECKIMAGE,PURPLESPECKIMAGE,BROWNSPECKIMAGE};
 		}
 
         public static final int bullet1Width = 16;
@@ -153,9 +153,9 @@ public class Utils {
 		public static final int shotgunBullets = 1;
 		public static final int machineGunBullets = 2;
 
-		public static final int NUMPARTICLESEXPLOSION = 30;
+		public static final int NUMPARTICLESEXPLOSION = 5;
 
-		public static final float PARTICLESPEED = 5;
+		public static final float PARTICLESPEED = 0.8f;
 
 
 

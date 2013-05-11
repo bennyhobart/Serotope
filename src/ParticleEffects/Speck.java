@@ -6,19 +6,20 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import Serotope.GameObject;
 import Serotope.GameWorld;
 import Utils.Utils;
 public class Speck extends GameObject {
-
-	Speck(Vec2 position,Vec2 direction) throws SlickException {
-		super(position, Utils.PARTICLES[0], true);
+	int lifeSpan;
+	int numParticles;
+	Speck(Vec2 position,Vec2 direction, int lifeSpan) throws SlickException {
+		super(position, Utils.PARTICLES[GameWorld.getRandomGenerator().nextInt(4)], true);
 		initialiseBodyDef(position);
 		initialiseFixtureDef();
 		getBody().setLinearVelocity(direction.mul(Utils.PARTICLESPEED));
+		this.lifeSpan=lifeSpan;
 	}
 
 	private void initialiseBodyDef(Vec2 position) {
@@ -53,6 +54,10 @@ public class Speck extends GameObject {
 
 	@Override
 	public void update(int delta, GameContainer gc) {
+		lifeSpan-=delta;
+		if(lifeSpan<0) {
+			this.die();
+		}
 		
 	}
 
