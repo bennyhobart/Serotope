@@ -188,6 +188,7 @@ public class Utils {
 		public static final int defaultAttack = 0;
 		public static final int shotgunBullets = 1;
 		public static final int machineGunBullets = 2;
+		public static final int rocketBullets = 3;
 
 		public static final int NUMPARTICLESEXPLOSION = 5;
 

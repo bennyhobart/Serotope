@@ -1,4 +1,5 @@
 package Serotope;
+
 import java.util.ArrayList;
 
 import org.jbox2d.collision.AABB;
@@ -14,112 +15,135 @@ import org.newdawn.slick.SlickException;
 import ParticleEffects.ExplosionEffect;
 import Utils.Utils;
 
-
 public class Bullet extends GameObject {
 
 	private int damage;
 	private Vec2 direction;
 	public int creatorId;
 	public int attackType;
-	Bullet(Vec2 position, Vec2 velocity,int damage, int id, int attackType) throws SlickException {
-		super(position,Utils.BULLETIMAGES[attackType], true);
-		this.attackType=attackType;
-		//keeps a handle on creator so it knows not to kill his own creator.
-		creatorId=id;
-		//solid object needs a body
-		BodyDef bd = new BodyDef();
-		//has a fixed rotation in the direction of its velocity, it should despawn after any physics interactions anyway
-		//unless it interacts with its creator
-		bd.fixedRotation=true;
-		//seting the user data to point to this object
-		bd.userData = this;
-		//dynamic object can interact with other objects as well as vica versa
-		bd.type=BodyType.KINEMATIC;
-		bd.position.set(position);
-		bd.bullet=true;
-		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
-		CircleShape dynamicCircle = new CircleShape();
-		dynamicCircle.m_radius=(image.getWidth()/2)/Utils.SCALE;
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape=dynamicCircle;
-		fixtureDef.density=0f;
-		getBody().createFixture(fixtureDef);
-		direction=velocity;
+
+	Bullet(Vec2 position, Vec2 velocity, int damage, int id, int attackType)
+			throws SlickException {
+		super(position, Utils.BULLETIMAGES[attackType], true);
+		this.attackType = attackType;
+		// keeps a handle on creator so it knows not to kill his own creator.
+		creatorId = id;
+
+		initialiseBodyDef(position);
+		initialiseFixtureDefinition();
+
+		direction = velocity;
 		getBody().setFixedRotation(true);
-		getBody().setTransform(getBody().getPosition(),(float) Math.atan2(direction.y, direction.x));
+		getBody().setTransform(getBody().getPosition(),
+				(float) Math.atan2(direction.y, direction.x));
 		getBody().setLinearVelocity(velocity.mul(Utils.BULLETVELOCITY));
-		this.damage=damage;
+		this.damage = damage;
 
 	}
+
 	public void collide(Bullet colidingwith) {
-		if(doomed) {
+		if (doomed) {
 			return;
 		}
-		if(attackType==3) {
+		if (attackType == Utils.rocketBullets) {
 			explode();
-		}
-		else {
+		} else {
 			new ExplosionEffect(getBody().getPosition(), 6, 200);
 		}
 		this.die();
 	}
+
 	@Override
 	public void update(int delta, GameContainer gc) {
 		ContactEdge contact = getBody().getContactList();
-		
-		while(contact!=null) {
-			if(contact.other.getUserData() instanceof Creature) {
+
+		while (contact != null) {
+			if (contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
-				if(creature.id==creatorId) {
-					contact=contact.next;
+				if (creature.id == creatorId) {
+					contact = contact.next;
 					continue;
 				}
 				creature.hit(damage);
-				if(attackType==3) {
+				if (attackType == 3) {
 					explode();
-				}
-				else {
-					new ExplosionEffect(getBody().getPosition(),8,300);
+				} else {
+					new ExplosionEffect(getBody().getPosition(), 8, 300);
 				}
 				this.die();
-				
-			}
-			else if(contact.other.getUserData() instanceof Bullet) {
+
+			} else if (contact.other.getUserData() instanceof Bullet) {
 				Bullet bullet = (Bullet) contact.other.getUserData();
-				if(bullet.creatorId==this.creatorId) {
-					contact=contact.next;
+				if (bullet.creatorId == this.creatorId) {
+					contact = contact.next;
 					continue;
 				}
 				bullet.collide(this);
-				if(attackType==3) {
+				if (attackType == 3) {
 					explode();
 				}
 				die();
 			}
-			contact=contact.next;
+			contact = contact.next;
 		}
 		return;
 	}
+
 	private void explode() {
-		if(attackType!=3) {
+		if (attackType != Utils.rocketBullets) {
 			return;
 		}
-		new ExplosionEffect(getBody().getPosition(), 15,500);
-		AABB zone = new AABB(this.getBody().getPosition().add(new Vec2(-Utils.ROCKETEXPLOSIONRADIUS,-Utils.ROCKETEXPLOSIONRADIUS)),this.getBody().getPosition().add(new Vec2(Utils.ROCKETEXPLOSIONRADIUS,Utils.ROCKETEXPLOSIONRADIUS)));
+		new ExplosionEffect(getBody().getPosition(), 15, 500);
+		AABB zone = new AABB(this
+				.getBody()
+				.getPosition()
+				.add(new Vec2(-Utils.ROCKETEXPLOSIONRADIUS,
+						-Utils.ROCKETEXPLOSIONRADIUS)), this
+				.getBody()
+				.getPosition()
+				.add(new Vec2(Utils.ROCKETEXPLOSIONRADIUS,
+						Utils.ROCKETEXPLOSIONRADIUS)));
 		ArrayList<GameObject> gameObjects = Utils.getGameObjectsAABB(zone);
-		for(int i=0;i<gameObjects.size();i++) {
+		for (int i = 0; i < gameObjects.size(); i++) {
 			GameObject target = gameObjects.get(i);
-			if(Utils.lengthBetween(target.getBody().getPosition(), getBody().getPosition())>Utils.ROCKETEXPLOSIONRADIUS||target.doomed||target.id==creatorId) {
+			if (Utils.lengthBetween(target.getBody().getPosition(), getBody()
+					.getPosition()) > Utils.ROCKETEXPLOSIONRADIUS
+					|| target.doomed || target.id == creatorId) {
 				continue;
 			}
-			if(target instanceof Bullet) {
-				target.doomed=true;
+			if (target instanceof Bullet) {
+				target.doomed = true;
 				((Bullet) target).collide(this);
-			}
-			else if(target instanceof Creature) {
-				((Creature) target).hit((int)(damage*Utils.ROCKETEXPLOSIONDAMAGE));
-				
+			} else if (target instanceof Creature) {
+				((Creature) target)
+						.hit((int) (damage * Utils.ROCKETEXPLOSIONDAMAGE));
+
 			}
 		}
+	}
+
+	private void initialiseBodyDef(Vec2 position) {
+		// solid object needs a body
+		BodyDef bd = new BodyDef();
+		// has a fixed rotation in the direction of its velocity, it should
+		// despawn after any physics interactions anyway
+		// unless it interacts with its creator
+		bd.fixedRotation = true;
+		// seting the user data to point to this object
+		bd.userData = this;
+		// dynamic object can interact with other objects as well as vica versa
+		bd.type = BodyType.KINEMATIC;
+		bd.position.set(position);
+		bd.bullet = true;
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
+	}
+
+	private void initialiseFixtureDefinition() {
+		CircleShape dynamicCircle = new CircleShape();
+		dynamicCircle.m_radius = (image.getWidth() / 2) / Utils.SCALE;
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = dynamicCircle;
+		fixtureDef.density = 0f;
+		getBody().createFixture(fixtureDef);
 	}
 }
