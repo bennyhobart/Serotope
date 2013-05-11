@@ -59,13 +59,13 @@ public class Overlay {
 		
 		g.drawString("" + target.getCurrHealth(), xRender, yRender);
 		
-		xRender+=backgroundsize+border;
+		xRender+=(backgroundsize+border);
 		//draw Speed stuff
 		drawBoxes((float)(target.getCurrSprint()/target.getSprintTime()),xRender,yRender,g);
 
 		g.drawString("" +(int)target.getTopSpeed(), xRender, yRender);
 
-		xRender+=backgroundsize+border;
+		xRender+=(backgroundsize+border);
 		
 		//draw Damage stuff
 		drawBoxes(((float)target.getTimeSinceLastAttack()/target.getCoolDown()),xRender,yRender,g);
@@ -73,18 +73,16 @@ public class Overlay {
 		g.drawString(" "+(int)target.getDamage(), xRender, yRender);
 
 		
-		xRender+=backgroundsize;
-		xRender+=border;
+		xRender+=(backgroundsize+border);		
+		xRender+=traitBorderWidth+border;
 		
-		xRender+=traitBorderWidth;
-		xRender+=border;
 		//draw Score stuff
 		g.drawString(""+GameWorld.getGameWorld().getScore(), xRender, yRender);
 		
 	}
 	private void drawBoxes(float i, int xRender, int yRender, Graphics g) {
-		int y = yRender+1;
-		int x = xRender+backgroundsize/2-1;
+		int y = yRender;
+		int x = xRender+backgroundsize/2+1;
 		if(i>7f/8f) {
 			return;
 		}
