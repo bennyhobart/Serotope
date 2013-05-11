@@ -6,7 +6,6 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import Utils.Utils;
@@ -443,13 +442,12 @@ public class Creature extends GameObject {
 		this.coolDown -= cooldown;
 	}
 
-	// public int getTimeSinceLastAttack() {
-	// return timeSinceLastAttack;
-	// }
-	//
-	// public void setTimeSinceLastAttack(int timeSinceLastAttack) {
-	// this.timeSinceLastAttack = timeSinceLastAttack;
-	// }
+	public int getTimeSinceLastAttack() {
+		return timeSinceLastAttack;
+	}
+	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
+		this.timeSinceLastAttack = timeSinceLastAttack;
+	}
 
 	public int getAttackType() {
 		return attackType;

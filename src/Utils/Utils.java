@@ -19,6 +19,23 @@ public class Utils {
         
         public static final String BACKGROUND = "assets/image/Background.png";
         
+        //ui
+        public static Image DAMAGEBACKGROUND;
+        public static Image HEALTHBACKGROUND;
+        public static Image SPEEDBACKGROUND;
+        public static Image MACHINEGUNICON;
+        public static Image ROCKETICON;
+        public static Image SHOTGUNICON;
+        public static Image SINGLESHOTICON;
+        public static Image[] ATTACKTYPEICONS;
+        public static final int SINGLESHOT=0;
+        public static final int SHOTGUN=1;
+        public static final int MACHINEGUN=2;
+        public static final int ROCKET=3;
+        public static Image TRAITBORDER;
+		public static Image FILLER;
+        
+        //creatures
         public static Image CREATUREIMAGE1;
         public static Image CREATUREIMAGE2;
         public static Image CREATUREIMAGE3;
@@ -27,12 +44,16 @@ public class Utils {
         public static Image CREATUREIMAGE6;
         public static Image CREATUREIMAGE7;
         public static Image[] CREATUREIMAGES = {};
+       
+        //bullets
         public static Image bulletImage1;
         public static Image bulletImage2;
         public static Image rocketImage;
 		public static Image dnaImage;
         public static Image[] BULLETIMAGES;
 		public static final int[] BULLETSIZES = {8,16,8,32};
+		
+		//particles
 		public static Image BLUESPECKIMAGE;
 		public static Image BROWNSPECKIMAGE;
 		public static Image GREENSPECKIMAGE;
@@ -43,7 +64,10 @@ public class Utils {
 		public static Image WHITESPECKIMAGE;
 		public static Image YELLOWSPECKIMAGE;
 		public static Image BLACKSPECKIMAGE;
-		public static Image[] PARTICLES; 
+		public static Image[] PARTICLES;
+
+		
+		
 		public static void initImages() throws SlickException {
 			 BLUESPECKIMAGE = new Image("assets/image/particles/bluespeck.png");
 			 BROWNSPECKIMAGE = new Image("assets/image/particles/brownspeck.png");
@@ -73,6 +97,16 @@ public class Utils {
 			CREATUREIMAGES = new Image[]{CREATUREIMAGE1,CREATUREIMAGE2,CREATUREIMAGE3,CREATUREIMAGE4,CREATUREIMAGE5,CREATUREIMAGE6,CREATUREIMAGE7};
 	        BULLETIMAGES = new Image[]{bulletImage2,bulletImage1,bulletImage2,rocketImage};
 	        PARTICLES = new Image[]{BLUESPECKIMAGE,PURPLESPECKIMAGE,REDSPECKIMAGE,BLACKSPECKIMAGE};
+	        DAMAGEBACKGROUND = new Image("assets/image/UI/Damage.png");
+	        HEALTHBACKGROUND = new Image("assets/image/UI/Health.png");
+	        SPEEDBACKGROUND = new Image("assets/image/UI/Speed.png");
+	        MACHINEGUNICON = new Image("assets/image/UI/MachineGun.png");
+	        ROCKETICON = new Image("assets/image/UI/RocketIcon.png");
+	        SHOTGUNICON = new Image("assets/image/UI/ShotgunIcon.png");
+	        SINGLESHOTICON = new Image("assets/image/UI/SingleShotIcon.png");
+	        ATTACKTYPEICONS = new Image[]{SINGLESHOTICON,SHOTGUNICON,MACHINEGUNICON,ROCKETICON};
+	        TRAITBORDER = new Image("assets/image/UI/TraitBorder.png");
+	        FILLER = new Image("assets/image/UI/filler.png");
 		}
 
         public static final int bullet1Width = 16;

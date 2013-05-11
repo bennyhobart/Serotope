@@ -16,6 +16,7 @@ import org.newdawn.slick.SlickException;
 
 import Menu.InputManager;
 import Menu.gPanel;
+import UI.Overlay;
 import Utils.Utils;
 
 
@@ -31,6 +32,8 @@ public class GameWorld {
 	static int idnum=0;
 	private static Random randomGenerator;
 	private static int playerId;
+	private Overlay ui;
+	private static int score=0;
 
 	
 	public static GameWorld getGameWorld() {
@@ -64,6 +67,7 @@ public class GameWorld {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		ui = new Overlay();
 	}
 
 	public void render(Graphics g) {
@@ -83,10 +87,12 @@ public class GameWorld {
 			else
 				getGameObjects().get(i).render(g, xRender,yRender);
 		}
+		ui.render(g);
 	}
 
 	public void update(int delta, GameContainer gc) {
 		InputManager.update(gc);
+		setScore(getScore() + delta);
 		//Stats collection and garbage collection
 		for(int i=0;i<getGameObjects().size();i++) {
 			if(gameObjects.get(i).getBody().getPosition().sub(focus.target.getBody().getPosition()).lengthSquared()>10000) {
@@ -166,6 +172,18 @@ public class GameWorld {
 			}
 		}
 		return false;
+	}
+	/**
+	 * @return the score
+	 */
+	public int getScore() {
+		return score;
+	}
+	/**
+	 * @param score the score to set
+	 */
+	public static void setScore(int score) {
+		GameWorld.score = score;
 	}
 
 }

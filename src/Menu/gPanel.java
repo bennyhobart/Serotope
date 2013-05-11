@@ -26,7 +26,7 @@ public class gPanel extends StateBasedGame
 			AppGameContainer app = new AppGameContainer(new gPanel());
 			app.setDisplayMode(PWIDTH, PHEIGHT, false);
 			Input = new InputManager(app); 
-			app.setShowFPS(true);
+			app.setShowFPS(false);
 			app.setTargetFrameRate(FPS);
 			app.start();
 		
