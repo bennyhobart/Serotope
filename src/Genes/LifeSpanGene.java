@@ -16,7 +16,7 @@ public class LifeSpanGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.incrementStamina(Utils.STAMINA_BUFF);
+			creature.increaseStamina(Utils.STAMINA_BUFF);
 	}
 	
 	

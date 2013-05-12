@@ -16,7 +16,7 @@ public class DamageGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.incrementDamage(Utils.DAMAGE_BUFF);
+			creature.increaseDamage(Utils.DAMAGE_BUFF);
 
 	}
 

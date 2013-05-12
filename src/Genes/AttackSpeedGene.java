@@ -17,7 +17,7 @@ public class AttackSpeedGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.decrementCoolDown(Utils.ATTACK_SPEED_BUFF);
+			creature.decreaseCoolDown(Utils.ATTACK_SPEED_BUFF);
 
 	}
 

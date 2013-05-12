@@ -16,7 +16,7 @@ public class HealthGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed()){
-			creature.incrementHealth(Utils.HEALTH_BUFF);
+			creature.increaseHealth(Utils.HEALTH_BUFF);
 			creature.setCurrHealth(creature.getHealth());
 		}
 	}

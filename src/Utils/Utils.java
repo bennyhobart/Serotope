@@ -178,12 +178,12 @@ public class Utils {
         public static final int spawnTime = 1200;
 
         // Modifiers - buffs caused by genes
-		public static final int HEALTH_BUFF = 50;
-		public static final float STAMINA_BUFF = 0.5f;
-		public static final int SPEED_BUFF = 10;
-		public static final float ACCELERATION_BUFF = 0.5f;
-		public static final int ATTACK_SPEED_BUFF = 50;
-		public static final int DAMAGE_BUFF = 5;
+		public static final int HEALTH_BUFF = 2;
+		public static final int STAMINA_BUFF = 2;
+		public static final int SPEED_BUFF = 2;
+		public static final int ACCELERATION_BUFF = 2;
+		public static final int ATTACK_SPEED_BUFF = 2;
+		public static final int DAMAGE_BUFF = 2;
 
 		public static final int defaultAttack = 0;
 		public static final int shotgunBullets = 1;
