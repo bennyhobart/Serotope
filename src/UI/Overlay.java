@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 import Utils.Utils;
 import Genes.Gene;
@@ -35,7 +34,7 @@ public class Overlay {
 	private void drawTraits(Graphics g) {
 		ArrayList<Gene> expressedGenes = target.getExpressedGenes();
 		int xRender = 7 * border + 3 * backgroundsize;
-		int yRender = border + 30 ;
+		int yRender = 2*border ;
 		if (expressedGenes.isEmpty()) {
 			return;
 		}
@@ -43,7 +42,7 @@ public class Overlay {
 		for (Gene gene : expressedGenes) {
 			gene.renderIcon(g, xRender, yRender);
 			if (gene.getIcon() != null) {
-				xRender += gene.getIcon().getWidth() + Utils.ICON_SPACING ;
+				xRender += gene.getIcon().getWidth() + border ;
 			}
 		}
 
@@ -60,6 +59,9 @@ public class Overlay {
 				xRender, yRender, g);
 
 		g.drawString("" + target.getCurrHealth(), xRender, yRender);
+		if(target.isShield()) {
+			g.drawString(String.format("%.0f", target.getCurrShield()),xRender+border+10,yRender);
+		}
 
 		xRender += (backgroundsize + border);
 		// draw Speed stuff

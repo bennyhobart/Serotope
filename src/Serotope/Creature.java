@@ -30,6 +30,7 @@ public class Creature extends GameObject {
 	private int currHealth;
 	private float stamina;
 	private boolean shield;
+	private float currShield;
 	// Damage Variables
 	private int damage;
 	private int coolDown;
@@ -62,11 +63,11 @@ public class Creature extends GameObject {
 			GameWorld.getGameWorld().setPlayer(id);
 
 			// super creature for testing TODO delete!
-//			for (Gene gene : dna.getGenes()) {
-//				gene.setLeftAllele(true);
-//				gene.setRightAllele(true);
-//			}
-//			dna.buffCreature(this);
+			for (Gene gene : dna.getGenes()) {
+				gene.setLeftAllele(true);
+				gene.setRightAllele(true);
+			}
+			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
@@ -148,6 +149,12 @@ public class Creature extends GameObject {
 				tired = false;
 			}
 		}
+		if(shield) {
+			setCurrShield(getCurrShield() + (delta/1000f)*getHealth()*Utils.SHIELDRECHARGERATE);
+			if(getCurrShield()>health/2) {
+				setCurrShield(health/2);
+			}
+		}
 	}
 
 	protected void die() {
@@ -164,7 +171,12 @@ public class Creature extends GameObject {
 
 	public void hit(int damage) {
 		if (shield) {
-			shield = false;
+			setCurrShield(getCurrShield() - damage);
+			if(getCurrShield()<0) {
+				//shield didnt block all the damage
+				currHealth+=getCurrShield();
+				setCurrShield(0);
+			}
 			return;
 		}
 		currHealth -= (damage);
@@ -494,6 +506,20 @@ public class Creature extends GameObject {
 			}
 		}
 		return expressedGenes;
+	}
+
+	/**
+	 * @return the currShield
+	 */
+	public float getCurrShield() {
+		return currShield;
+	}
+
+	/**
+	 * @param currShield the currShield to set
+	 */
+	public void setCurrShield(float currShield) {
+		this.currShield = currShield;
 	}
 
 }

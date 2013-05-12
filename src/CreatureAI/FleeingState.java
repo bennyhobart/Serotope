@@ -19,6 +19,7 @@ public class FleeingState extends State<Creature> {
 			target.behaviour.stateMachine.changeState(FindDNA.getInstance());
 		}
 		else {
+			target.setSprinting(true);
 			target.move(target.behaviour.evade(closest.getBody()));
 		}
 	}
