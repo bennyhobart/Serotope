@@ -287,7 +287,10 @@ public class Creature extends GameObject {
 		ArrayList<Gene> genes = this.getDna().getGenes();
 		for (Gene gene : genes) {
 			if (gene.isExpressed()) {
-				gene.renderTag(g, xrender, yrender);
+				if(gene.getCreatureTag()!=null) {
+					gene.getCreatureTag().setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
+					gene.getCreatureTag().drawCentered(xrender, yrender);
+				}
 			}
 		}
 	}
