@@ -48,7 +48,7 @@ public class Bullet extends GameObject {
 		if (attackType == Utils.rocketBullets) {
 			explode();
 		} else {
-			new ExplosionEffect(getBody().getPosition(), 6, 200);
+			new ExplosionEffect(getBody().getPosition(), 3, 100);
 		}
 		this.die();
 	}

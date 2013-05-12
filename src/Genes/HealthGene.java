@@ -7,10 +7,14 @@ public class HealthGene extends Gene {
 
 	public HealthGene(boolean left, boolean right) {
 		super(left, right);
+		this.setIcon(Utils.HEALTH_ICON);
+		this.setCreatureTag(Utils.HEALTH_TAG);
 	}
 
 	public HealthGene() {
 		super();
+		this.setIcon(Utils.HEALTH_ICON);
+		this.setCreatureTag(Utils.HEALTH_TAG);
 	}
 
 	@Override

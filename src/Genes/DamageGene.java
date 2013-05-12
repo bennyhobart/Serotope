@@ -7,10 +7,14 @@ public class DamageGene extends Gene {
 
 	public DamageGene(boolean leftAllele, boolean rightAllele) {
 		super(leftAllele, rightAllele);
+		this.setIcon(Utils.DAMAGE_ICON);
+		this.setCreatureTag(Utils.DAMAGE_TAG);
 	}
 
 	public DamageGene() {
 		super();
+		this.setIcon(Utils.DAMAGE_ICON);
+		this.setCreatureTag(Utils.DAMAGE_TAG);
 	}
 
 	@Override

@@ -7,11 +7,14 @@ public class AttackSpeedGene extends Gene {
 
 	public AttackSpeedGene(boolean leftAllele, boolean rightAllele) {
 		super(leftAllele, rightAllele);
-		// TODO Auto-generated constructor stub
+		this.setIcon(Utils.ATTACKSPEED_ICON);
+		this.setCreatureTag(Utils.ATTACKSPEED_TAG);
 	}
 
 	public AttackSpeedGene() {
 		super();
+		this.setIcon(Utils.ATTACKSPEED_ICON);
+		this.setCreatureTag(Utils.ATTACKSPEED_TAG);
 	}
 
 	@Override

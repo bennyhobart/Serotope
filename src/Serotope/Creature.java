@@ -1,13 +1,17 @@
 package Serotope;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Genes.Gene;
 import Utils.Utils;
 
 public class Creature extends GameObject {
@@ -355,8 +359,8 @@ public class Creature extends GameObject {
 		return handling;
 	}
 
-	public void setHandling(float handling) {
-		this.handling = handling;
+	public void increaseHandling(int modifier) {
+		this.handling *= modifier;
 	}
 
 	public float getSprintTime() {
@@ -459,4 +463,16 @@ public class Creature extends GameObject {
 		return dna;
 	}
 
+	// Renders the creature's image, overlaid with icons for any
+	// genes it expresses.
+	void render(Graphics g, float xrender, float yrender){
+		super.render(g, xrender, yrender);
+		ArrayList<Gene> genes = this.getDna().getGenes();
+		for (Gene gene : genes){
+			if (gene.isExpressed()){
+				gene.renderTag(g, xrender, yrender);
+			}
+		}
+	}
+	
 }
