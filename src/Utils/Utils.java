@@ -163,6 +163,8 @@ public class Utils {
         public static final int cooldown=300;
         public static final int attackType=0;
         public static final float BULLETVELOCITY = 8;
+		public static final float BULLETVELOCITYINHERITENCE = 0.3f;
+
         
         //AttackType Variables
         public static final int NUMSHOTGUNBULLETS = 6;
@@ -231,6 +233,7 @@ public class Utils {
 		public static final float PARTICLESPEED = 0.8f;
 
 		public static final int ICON_SPACING = 10;
+
 
 
 

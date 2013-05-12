@@ -62,12 +62,12 @@ public class Creature extends GameObject {
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
 
-			// super creature for testing TODO delete!
-			for (Gene gene : dna.getGenes()) {
-				gene.setLeftAllele(true);
-				gene.setRightAllele(true);
-			}
-			dna.buffCreature(this);
+//			// super creature for testing TODO delete!
+//			for (Gene gene : dna.getGenes()) {
+//				gene.setLeftAllele(true);
+//				gene.setRightAllele(true);
+//			}
+//			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
@@ -232,7 +232,7 @@ public class Creature extends GameObject {
 		spawnLoc.addLocal(tempAdd);
 
 		try {
-			new Bullet(spawnLoc, velocity, damage, id, attackType);
+			new Bullet(spawnLoc, velocity.mul(Utils.BULLETVELOCITY).add(getBody().getLinearVelocity().mul(Utils.BULLETVELOCITYINHERITENCE)), damage, id, attackType);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -268,7 +268,6 @@ public class Creature extends GameObject {
 			DNA newDna = mergeDna(this.getDna(), dna);
 			new Creature(getBody().getPosition(), this.controller, newDna);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (this.controller instanceof PlayerController) {
