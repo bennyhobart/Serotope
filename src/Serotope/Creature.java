@@ -62,11 +62,11 @@ public class Creature extends GameObject {
 			GameWorld.getGameWorld().setPlayer(id);
 
 			// super creature for testing TODO delete!
-//			for (Gene gene : dna.getGenes()) {
-//				gene.setLeftAllele(true);
-//				gene.setRightAllele(true);
-//			}
-//			dna.buffCreature(this);
+			for (Gene gene : dna.getGenes()) {
+				gene.setLeftAllele(true);
+				gene.setRightAllele(true);
+			}
+			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
@@ -463,7 +463,7 @@ public class Creature extends GameObject {
 	}
 
 	public void decreaseCoolDown(int modifier) {
-		this.coolDown *= modifier;
+		this.coolDown /= modifier;
 	}
 
 	public int getTimeSinceLastAttack() {
