@@ -44,6 +44,24 @@ public class Utils {
         public static Image CREATUREIMAGE6;
         public static Image CREATUREIMAGE7;
         public static Image[] CREATUREIMAGES = {};
+        
+        //traits
+        public static Image ACCELERATION_ICON;
+        public static Image ACCELERATION_TAG;
+        public static Image ATTACKSPEED_ICON;
+        public static Image ATTACKSPEED_TAG;
+        public static Image DAMAGE_ICON;
+        public static Image DAMAGE_TAG;
+        public static Image HANDLING_ICON;
+        public static Image HANDLING_TAG;
+        public static Image HEALTH_ICON;
+        public static Image HEALTH_TAG;
+        public static Image LIFESPAN_ICON;
+        public static Image LIFESPAN_TAG;
+        public static Image SHIELD_ICON;
+        public static Image SHIELD_TAG;
+        public static Image SPEED_ICON;
+        public static Image SPEED_TAG;
        
         //bullets
         public static Image bulletImage1;
@@ -107,6 +125,22 @@ public class Utils {
 	        ATTACKTYPEICONS = new Image[]{SINGLESHOTICON,SHOTGUNICON,MACHINEGUNICON,ROCKETICON};
 	        TRAITBORDER = new Image("assets/image/UI/TraitBorder.png");
 	        FILLER = new Image("assets/image/UI/filler.png");
+	        ACCELERATION_ICON = new Image("assets/image/UI/traits/acceleration.png");
+	        ACCELERATION_TAG = new Image("assets/image/traits/acceleration.png");
+	        ATTACKSPEED_ICON = new Image("assets/image/UI/traits/attack.png");
+	        ATTACKSPEED_TAG = new Image("assets/image/traits/attack.png");
+	        DAMAGE_ICON = new Image("assets/image/UI/traits/damage.png");
+	        DAMAGE_TAG = new Image("assets/image/traits/damage.png");
+	        HANDLING_ICON = new Image("assets/image/UI/traits/handling.png");
+	        HANDLING_TAG = new Image("assets/image/traits/handling.png");
+	        HEALTH_ICON = new Image("assets/image/UI/traits/health.png");
+	        HEALTH_TAG = new Image("assets/image/traits/health.png");
+	        LIFESPAN_ICON = new Image("assets/image/UI/traits/lifespan.png");
+	        LIFESPAN_TAG = new Image("assets/image/traits/lifespan.png");
+	        SHIELD_ICON = new Image("assets/image/UI/traits/shield.png");
+	        SHIELD_TAG = new Image("assets/image/traits/shield.png");
+	        SPEED_ICON = new Image("assets/image/UI/traits/speed.png");
+	        SPEED_TAG = new Image("assets/image/traits/speed.png");
 		}
 
         public static final int bullet1Width = 16;
@@ -178,20 +212,24 @@ public class Utils {
         public static final int spawnTime = 1200;
 
         // Modifiers - buffs caused by genes
-		public static final int HEALTH_BUFF = 50;
-		public static final float STAMINA_BUFF = 0.5f;
-		public static final int SPEED_BUFF = 10;
-		public static final float ACCELERATION_BUFF = 0.5f;
-		public static final int ATTACK_SPEED_BUFF = 50;
-		public static final int DAMAGE_BUFF = 5;
+		public static final int HEALTH_BUFF = 2;
+		public static final int STAMINA_BUFF = 2;
+		public static final int SPEED_BUFF = 2;
+		public static final int ACCELERATION_BUFF = 2;
+		public static final int ATTACK_SPEED_BUFF = 2;
+		public static final int DAMAGE_BUFF = 2;
+		public static final int HANDLING_BUFF = 2;
 
 		public static final int defaultAttack = 0;
 		public static final int shotgunBullets = 1;
 		public static final int machineGunBullets = 2;
+		public static final int rocketBullets = 3;
 
 		public static final int NUMPARTICLESEXPLOSION = 5;
 
 		public static final float PARTICLESPEED = 0.8f;
+
+
 
 
 

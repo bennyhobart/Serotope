@@ -7,17 +7,20 @@ public class AttackSpeedGene extends Gene {
 
 	public AttackSpeedGene(boolean leftAllele, boolean rightAllele) {
 		super(leftAllele, rightAllele);
-		// TODO Auto-generated constructor stub
+		this.setIcon(Utils.ATTACKSPEED_ICON);
+		this.setCreatureTag(Utils.ATTACKSPEED_TAG);
 	}
 
 	public AttackSpeedGene() {
 		super();
+		this.setIcon(Utils.ATTACKSPEED_ICON);
+		this.setCreatureTag(Utils.ATTACKSPEED_TAG);
 	}
 
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.decrementCoolDown(Utils.ATTACK_SPEED_BUFF);
+			creature.decreaseCoolDown(Utils.ATTACK_SPEED_BUFF);
 
 	}
 

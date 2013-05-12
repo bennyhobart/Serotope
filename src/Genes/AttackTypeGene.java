@@ -15,7 +15,7 @@ public class AttackTypeGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed()){
-			creature.incrementAttackType(1);
+			creature.incrementAttackType();
 		}
 	}
 

@@ -43,7 +43,8 @@ public class DNA extends GameObject {
 		genes.add(new DamageGene());
 		genes.add(new AttackSpeedGene());
 		genes.add(new AttackTypeGene());
-		//genes.add(new AttackTypeGene());
+		genes.add(new AttackTypeGene());
+		genes.add(new AttackTypeGene());
 	}
 
 	private void initialiseBodyDefinition() {

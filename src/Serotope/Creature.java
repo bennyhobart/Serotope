@@ -1,13 +1,17 @@
 package Serotope;
 
+import java.util.ArrayList;
+
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import Genes.Gene;
 import Utils.Utils;
 
 public class Creature extends GameObject {
@@ -39,12 +43,10 @@ public class Creature extends GameObject {
 
 	public Creature(Vec2 position, boolean playercontrolled, DNA dna)
 			throws SlickException {
-		super(position,Utils.CREATUREIMAGES[GameWorld
-				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)],
-				true);
+		super(position, Utils.CREATUREIMAGES[GameWorld.getRandomGenerator()
+				.nextInt(Utils.CREATUREIMAGES.length)], true);
 
-		// dna
-
+		// Set up base stats and physics stats
 		initialiseBodyDef(position);
 		initialiseFixtureDef();
 		initialiseStats();
@@ -55,7 +57,7 @@ public class Creature extends GameObject {
 
 		// set controller
 		if (playercontrolled) {
-			attackType=0;
+			attackType = 0;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
 		} else {
@@ -72,8 +74,8 @@ public class Creature extends GameObject {
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
 		case 3:
-			coolDown*=Utils.ROCKETLAUNCHERDAMAGE;
-			damage*=Utils.ROCKETLAUNCHERDAMAGE;
+			coolDown *= Utils.ROCKETLAUNCHERDAMAGE;
+			damage *= Utils.ROCKETLAUNCHERDAMAGE;
 		default:
 			break;
 		}
@@ -81,9 +83,8 @@ public class Creature extends GameObject {
 
 	public Creature(Vec2 position, Controller controller, DNA dna)
 			throws SlickException {
-		super(position,Utils.CREATUREIMAGES[GameWorld
-		                               				.getRandomGenerator().nextInt(Utils.CREATUREIMAGES.length)],
-		                               				true);
+		super(position, Utils.CREATUREIMAGES[GameWorld.getRandomGenerator()
+				.nextInt(Utils.CREATUREIMAGES.length)], true);
 
 		// Creature( position, controller, dna1);
 
@@ -104,7 +105,7 @@ public class Creature extends GameObject {
 			GameWorld.getGameWorld().setPlayer(this.id);
 
 		}
-		
+
 		switch (attackType) {
 		case Utils.shotgunBullets:
 			coolDown *= Utils.NUMSHOTGUNBULLETS;
@@ -114,10 +115,10 @@ public class Creature extends GameObject {
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
 		case 3:
-			coolDown*=Utils.ROCKETLAUNCHERDAMAGE;
-			damage*=Utils.ROCKETLAUNCHERDAMAGE;
+			coolDown *= Utils.ROCKETLAUNCHERDAMAGE;
+			damage *= Utils.ROCKETLAUNCHERDAMAGE;
 			break;
-			
+
 		default:
 			break;
 		}
@@ -171,10 +172,10 @@ public class Creature extends GameObject {
 			return;
 		}
 		switch (attackType) {
-		case 0:
+		case Utils.defaultAttack:
 			shootForward(direction);
 			break;
-		case 1:
+		case Utils.shotgunBullets:
 			double angle = -(Utils.NUMSHOTGUNBULLETS - 1) * Math.PI
 					/ (Utils.bullet1Width * 2);
 			for (int i = 0; i < Utils.NUMSHOTGUNBULLETS; i++) {
@@ -182,10 +183,10 @@ public class Creature extends GameObject {
 				angle += Math.PI / (Utils.bullet1Width);
 			}
 			break;
-		case 2:
+		case Utils.machineGunBullets:
 			shootForwardRandom(direction.mul(Utils.MACHINEGUNBULLETSPEED),
 					Utils.MACHINEGUNSPRAY);
-		case 3:
+		case Utils.rocketBullets:
 			shootForward(direction.mul(Utils.ROCKETLAUNCHERSPEED));
 		}
 
@@ -206,7 +207,7 @@ public class Creature extends GameObject {
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
-		tempAdd.mulLocal(image.getWidth()/2 + Utils.BULLETSIZES[attackType]);
+		tempAdd.mulLocal(image.getWidth() / 2 + Utils.BULLETSIZES[attackType]);
 		tempAdd.mulLocal(1 / Utils.SCALE);
 		spawnLoc.addLocal(tempAdd);
 
@@ -257,12 +258,12 @@ public class Creature extends GameObject {
 		}
 
 	}
-	
+
 	// randomly picks one allele from each of the two given dna's for
 	// each gene. Then joins them together to form a new dna object.
-	private DNA mergeDna(DNA dna1, DNA dna2) throws SlickException{
+	private DNA mergeDna(DNA dna1, DNA dna2) throws SlickException {
 		DNA dna = new DNA();
-		for (int i = 1; i < dna.getGenes().size(); i++){
+		for (int i = 1; i < dna.getGenes().size(); i++) {
 			boolean left = dna1.getGenes().get(i).getRandomAllele();
 			boolean right = dna2.getGenes().get(i).getRandomAllele();
 			dna.getGenes().get(i).setLeftAllele(left);
@@ -330,8 +331,8 @@ public class Creature extends GameObject {
 		return topSpeed;
 	}
 
-	public void incrementTopSpeed(float topSpeed) {
-		this.topSpeed = topSpeed;
+	public void increaseTopSpeed(int modifier) {
+		this.topSpeed *= modifier;
 	}
 
 	public void setController(Controller controller) {
@@ -350,16 +351,16 @@ public class Creature extends GameObject {
 		return acceleration;
 	}
 
-	public void incrementAcceleration(float acceleration) {
-		this.acceleration += acceleration;
+	public void increaseAcceleration(int modifier) {
+		this.acceleration *= modifier;
 	}
 
 	public float getHandling() {
 		return handling;
 	}
 
-	public void setHandling(float handling) {
-		this.handling = handling;
+	public void increaseHandling(int modifier) {
+		this.handling *= modifier;
 	}
 
 	public float getSprintTime() {
@@ -398,8 +399,8 @@ public class Creature extends GameObject {
 		return health;
 	}
 
-	public void incrementHealth(int health) {
-		this.health += health;
+	public void increaseHealth(int modifier) {
+		this.health *= modifier;
 	}
 
 	public int getCurrHealth() {
@@ -414,8 +415,8 @@ public class Creature extends GameObject {
 		return stamina;
 	}
 
-	public void incrementStamina(float stamina) {
-		this.stamina += stamina;
+	public void increaseStamina(int modifier) {
+		this.stamina *= modifier;
 	}
 
 	public boolean isShield() {
@@ -430,21 +431,22 @@ public class Creature extends GameObject {
 		return damage;
 	}
 
-	public void incrementDamage(int damage) {
-		this.damage += damage;
+	public void increaseDamage(int modifier) {
+		this.damage *= modifier;
 	}
 
 	public int getCoolDown() {
 		return coolDown;
 	}
 
-	public void decrementCoolDown(int cooldown) {
-		this.coolDown -= cooldown;
+	public void decreaseCoolDown(int modifier) {
+		this.coolDown *= modifier;
 	}
 
 	public int getTimeSinceLastAttack() {
 		return timeSinceLastAttack;
 	}
+
 	public void setTimeSinceLastAttack(int timeSinceLastAttack) {
 		this.timeSinceLastAttack = timeSinceLastAttack;
 	}
@@ -453,12 +455,24 @@ public class Creature extends GameObject {
 		return attackType;
 	}
 
-	public void incrementAttackType(int amount) {
-		this.attackType += amount;
+	public void incrementAttackType() {
+		this.attackType += 1;
 	}
 
 	public DNA getDna() {
 		return dna;
 	}
 
+	// Renders the creature's image, overlaid with icons for any
+	// genes it expresses.
+	void render(Graphics g, float xrender, float yrender){
+		super.render(g, xrender, yrender);
+		ArrayList<Gene> genes = this.getDna().getGenes();
+		for (Gene gene : genes){
+			if (gene.isExpressed()){
+				gene.renderTag(g, xrender, yrender);
+			}
+		}
+	}
+	
 }
