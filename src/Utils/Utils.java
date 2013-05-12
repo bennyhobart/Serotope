@@ -229,11 +229,7 @@ public class Utils {
 
 		public static final float PARTICLESPEED = 0.8f;
 
-
-
-
-
-
+		public static final int ICON_SPACING = 10;
 
 
 

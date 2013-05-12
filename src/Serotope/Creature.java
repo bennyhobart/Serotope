@@ -60,6 +60,14 @@ public class Creature extends GameObject {
 			attackType = 0;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
+
+			// super creature for testing TODO delete!
+//			for (Gene gene : dna.getGenes()) {
+//				gene.setLeftAllele(true);
+//				gene.setRightAllele(true);
+//			}
+//			dna.buffCreature(this);
+
 		} else {
 			controller = new AIController(this);
 			behaviour = new CreatureBehaviours(this,
@@ -272,6 +280,18 @@ public class Creature extends GameObject {
 		return dna;
 	}
 
+	// Renders the creature's image, overlaid with icons for any
+	// genes it expresses.
+	void render(Graphics g, float xrender, float yrender) {
+		super.render(g, xrender, yrender);
+		ArrayList<Gene> genes = this.getDna().getGenes();
+		for (Gene gene : genes) {
+			if (gene.isExpressed()) {
+				gene.renderTag(g, xrender, yrender);
+			}
+		}
+	}
+
 	private void initialiseBodyDef(Vec2 position) {
 		// build physics body
 		BodyDef bd = new BodyDef();
@@ -463,16 +483,14 @@ public class Creature extends GameObject {
 		return dna;
 	}
 
-	// Renders the creature's image, overlaid with icons for any
-	// genes it expresses.
-	void render(Graphics g, float xrender, float yrender){
-		super.render(g, xrender, yrender);
-		ArrayList<Gene> genes = this.getDna().getGenes();
-		for (Gene gene : genes){
-			if (gene.isExpressed()){
-				gene.renderTag(g, xrender, yrender);
+	public ArrayList<Gene> getExpressedGenes() {
+		ArrayList<Gene> expressedGenes = new ArrayList<Gene>();
+		for (Gene gene : this.getDna().getGenes()) {
+			if (gene.isExpressed()) {
+				expressedGenes.add(gene);
 			}
 		}
+		return expressedGenes;
 	}
-	
+
 }
