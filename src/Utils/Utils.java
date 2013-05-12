@@ -157,6 +157,7 @@ public class Utils {
         public static final int health=600;
         public static final float stamina=20;
         public static final boolean shield=false;
+		public static final float SHIELDRECHARGERATE = 0.05f;
         //Damage Variables
         public static final int damage=20;
         public static final int cooldown=300;
@@ -230,6 +231,7 @@ public class Utils {
 		public static final float PARTICLESPEED = 0.8f;
 
 		public static final int ICON_SPACING = 10;
+
 
 
 
