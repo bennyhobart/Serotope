@@ -127,8 +127,8 @@ public class Utils {
 	        FILLER = new Image("assets/image/UI/filler.png");
 	        ACCELERATION_ICON = new Image("assets/image/UI/traits/acceleration.png");
 	        ACCELERATION_TAG = new Image("assets/image/traits/acceleration.png");
-	        ATTACKSPEED_ICON = new Image("assets/image/UI/traits/attack.png");
-	        ATTACKSPEED_TAG = new Image("assets/image/traits/attack.png");
+	        ATTACKSPEED_ICON = new Image("assets/image/UI/traits/attackspeed.png");
+	        ATTACKSPEED_TAG = new Image("assets/image/traits/attackspeed.png");
 	        DAMAGE_ICON = new Image("assets/image/UI/traits/damage.png");
 	        DAMAGE_TAG = new Image("assets/image/traits/damage.png");
 	        HANDLING_ICON = new Image("assets/image/UI/traits/handling.png");
