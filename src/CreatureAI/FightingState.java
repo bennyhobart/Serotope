@@ -1,5 +1,7 @@
 package CreatureAI;
 
+import org.jbox2d.common.Vec2;
+
 import AI.State;
 import Serotope.Creature;
 /**
@@ -11,7 +13,7 @@ public class FightingState extends State<Creature> {
 	static FightingState instance;
 	@Override
 	public void enter(Creature target) {
-		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
+		Creature closest = target.behaviour.findClosestCreature(target.behaviour.getLocalCreatures());
 		target.behaviour.stateTarget=closest;
 
 	}
@@ -23,8 +25,9 @@ public class FightingState extends State<Creature> {
 			target.behaviour.stateMachine.changeState(WanderState.getInstance());
 			return;
 		}
+		double lengthBetween = Utils.Utils.lengthBetween(target.getBody().getPosition(),target.behaviour.stateTarget.getBody().getPosition());
 		//if the distance between the creature and its target is greater than 8m the creature should cease fighting and return to wandering
-		if(Utils.Utils.lengthBetween(target.getBody().getPosition(),target.behaviour.stateTarget.getBody().getPosition())>8) {
+		if(lengthBetween>8) {
 			target.behaviour.stateMachine.changeState(WanderState.getInstance());
 			return;
 		}
@@ -35,9 +38,15 @@ public class FightingState extends State<Creature> {
 		}	
 		
 		//the creature will shoot at the target creature and move towards it
+		if(lengthBetween<2) {
+			Vec2 tangentVector = Utils.Utils.tangentialVector(target.getBody().getPosition(), target.behaviour.stateTarget.getBody().getPosition());
+			target.move(tangentVector);
+		}
+		else {
+
+			target.move(target.behaviour.pursuit(target.behaviour.stateTarget.getBody()));
+		}
 		target.shoot(target.behaviour.seek(target.behaviour.stateTarget.getBody().getPosition()));
-		target.move(target.behaviour.pursuit(target.behaviour.stateTarget.getBody()));
-		
 	}
 
 	@Override

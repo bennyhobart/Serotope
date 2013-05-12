@@ -38,6 +38,11 @@ public class CreatureBehaviours {
 		ArrayList<Creature> targets = Utils.getCreatures(Utils.getGameObjectsAABB(zone));
 		return targets;
 	}
+	public ArrayList<DNA> getLocalDNA() {
+		AABB zone = new AABB(target.getBody().getPosition().add(new Vec2(-Utils.AISEEK,-Utils.AISEEK)),target.getBody().getPosition().add(new Vec2(Utils.AISEEK,Utils.AISEEK)));
+		ArrayList<DNA> targets = Utils.getDNA(Utils.getGameObjectsAABB(zone));
+		return targets;		
+	}
 	public Vec2 seek(Vec2 position) {
 		Vec2 targetVelocity = position.sub(target.getBody().getPosition());
 		targetVelocity.mulLocal(target.getTopSpeed());
@@ -90,12 +95,25 @@ public class CreatureBehaviours {
 		return flee(body.getPosition().add(body.getLinearVelocity().mul(timeToInteract)));
 	}
 	
-	public Creature findClosest(ArrayList<Creature> targets) {
+	public Creature findClosestCreature(ArrayList<Creature> targets) {
 		Creature closest=null;
 		float distance=-1;
 		for(int i=0;i<targets.size();i++) {
 			float temp = Utils.lengthBetween(target.getBody().getPosition(), targets.get(i).getBody().getPosition());
 			if((temp<distance||distance==-1)&&targets.get(i).id!=target.id) {
+				closest=targets.get(i);
+				distance =temp;
+			}
+		}
+		return closest;
+	}
+
+	public DNA findClosestDNA(ArrayList<DNA> targets) {
+		DNA closest=null;
+		float distance=-1;
+		for(int i=0;i<targets.size();i++) {
+			float temp = Utils.lengthBetween(target.getBody().getPosition(), targets.get(i).getBody().getPosition());
+			if((temp<distance||distance==-1)) {
 				closest=targets.get(i);
 				distance =temp;
 			}

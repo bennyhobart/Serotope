@@ -29,7 +29,7 @@ public class Overlay {
 	}
 	private void drawTraits(Graphics g) {
 		ArrayList<Gene> a =target.getDna().getGenes();
-		int xRender = 5*border+5/2*backgroundsize;
+		int xRender = 7*border+3*backgroundsize;
 		int yRender = border;
 		if(a.isEmpty()) {
 			return;

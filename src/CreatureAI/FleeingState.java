@@ -14,9 +14,9 @@ public class FleeingState extends State<Creature> {
 	@Override
 	public void execute(Creature target) {
 		// TODO Auto-generated method stub
-		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
+		Creature closest = target.behaviour.findClosestCreature(target.behaviour.getLocalCreatures());
 		if(closest==null||closest.id==target.id) {
-			target.behaviour.stateMachine.changeState(WanderState.getInstance());
+			target.behaviour.stateMachine.changeState(FindDNA.getInstance());
 		}
 		else {
 			target.move(target.behaviour.evade(closest.getBody()));

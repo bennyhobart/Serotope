@@ -13,7 +13,7 @@ public class WanderState extends State<Creature> {
 
 	@Override
 	public void execute(Creature target) {
-		Creature closest = target.behaviour.findClosest(target.behaviour.getLocalCreatures());
+		Creature closest = target.behaviour.findClosestCreature(target.behaviour.getLocalCreatures());
 		if(closest!=null&&Utils.Utils.lengthBetween(target.getBody().getPosition(), closest.getBody().getPosition())<10) {
 			target.behaviour.stateMachine.changeState(FightingState.getInstance());
 		}
