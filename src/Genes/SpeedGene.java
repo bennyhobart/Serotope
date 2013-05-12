@@ -21,7 +21,7 @@ public class SpeedGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.increaseStamina(Utils.SPEED_BUFF);
+			creature.increaseTopSpeed(Utils.SPEED_BUFF);
 	}
 	
 
