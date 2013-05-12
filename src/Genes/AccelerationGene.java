@@ -20,7 +20,7 @@ public class AccelerationGene extends Gene {
 	@Override
 	public void buffCreature(Creature creature) {
 		if (this.isExpressed())
-			creature.increaseStamina(Utils.ACCELERATION_BUFF);
+			creature.increaseAcceleration(Utils.ACCELERATION_BUFF);
 	}
 	
 
