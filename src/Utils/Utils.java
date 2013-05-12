@@ -165,7 +165,7 @@ public class Utils {
         
         //AttackType Variables
         public static final int NUMSHOTGUNBULLETS = 6;
-        public static final double MACHINEGUNSPEED = 10;
+        public static final double MACHINEGUNSPEED = 4;
         public static final double MACHINEGUNSPRAY = Math.PI/8;
         public static final float MACHINEGUNBULLETSPEED = 0.7f;
 		public static final float ROCKETLAUNCHERDAMAGE = 4f;

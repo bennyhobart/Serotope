@@ -46,24 +46,6 @@ public class Overlay {
 				xRender += gene.getIcon().getWidth() + Utils.ICON_SPACING ;
 			}
 		}
-		
-		int attackType = target.getAttackType();
-		switch (attackType) {
-		case Utils.shotgunBullets:
-			Utils.SHOTGUNICON.drawCentered(xRender, yRender);
-			break;
-		case Utils.machineGunBullets:
-			Utils.MACHINEGUNICON.drawCentered(xRender, yRender);
-			break;
-		case 3:
-			Utils.ROCKETICON.drawCentered(xRender, yRender);
-		default:
-			Utils.SINGLESHOTICON.drawCentered(xRender, yRender);
-			break;
-		}		
-		
-		
-		
 
 	}
 
