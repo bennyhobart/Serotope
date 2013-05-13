@@ -49,6 +49,8 @@ public class AchievementsMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException{
+        Color background = new Color(Color.black);
+        gc.getGraphics().setBackground(background);
 		try {
 			String hLine;
 			reader = new BufferedReader(new FileReader(HIGHSCOREFILE));

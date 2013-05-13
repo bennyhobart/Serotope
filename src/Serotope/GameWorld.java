@@ -110,7 +110,6 @@ public class GameWorld {
 		//Physics Update
 		physicsWorld.step((float)delta/1000, 6, 3);
 
-		
 	}
 	public Camera getFocus() {
 		return focus;

@@ -29,7 +29,9 @@ public class SplashMenu extends BasicGameState {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
-			throws SlickException {		
+			throws SlickException {	
+        Color background = new Color(Color.black);
+        gc.getGraphics().setBackground(background); 
 		title = new Image(GAMETITLE);
 		text = new Image(STARTGAMEMESSAGE);
 		

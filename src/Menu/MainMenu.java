@@ -47,6 +47,8 @@ public class MainMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
+        Color background = new Color(Color.black);
+        gc.getGraphics().setBackground(background); 
 		title = new Image(GAMETITLE);
 		play = new Image(PLAY);
 		howTo = new Image(HOWTO);

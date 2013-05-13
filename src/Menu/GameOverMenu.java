@@ -36,6 +36,8 @@ public class GameOverMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
+        Color background = new Color(Color.black);
+        gc.getGraphics().setBackground(background);
 		gameOver = new Heading(GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6);
 		finalScore = new Heading(FINALSCORE,gc.getWidth()/8,gc.getHeight()/2);
 		replay = new Button(REPLAY,gc.getWidth()/8,gc.getHeight()/3*2,startScale,enlarge);

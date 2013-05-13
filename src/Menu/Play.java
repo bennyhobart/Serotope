@@ -27,7 +27,7 @@ public class Play extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		g.setBackground(Color.white);
+		g.setBackground(Color.black);
 		world.render(g);
 		
 	}
@@ -36,6 +36,9 @@ public class Play extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		world.update(delta, gc);
+		if(world.getPlayer().doomed){
+			sbg.enterState(gPanel.GAMEOVERMENUID);
+		}
 	}
 
 	@Override
