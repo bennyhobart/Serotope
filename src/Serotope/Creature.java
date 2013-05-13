@@ -66,11 +66,11 @@ public class Creature extends GameObject {
 			GameWorld.getGameWorld().setPlayer(id);
 
 			// super creature for testing TODO delete!
-			for (Gene gene : dna.getGenes()) {
-				gene.setLeftAllele(true);
-				gene.setRightAllele(true);
-			}
-			dna.buffCreature(this);
+//			for (Gene gene : dna.getGenes()) {
+//				gene.setLeftAllele(true);
+//				gene.setRightAllele(true);
+//			}
+//			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
@@ -173,6 +173,7 @@ public class Creature extends GameObject {
 		Vec2 position = this.getBody().getPosition();
 		this.dna.getBody().getPosition().set(position);
 		dna.setDropped(true);
+		GameWorld.getGameWorld().getGameObjects().add(dna);
 	}
 
 	public void hit(int damage) {
