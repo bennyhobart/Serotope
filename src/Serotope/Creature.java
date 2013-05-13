@@ -52,9 +52,10 @@ public class Creature extends GameObject {
 		initialiseFixtureDef();
 		initialiseStats();
 
-		// apply DNA modifiers to base stats
+		// apply DNA modifiers to base stats and remove the dna object fromteh game world
 		this.dna = dna;
 		dna.buffCreature(this);
+
 
 		// set controller
 		if (playercontrolled) {
@@ -167,6 +168,7 @@ public class Creature extends GameObject {
 		Vec2 position = this.getBody().getPosition();
 		this.dna.getBody().getPosition().set(position);
 		dna.setDropped(true);
+		GameWorld.getGameWorld().getGameObjects().add(dna);
 	}
 
 	public void hit(int damage) {
@@ -263,8 +265,24 @@ public class Creature extends GameObject {
 				(float) -Math.atan2(move.x, move.y));
 	}
 
+	// Renders the creature's image, overlaid with icons for any
+	// genes it expresses.
+	void render(Graphics g, float xrender, float yrender) {
+		super.render(g, xrender, yrender);
+		ArrayList<Gene> genes = this.getDna().getGenes();
+		for (Gene gene : genes) {
+			if (gene.isExpressed()) {
+				if(gene.getCreatureTag()!=null) {
+					gene.getCreatureTag().setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
+					gene.getCreatureTag().drawCentered(xrender, yrender);
+				}
+			}
+		}
+	}
+
 	public void pickUpDna(DNA dna) {
 		try {
+			GameWorld.getGameWorld().getGameObjects().remove(dna);
 			DNA newDna = mergeDna(this.getDna(), dna);
 			new Creature(getBody().getPosition(), this.controller, newDna);
 		} catch (SlickException e) {
@@ -290,21 +308,6 @@ public class Creature extends GameObject {
 			dna.getGenes().get(i).setRightAllele(right);
 		}
 		return dna;
-	}
-
-	// Renders the creature's image, overlaid with icons for any
-	// genes it expresses.
-	void render(Graphics g, float xrender, float yrender) {
-		super.render(g, xrender, yrender);
-		ArrayList<Gene> genes = this.getDna().getGenes();
-		for (Gene gene : genes) {
-			if (gene.isExpressed()) {
-				if(gene.getCreatureTag()!=null) {
-					gene.getCreatureTag().setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
-					gene.getCreatureTag().drawCentered(xrender, yrender);
-				}
-			}
-		}
 	}
 
 	private void initialiseBodyDef(Vec2 position) {

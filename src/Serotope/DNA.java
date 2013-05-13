@@ -30,8 +30,8 @@ public class DNA extends GameObject {
 	private boolean dropped = false;
 
 	public DNA() throws SlickException {
-		super(new Vec2(0, 0),Utils.dnaImage, true);
-
+		super(new Vec2(0, 0), Utils.dnaImage, true);
+		GameWorld.getGameWorld().getGameObjects().remove(this);
 		initialiseBodyDefinition();
 
 		genes.add(new HealthGene());
@@ -52,7 +52,7 @@ public class DNA extends GameObject {
 		bd.fixedRotation = true;
 		bd.type = BodyType.DYNAMIC;
 		bd.userData = this;
-		bd.linearDamping=0.5f;
+		bd.linearDamping = 0.5f;
 		bd.position.set(new Vec2(0, 0));
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
@@ -65,7 +65,6 @@ public class DNA extends GameObject {
 		fixtureDef.shape = circle;
 
 		this.getBody().createFixture(fixtureDef);
-
 		getBody().setFixedRotation(true);
 
 	}
@@ -85,15 +84,15 @@ public class DNA extends GameObject {
 		if (!dropped) {
 			return;
 		}
-		if(this.getBody().getFixtureList()==null) {
+		if (this.getBody().getFixtureList() == null) {
 			initialiseFixture();
 		}
 
 		ContactEdge contact = this.getBody().getContactList();
 		ArrayList<Creature> creatures = Utils.getCreatures(contact);
-		if(!creatures.isEmpty()) {
+		if (!creatures.isEmpty()) {
 			creatures.get(0).pickUpDna(this);
-			this.dropped=false;
+			this.dropped = false;
 			this.destroyFixture();
 		}
 		return;
