@@ -11,6 +11,11 @@ public class gPanel extends StateBasedGame
 	
 	public static final int MAINMENUID = 0;
 	public static final int PLAYID = 1;
+	public static final int SPLASHMENUID = 2;
+	public static final int HOWTOMENUID = 3;
+	public static final int ACHIEVEMENTSMENUID = 4;
+	public static final int SETTINGSMENUID = 5;
+	public static final int GAMEOVERMENUID = 6;
 	
 	public static final int PWIDTH = 1100;
 	public static final int PHEIGHT=700;
@@ -38,8 +43,13 @@ public class gPanel extends StateBasedGame
 	
 	public gPanel(){
 		super(gameName+ " " +VERSION );
-		this.addState(new Menu(MAINMENUID));
+		this.addState(new MainMenu(MAINMENUID));
 		this.addState(new Play(PLAYID));
+		this.addState(new SplashMenu(SPLASHMENUID));
+		this.addState(new HowToMenu(HOWTOMENUID));
+		this.addState(new AchievementsMenu(ACHIEVEMENTSMENUID));
+		this.addState(new SettingsMenu(SETTINGSMENUID));
+		this.addState(new GameOverMenu(GAMEOVERMENUID));
 	}
 	
 	
@@ -48,6 +58,10 @@ public class gPanel extends StateBasedGame
 		gc.setVSync(true);
 		this.getState(MAINMENUID).init(gc,this);
 		this.getState(PLAYID).init(gc, this);
-		this.enterState(MAINMENUID);
+		this.getState(HOWTOMENUID).init(gc,this);
+		this.getState(ACHIEVEMENTSMENUID).init(gc, this);
+		this.getState(SETTINGSMENUID).init(gc, this);
+		this.getState(GAMEOVERMENUID).init(gc, this);
+		this.enterState(SPLASHMENUID);
 	}
 }
