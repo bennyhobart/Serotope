@@ -12,6 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import Genes.Gene;
+import Genes.ShieldGene;
 import Utils.Utils;
 
 public class Creature extends GameObject {
@@ -31,6 +32,8 @@ public class Creature extends GameObject {
 	private float stamina;
 	private boolean shield;
 	private float currShield;
+	private int currShieldCooldown;
+	private int shieldCooldown;
 	// Damage Variables
 	private int damage;
 	private int coolDown;
@@ -62,12 +65,12 @@ public class Creature extends GameObject {
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
 
-//			// super creature for testing TODO delete!
-//			for (Gene gene : dna.getGenes()) {
-//				gene.setLeftAllele(true);
-//				gene.setRightAllele(true);
-//			}
-//			dna.buffCreature(this);
+			// super creature for testing TODO delete!
+			for (Gene gene : dna.getGenes()) {
+				gene.setLeftAllele(true);
+				gene.setRightAllele(true);
+			}
+			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
@@ -149,11 +152,14 @@ public class Creature extends GameObject {
 				tired = false;
 			}
 		}
-		if(shield) {
+		if(currShieldCooldown>=shieldCooldown) {
 			setCurrShield(getCurrShield() + (delta/1000f)*getHealth()*Utils.SHIELDRECHARGERATE);
 			if(getCurrShield()>health/2) {
 				setCurrShield(health/2);
 			}
+		}
+		else {
+			currShieldCooldown+=delta;
 		}
 	}
 
@@ -170,7 +176,9 @@ public class Creature extends GameObject {
 	}
 
 	public void hit(int damage) {
+		
 		if (shield) {
+			currShieldCooldown=0;
 			setCurrShield(getCurrShield() - damage);
 			if(getCurrShield()<0) {
 				//shield didnt block all the damage
@@ -297,6 +305,11 @@ public class Creature extends GameObject {
 		super.render(g, xrender, yrender);
 		ArrayList<Gene> genes = this.getDna().getGenes();
 		for (Gene gene : genes) {
+			if(gene instanceof ShieldGene) {
+				if(!shield||currShield<=0) {
+					continue;
+				}
+			}
 			if (gene.isExpressed()) {
 				if(gene.getCreatureTag()!=null) {
 					gene.getCreatureTag().setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
@@ -349,6 +362,8 @@ public class Creature extends GameObject {
 		currHealth = health;
 		stamina = Utils.stamina;
 		shield = Utils.shield;
+		currShieldCooldown = Utils.shieldCooldown;
+		shieldCooldown = Utils.shieldCooldown;
 		// damage
 		damage = Utils.damage;
 		coolDown = Utils.cooldown;

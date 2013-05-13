@@ -84,6 +84,7 @@ public class Utils {
 		public static Image BLACKSPECKIMAGE;
 		public static Image[] PARTICLES;
 
+
 		
 		
 		public static void initImages() throws SlickException {
@@ -158,6 +159,8 @@ public class Utils {
         public static final float stamina=20;
         public static final boolean shield=false;
 		public static final float SHIELDRECHARGERATE = 0.05f;
+		public static int shieldCooldown = 5000;
+
         //Damage Variables
         public static final int damage=20;
         public static final int cooldown=300;
