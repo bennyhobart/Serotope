@@ -36,7 +36,7 @@ public class Bullet extends GameObject {
 		getBody().setFixedRotation(true);
 		getBody().setTransform(getBody().getPosition(),
 				(float) Math.atan2(direction.y, direction.x));
-		getBody().setLinearVelocity(velocity.mul(Utils.BULLETVELOCITY));
+		getBody().setLinearVelocity(velocity);
 		this.damage = damage;
 
 	}
