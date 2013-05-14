@@ -12,6 +12,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import Serotope.GameWorld;
+
 public class GameOverMenu extends BasicGameState {
 	
 	
@@ -59,6 +61,7 @@ public class GameOverMenu extends BasicGameState {
 		for(Heading heading : headingsList){
 			heading.draw();
 		}
+		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/2, gc.getHeight()/2);
 	}
 
 	@Override
@@ -70,6 +73,7 @@ public class GameOverMenu extends BasicGameState {
     	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
+		Play.world = new GameWorld("Serotope");
     	
     	if(replay.isInside(mouseX, mouseY)){
     		replay.increaseSize(delta);

@@ -12,6 +12,7 @@ import Serotope.GameWorld;
 public class Play extends BasicGameState {
 	static GameWorld world;
 	private int id;
+	public static int gameScore;
 
 	public Play(int id) {
 		this.id=id;
@@ -21,6 +22,7 @@ public class Play extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		world = GameWorld.getGameWorld();
+		gameScore = 0;
 	
 		}
 
@@ -36,6 +38,7 @@ public class Play extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		world.update(delta, gc);
+		gameScore = world.getScore();
 		if(world.getPlayer().doomed){
 			sbg.enterState(gPanel.GAMEOVERMENUID);
 		}

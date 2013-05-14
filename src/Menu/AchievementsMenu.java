@@ -82,7 +82,7 @@ public class AchievementsMenu extends BasicGameState {
 		medalPosX = gc.getWidth()/8*5;
 		medalPosY = gc.getHeight()/3;
 		goBackPosX = gc.getWidth()/8*7;
-		goBackPosY = gc.getHeight()/6*5;
+		goBackPosY = gc.getHeight()/12*11;
 		goBackScale = 1;
 		
 		

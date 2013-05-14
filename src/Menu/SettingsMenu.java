@@ -93,7 +93,7 @@ public class SettingsMenu extends BasicGameState {
 		controlsPosX = gc.getWidth()/8;
 		controlsPosY = gc.getHeight()/2;
 		goBackPosX = gc.getWidth()/8*7;
-		goBackPosY = gc.getHeight()/6*5;
+		goBackPosY = gc.getHeight()/12*11;
 		goBackScale = 1;
 		
 		controlList = new ArrayList<ControlBox>();
