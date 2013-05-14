@@ -16,8 +16,8 @@ public class MainMenu extends BasicGameState {
 	
 	
 	private int id;
-	private static final float enlarge = 0.0001f;
-	private static final float startScale = 1f;
+	public static final float enlarge = 0.0001f;
+	public static final float startScale = 1f;
 	private static final String GAMETITLE = "assets/image/menus/MainTitle.png";
 	private static final String PLAY = "assets/image/menus/MainPlay.png";
 	private static final String HOWTO = "assets/image/menus/MainHowTo.png";

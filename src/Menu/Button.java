@@ -1,9 +1,9 @@
 package Menu;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Button extends Heading {
-
 	private float scale;
 	private float enlarge;
 	private final float scaleMin = 1f;
