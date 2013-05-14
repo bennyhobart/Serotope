@@ -113,6 +113,7 @@ public class SettingsMenu extends BasicGameState {
 		
 		int mouseX;
 		int mouseY;
+		int newKey;
     	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
@@ -129,53 +130,83 @@ public class SettingsMenu extends BasicGameState {
     	
    		if(leftBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.MoveLeft = InputManager.returnKeyPressed(gc.getInput());
-       			leftBox.curKey = InputManager.MoveLeft;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.MoveLeft = newKey;
+       				leftBox.curKey = newKey;
+       			}
        		}
    		}else if(rightBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.MoveRight = InputManager.returnKeyPressed(gc.getInput());
-       			rightBox.curKey = InputManager.MoveRight;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.MoveRight = newKey;
+       				rightBox.curKey = newKey;
+       			}
        		}
    		}else if(downBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.MoveDown = InputManager.returnKeyPressed(gc.getInput());
-       			downBox.curKey = InputManager.MoveDown;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.MoveDown = newKey;
+       				downBox.curKey = newKey;
+       			}
        		}
    		}else if(upBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.MoveUp = InputManager.returnKeyPressed(gc.getInput());
-       			upBox.curKey = InputManager.MoveUp;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.MoveUp = newKey;
+       				upBox.curKey = newKey;
+       			}
        		}
    		}else if(sleftBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.ShootLeft = InputManager.returnKeyPressed(gc.getInput());
-       			sleftBox.curKey = InputManager.ShootLeft;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.ShootLeft = newKey;
+       				sleftBox.curKey = newKey;
+       			}
        		}
    		}else if(srightBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.ShootRight = InputManager.returnKeyPressed(gc.getInput());
-       			srightBox.curKey = InputManager.ShootRight;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.ShootRight = newKey;
+       				srightBox.curKey = newKey;
+       			}
        		}
    		}else if(supBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.ShootUp = InputManager.returnKeyPressed(gc.getInput());
-       			supBox.curKey = InputManager.ShootUp;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.ShootUp = newKey;
+       				supBox.curKey = newKey;
+       			}
        		}
    		}else if(sdownBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.ShootDown = InputManager.returnKeyPressed(gc.getInput());
-       			sdownBox.curKey = InputManager.ShootDown;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.ShootDown = newKey;
+       				sdownBox.curKey = newKey;
+       			}
        		}
    		}else if(sprintBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.KeySprint = InputManager.returnKeyPressed(gc.getInput());
-       			sprintBox.curKey = InputManager.KeySprint;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.KeySprint = newKey;
+       				sprintBox.curKey = newKey;
+       			}
        		}
    		}else if(pauseBox.isInside(mouseX, mouseY)){
        		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			InputManager.KeyEscape = InputManager.returnKeyPressed(gc.getInput());
-       			pauseBox.curKey = InputManager.KeyEscape;
+       			newKey = InputManager.returnKeyPressed(gc.getInput());
+       			if(newKey != -1){
+       				InputManager.KeyEscape = newKey;
+       				pauseBox.curKey = newKey;
+       			}
        		}
    		}
 	}
