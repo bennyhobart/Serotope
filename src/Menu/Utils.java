@@ -25,6 +25,8 @@ public class Utils {
 	public static final String SETTINGSBOX = "assets/image/menus/SettingsBox.png";
 	public static final String SETTINGSVOLUME = "assets/image/menus/SettingsVolume.png";
 	public static final String SETTINGSCONTROLS = "assets/image/menus/SettingsControls.png";
+	public static final String SETTINGSINC = "assets/image/menus/SettingsInc.png";
+	public static final String SETTINGSDEC = "assets/image/menus/SettingsDec.png";
 	public static final String GAMEOVERTITLE = "assets/image/menus/GameOverTitle.png";
 	public static final String GAMEOVERFINALSCORE = "assets/image/menus/GameOverScore.png";
 	public static final String GAMEOVERREPLAY = "assets/image/menus/GameOverReplay.png";

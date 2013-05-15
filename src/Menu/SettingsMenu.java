@@ -2,7 +2,6 @@ package Menu;
 
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -19,13 +18,16 @@ public class SettingsMenu extends BasicGameState {
 	
 	
 	private int id;
-	private static int volumeLevel;
+	private float maxVolume;
+	private int rectsLevel;
+	public static float volumeLevel;
 	private ArrayList<Heading> headingList;
 	private Button goBack;
+	private Button incVol;
+	private Button decVol;
 	private ArrayList<ControlBox> controlList;
 	
-	private JSlider volumeSlider;
-	private JPanel volumeControl;
+//	private JSlider volumeSlider;
 
 	public class ControlBox extends Heading{
 		private String name;
@@ -70,7 +72,9 @@ public class SettingsMenu extends BasicGameState {
 		headingList.add(new Heading(Utils.SETTINGSVOLUME,gc.getWidth()/8,gc.getHeight()/3));
 		headingList.add(new Heading(Utils.SETTINGSCONTROLS,gc.getWidth()/8,gc.getHeight()/2));
 		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
-
+		headingList.add(decVol = new Button(Utils.SETTINGSDEC,gc.getWidth()/8+20,gc.getHeight()/12*5+20,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
+		headingList.add(incVol = new Button(Utils.SETTINGSINC,gc.getWidth()/14*13,gc.getHeight()/12*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
+		
 		controlList = new ArrayList<ControlBox>();
 		controlList.add(new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.MoveLeft));
 		controlList.add(new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.MoveRight));
@@ -83,16 +87,17 @@ public class SettingsMenu extends BasicGameState {
 		controlList.add(new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.KeyEscape));
 		controlList.add(new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.KeySprint));
 
+		/*
 		volumeLevel = Utils.VOL_MAX;
 		volumeSlider = new JSlider(Utils.VOL_MIN,Utils.VOL_MAX,volumeLevel);
 		volumeSlider.setMajorTickSpacing(10);
 		volumeSlider.setPaintTicks(true);
 		volumeSlider.addChangeListener(new VolumeChanged());
-		volumeControl = new JPanel();
-		volumeControl.add(volumeSlider);
-		volumeControl.setLocation(gc.getWidth()/8,gc.getHeight()/2);
-		volumeControl.setSize(gc.getWidth()/4*3, gc.getHeight()/8);
-		volumeControl.setVisible(true);
+		*/
+		
+		maxVolume = gc.getSoundVolume();
+		rectsLevel = 10;		
+		
 	}
 
 	@Override
@@ -106,6 +111,24 @@ public class SettingsMenu extends BasicGameState {
 			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+Utils.BOXBUFFER, boxi.ypos+boxi.img.getHeight()/2-Utils.SETTINGSBUFFER);
 		}		
 		
+		g.setColor(Color.blue);
+		int numRects = rectsLevel;
+		int rectX = gc.getWidth()/14*3;
+		int rectY = gc.getHeight()/12*5;
+		int height = gc.getHeight()/120;
+		int incX = gc.getWidth()/14;
+		int incY = height;
+		int fullheight = gc.getHeight()/12;
+		for(int i=0; i<10; i++){
+			if(!(numRects>0)){
+				g.setColor(Color.white);
+			}
+			g.fillRect(rectX, rectY+(fullheight-height), incX/2, height);
+			rectX += incX;
+			height += incY;
+			numRects--;
+		}
+		g.setColor(Color.white);
 	}
 
 	@Override
@@ -118,6 +141,20 @@ public class SettingsMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY(); 
     	
     	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
+    	
+    	if(incVol.isInside(mouseX, mouseY)){
+    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
+    			rectsLevel ++;
+    			gc.setSoundVolume(rectsLevel/10*maxVolume);
+    		}
+    	}
+    	
+    	if(decVol.isInside(mouseX, mouseY)){
+    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel>0){
+    			rectsLevel --;
+    			gc.setSoundVolume(rectsLevel/10*maxVolume);
+    		}
+    	}
     	
     	for(ControlBox control : controlList)
     		changeControl(control, mouseX, mouseY, gc);
