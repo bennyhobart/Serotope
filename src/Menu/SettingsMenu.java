@@ -2,12 +2,14 @@ package Menu;
 
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -17,27 +19,13 @@ public class SettingsMenu extends BasicGameState {
 	
 	
 	private int id;
-	private static final String TITLE = "assets/image/menus/SettingsTitle.png";
-	private static final String BOX = "assets/image/menus/SettingsBox.png";
-	private static final String VOLUME = "assets/image/menus/SettingsVolume.png";
-	private static final String CONTROLS = "assets/image/menus/SettingsControls.png";
-	private static final int VOL_MIN = 0;
-	private static final int VOL_MAX = 100;
-	
+	private static int volumeLevel;
 	private ArrayList<Heading> headingList;
 	private Button goBack;
-	
 	private ArrayList<ControlBox> controlList;
-	private ControlBox leftBox;
-	private ControlBox rightBox;
-	private ControlBox upBox;
-	private ControlBox downBox;
-	private ControlBox sleftBox;
-	private ControlBox srightBox;
-	private ControlBox supBox;
-	private ControlBox sdownBox;
-	private ControlBox pauseBox;
-	private ControlBox sprintBox;
+	
+	private JSlider volumeSlider;
+	private JPanel volumeControl;
 
 	public class ControlBox extends Heading{
 		private String name;
@@ -58,6 +46,15 @@ public class SettingsMenu extends BasicGameState {
 		
 	}
 
+	public class VolumeChanged implements ChangeListener{	
+		public void stateChanged(ChangeEvent ce){
+			JSlider source = (JSlider) ce.getSource();
+			if (!source.getValueIsAdjusting()) {
+	            volumeLevel = (int)source.getValue();
+	        }
+		}
+	}
+	
 	public SettingsMenu(int id) {
 		this.id=id;
 	}
@@ -69,29 +66,33 @@ public class SettingsMenu extends BasicGameState {
         gc.getGraphics().setBackground(background);
 		
 		headingList = new ArrayList<Heading>();
-		headingList.add(new Heading(TITLE,gc.getWidth()/8,gc.getHeight()/6));
-		headingList.add(new Heading(VOLUME,gc.getWidth()/8,gc.getHeight()/3));
-		headingList.add(new Heading(CONTROLS,gc.getWidth()/8,gc.getHeight()/2));
-		headingList.add(goBack = new Button(MainMenu.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,MainMenu.startScale,MainMenu.enlarge));
+		headingList.add(new Heading(Utils.SETTINGSTITLE,gc.getWidth()/8,gc.getHeight()/6));
+		headingList.add(new Heading(Utils.SETTINGSVOLUME,gc.getWidth()/8,gc.getHeight()/3));
+		headingList.add(new Heading(Utils.SETTINGSCONTROLS,gc.getWidth()/8,gc.getHeight()/2));
+		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
 
 		controlList = new ArrayList<ControlBox>();
-		controlList.add(leftBox = new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+60,BOX,InputManager.MoveLeft));
-		controlList.add(rightBox = new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+120,BOX,InputManager.MoveRight));
-		controlList.add(upBox = new ControlBox("Move Up",gc.getWidth()/8,gc.getHeight()/2+180,BOX,InputManager.MoveUp));
-		controlList.add(downBox = new ControlBox("Move Down",gc.getWidth()/8,gc.getHeight()/2+240,BOX,InputManager.MoveDown));
-		controlList.add(sleftBox = new ControlBox("Shoot Left",gc.getWidth()/8*3,gc.getHeight()/2+60,BOX,InputManager.ShootLeft));
-		controlList.add(srightBox = new ControlBox("Shoot Right",gc.getWidth()/8*3,gc.getHeight()/2+120,BOX,InputManager.ShootRight));
-		controlList.add(supBox = new ControlBox("Shoot Up",gc.getWidth()/8*3,gc.getHeight()/2+180,BOX,InputManager.ShootUp));
-		controlList.add(sdownBox = new ControlBox("Shoot Down",gc.getWidth()/8*3,gc.getHeight()/2+240,BOX,InputManager.ShootDown));
-		controlList.add(pauseBox = new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+60,BOX,InputManager.KeyEscape));
-		controlList.add(sprintBox = new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+120,BOX,InputManager.KeySprint));
+		controlList.add(new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.MoveLeft));
+		controlList.add(new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.MoveRight));
+		controlList.add(new ControlBox("Move Up",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*3,Utils.SETTINGSBOX,InputManager.MoveUp));
+		controlList.add(new ControlBox("Move Down",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*4,Utils.SETTINGSBOX,InputManager.MoveDown));
+		controlList.add(new ControlBox("Shoot Left",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.ShootLeft));
+		controlList.add(new ControlBox("Shoot Right",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.ShootRight));
+		controlList.add(new ControlBox("Shoot Up",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*3,Utils.SETTINGSBOX,InputManager.ShootUp));
+		controlList.add(new ControlBox("Shoot Down",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*4,Utils.SETTINGSBOX,InputManager.ShootDown));
+		controlList.add(new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.KeyEscape));
+		controlList.add(new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.KeySprint));
 
-		
-		/*
-		JSlider volumeSlider = new JSlider(VOL_MIN,VOL_MAX,VOL_MAX);
+		volumeLevel = Utils.VOL_MAX;
+		volumeSlider = new JSlider(Utils.VOL_MIN,Utils.VOL_MAX,volumeLevel);
 		volumeSlider.setMajorTickSpacing(10);
 		volumeSlider.setPaintTicks(true);
-		*/
+		volumeSlider.addChangeListener(new VolumeChanged());
+		volumeControl = new JPanel();
+		volumeControl.add(volumeSlider);
+		volumeControl.setLocation(gc.getWidth()/8,gc.getHeight()/2);
+		volumeControl.setSize(gc.getWidth()/4*3, gc.getHeight()/8);
+		volumeControl.setVisible(true);
 	}
 
 	@Override
@@ -101,9 +102,9 @@ public class SettingsMenu extends BasicGameState {
 			heading.draw();
 		for(ControlBox boxi : controlList){
 			boxi.draw();
-			g.drawString(boxi.name, boxi.xpos+100, boxi.ypos+(boxi.img.getHeight()/2));
-			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+20, boxi.ypos+boxi.img.getHeight()/2);
-		}
+			g.drawString(boxi.name, boxi.xpos+Utils.STRINGBUFFER, boxi.ypos+(boxi.img.getHeight()/2));
+			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+Utils.BOXBUFFER, boxi.ypos+boxi.img.getHeight()/2);
+		}		
 		
 	}
 
@@ -113,107 +114,32 @@ public class SettingsMenu extends BasicGameState {
 		
 		int mouseX;
 		int mouseY;
-		int newKey;
-    	
     	mouseX = gc.getInput().getMouseX();
-    	mouseY = gc.getInput().getMouseY();
+    	mouseY = gc.getInput().getMouseY(); 
     	
+    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
     	
-    	if(goBack.isInside(mouseX, mouseY)){
-    		goBack.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.MAINMENUID);
-    		}
-    	}else{
-    		goBack.decreaseSize(delta);
-    	}
+    	for(ControlBox control : controlList)
+    		changeControl(control, mouseX, mouseY, gc);
     	
-   		if(leftBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.MoveLeft = newKey;
-       				leftBox.curKey = newKey;
-       			}
-       		}
-   		}else if(rightBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.MoveRight = newKey;
-       				rightBox.curKey = newKey;
-       			}
-       		}
-   		}else if(downBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.MoveDown = newKey;
-       				downBox.curKey = newKey;
-       			}
-       		}
-   		}else if(upBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.MoveUp = newKey;
-       				upBox.curKey = newKey;
-       			}
-       		}
-   		}else if(sleftBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.ShootLeft = newKey;
-       				sleftBox.curKey = newKey;
-       			}
-       		}
-   		}else if(srightBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.ShootRight = newKey;
-       				srightBox.curKey = newKey;
-       			}
-       		}
-   		}else if(supBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.ShootUp = newKey;
-       				supBox.curKey = newKey;
-       			}
-       		}
-   		}else if(sdownBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.ShootDown = newKey;
-       				sdownBox.curKey = newKey;
-       			}
-       		}
-   		}else if(sprintBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.KeySprint = newKey;
-       				sprintBox.curKey = newKey;
-       			}
-       		}
-   		}else if(pauseBox.isInside(mouseX, mouseY)){
-       		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-       			newKey = InputManager.returnKeyPressed(gc.getInput());
-       			if(newKey != -1){
-       				InputManager.KeyEscape = newKey;
-       				pauseBox.curKey = newKey;
-       			}
-       		}
-   		}
 	}
 	
 	@Override
 	public int getID() {
 		return id;
+	}
+	
+	private static void changeControl(ControlBox control, int x, int y, GameContainer gc){
+		int newKey;
+		if(control.isInside(x, y)){
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				newKey = InputManager.returnKeyPressed(gc.getInput());
+				if(newKey != -1){
+					InputManager.KeyEscape = newKey;
+					control.curKey = newKey;
+				}
+			}
+		}
 	}
 	
 
