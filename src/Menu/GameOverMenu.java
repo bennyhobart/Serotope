@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -18,16 +16,8 @@ public class GameOverMenu extends BasicGameState {
 	
 	
 	private int id;
-	private final float startScale = 1;
-	private final float enlarge = 0.0001f;
-	private static final String GAMEOVERTITLE = "assets/image/menus/GameOverTitle.png";
-	private static final String FINALSCORE = "assets/image/menus/GameOverScore.png";
-	private static final String REPLAY = "assets/image/menus/GameOverReplay.png";
-	private static final String RETURNMAINMENU = "assets/image/menus/GameOverReturn.png";
 	private ArrayList<Heading> headingsList;
-	private Heading gameOver;
-	private Heading finalScore;
-	private ArrayList<Button> gameOverButtons;
+	private ArrayList<Button> buttonList;
 	private Button replay;
 	private Button returnMainMenu;
 
@@ -40,18 +30,15 @@ public class GameOverMenu extends BasicGameState {
 			throws SlickException {	
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
-		gameOver = new Heading(GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6);
-		finalScore = new Heading(FINALSCORE,gc.getWidth()/8,gc.getHeight()/2);
-		replay = new Button(REPLAY,gc.getWidth()/8,gc.getHeight()/3*2,startScale,enlarge);
-		returnMainMenu = new Button(RETURNMAINMENU,gc.getWidth()/8,gc.getHeight()/6*5,startScale,enlarge);
-		gameOverButtons = new ArrayList<Button>();
+        
 		headingsList = new ArrayList<Heading>();
-		gameOverButtons.add(replay);
-		gameOverButtons.add(returnMainMenu);
-		headingsList.add(gameOver);
-		headingsList.add(replay);
-		headingsList.add(returnMainMenu);
-		headingsList.add(finalScore);
+		headingsList.add(new Heading(Utils.GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6));
+		headingsList.add(replay = new Button(Utils.GAMEOVERREPLAY,gc.getWidth()/8,gc.getHeight()/3*2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
+		headingsList.add(returnMainMenu = new Button(Utils.GAMEOVERRETURNMAINMENU,gc.getWidth()/8,gc.getHeight()/6*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		headingsList.add(new Heading(Utils.GAMEOVERFINALSCORE,gc.getWidth()/8,gc.getHeight()/2));
+		buttonList = new ArrayList<Button>();
+		buttonList.add(replay);
+		buttonList.add(returnMainMenu);
 		
 	}
 
@@ -75,24 +62,9 @@ public class GameOverMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY();
 		Play.world = new GameWorld("Serotope");
     	
-    	if(replay.isInside(mouseX, mouseY)){
-    		replay.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.PLAYID);
-    		}
-    	}else{
-    		replay.decreaseSize(delta);
-    	}
-
-    	if(returnMainMenu.isInside(mouseX, mouseY)){
-    		returnMainMenu.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.MAINMENUID);
-    		}
-    	}else{
-    		returnMainMenu.decreaseSize(delta);
-    	}
-
+		for(Button button : buttonList)
+			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
+		
 	}
 
 	@Override

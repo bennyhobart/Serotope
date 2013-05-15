@@ -1,7 +1,5 @@
 package Menu;
 
-import java.awt.Font;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,9 +14,6 @@ public class SplashMenu extends BasicGameState {
 	private int id;
 	private static final String GAMETITLE = "assets/image/menus/SplashTitle.png";
 	private static final String STARTGAMEMESSAGE = "assets/image/menus/SplashText.png";
-	private static float ALPHAFORSTARTGAMEMESSAGE = 1;
-	private static boolean STARTGAMEMESSAGEFLASHSWITCH=true;
-	private static float STARTGAMEMESSAGEFLASHSPEED=(float) 1/850;
 	private Image title;
 	private Image text;
 	
@@ -47,8 +42,7 @@ public class SplashMenu extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		
-		fadestartmessage(delta);
+
 		if(gc.getInput().isKeyDown(InputManager.KeyStart)) {
 			sbg.enterState(gPanel.MAINMENUID);
 		}
@@ -60,25 +54,4 @@ public class SplashMenu extends BasicGameState {
 		return id;
 	}
 	
-	private void fadestartmessage(int delta) {
-		if(ALPHAFORSTARTGAMEMESSAGE>1||ALPHAFORSTARTGAMEMESSAGE<0) {
-			if(STARTGAMEMESSAGEFLASHSWITCH) {
-				ALPHAFORSTARTGAMEMESSAGE=0;
-			}
-			else{
-				ALPHAFORSTARTGAMEMESSAGE=1;
-			}
-			STARTGAMEMESSAGEFLASHSWITCH=!STARTGAMEMESSAGEFLASHSWITCH;
-		}
-	
-	
-		if(STARTGAMEMESSAGEFLASHSWITCH) {
-			ALPHAFORSTARTGAMEMESSAGE-=(float)delta*STARTGAMEMESSAGEFLASHSPEED;
-		}
-		else {
-			ALPHAFORSTARTGAMEMESSAGE+=(float)delta*STARTGAMEMESSAGEFLASHSPEED;
-
-		}
-	}
-
 }
