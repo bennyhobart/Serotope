@@ -1,6 +1,7 @@
 package Menu;
 
 
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +20,7 @@ public class AchievementsMenu extends BasicGameState {
 	
 	
 	private int id;
+	private TrueTypeFont scoreFont;
 	private BufferedReader reader;
 	private ArrayList<String> highscoreList;
 	private int highscoreListPosX;
@@ -34,6 +37,8 @@ public class AchievementsMenu extends BasicGameState {
 			throws SlickException{
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
+        scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 18), false);
+
 		try {
 			String hLine;
 			reader = new BufferedReader(new FileReader(Utils.HIGHSCOREFILE));
@@ -65,13 +70,15 @@ public class AchievementsMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		g.setFont(scoreFont);
+		
 		for(Heading heading : headingList)
 			heading.draw();
 		
 		int scorePosY = highscoreListPosY;
 		for(int i=0;i<highscoreList.size();i++){
 			g.drawString((i+1) + ".  " + highscoreList.get(i), highscoreListPosX, scorePosY);
-			scorePosY += 20;
+			scorePosY += Utils.SCOREBUFFER;
 		}
 	}
 

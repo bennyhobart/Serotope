@@ -56,12 +56,12 @@ public class gPanel extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		gc.setVSync(true);
+		this.enterState(SPLASHMENUID);
 		this.getState(MAINMENUID).init(gc,this);
 		this.getState(PLAYID).init(gc, this);
 		this.getState(HOWTOMENUID).init(gc,this);
 		this.getState(ACHIEVEMENTSMENUID).init(gc, this);
 		this.getState(SETTINGSMENUID).init(gc, this);
 		this.getState(GAMEOVERMENUID).init(gc, this);
-		this.enterState(SPLASHMENUID);
 	}
 }

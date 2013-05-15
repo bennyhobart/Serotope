@@ -1,12 +1,14 @@
 package Menu;
 
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -16,6 +18,7 @@ public class GameOverMenu extends BasicGameState {
 	
 	
 	private int id;
+	private TrueTypeFont scoreFont;
 	private ArrayList<Heading> headingsList;
 	private ArrayList<Button> buttonList;
 	private Button replay;
@@ -30,6 +33,7 @@ public class GameOverMenu extends BasicGameState {
 			throws SlickException {	
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
+        scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 48), false);
         
 		headingsList = new ArrayList<Heading>();
 		headingsList.add(new Heading(Utils.GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6));
@@ -48,7 +52,8 @@ public class GameOverMenu extends BasicGameState {
 		for(Heading heading : headingsList){
 			heading.draw();
 		}
-		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/2, gc.getHeight()/2);
+		g.setFont(scoreFont);
+		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/3+Utils.FSCOREBUFFER, gc.getHeight()/2-Utils.FSCOREBUFFER);
 	}
 
 	@Override
@@ -61,6 +66,7 @@ public class GameOverMenu extends BasicGameState {
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
 		Play.world = new GameWorld("Serotope");
+		GameWorld.setScore(0);
     	
 		for(Button button : buttonList)
 			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);

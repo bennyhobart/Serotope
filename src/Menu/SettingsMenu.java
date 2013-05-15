@@ -102,8 +102,8 @@ public class SettingsMenu extends BasicGameState {
 			heading.draw();
 		for(ControlBox boxi : controlList){
 			boxi.draw();
-			g.drawString(boxi.name, boxi.xpos+Utils.STRINGBUFFER, boxi.ypos+(boxi.img.getHeight()/2));
-			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+Utils.BOXBUFFER, boxi.ypos+boxi.img.getHeight()/2);
+			g.drawString(boxi.name, boxi.xpos+Utils.STRINGBUFFER, boxi.ypos+(boxi.img.getHeight()/2)-Utils.SETTINGSBUFFER);
+			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+Utils.BOXBUFFER, boxi.ypos+boxi.img.getHeight()/2-Utils.SETTINGSBUFFER);
 		}		
 		
 	}
