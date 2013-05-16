@@ -27,7 +27,7 @@ public class FightingState extends State<Creature> {
 		}
 		double lengthBetween = Utils.Utils.lengthBetween(target.getBody().getPosition(),target.behaviour.stateTarget.getBody().getPosition());
 		//if the distance between the creature and its target is greater than 8m the creature should cease fighting and return to wandering
-		if(lengthBetween>8) {
+		if(lengthBetween>10) {
 			target.behaviour.stateMachine.changeState(WanderState.getInstance());
 			return;
 		}

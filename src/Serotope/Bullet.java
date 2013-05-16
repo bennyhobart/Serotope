@@ -45,12 +45,22 @@ public class Bullet extends GameObject {
 		if (doomed) {
 			return;
 		}
-		if (attackType == Utils.rocketBullets) {
+		switch(attackType) {
+		case Utils.rocketBullets:
 			explode();
-		} else {
+			break;
+		case Utils.machineGunBullets:
+			new ExplosionEffect(getBody().getPosition(), 2, 20);
+			break;
+		case Utils.SINGLESHOT:
 			new ExplosionEffect(getBody().getPosition(), 3, 100);
+
+			break;
+		case Utils.SHOTGUN:
+			new ExplosionEffect(getBody().getPosition(), 3, 100);
+
+			break;
 		}
-		this.die();
 	}
 
 	@Override
