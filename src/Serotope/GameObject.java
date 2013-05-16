@@ -11,26 +11,30 @@ public abstract class GameObject {
 	protected Image image;
 	public int id;
 	private Body body;
-	boolean solid;
+	//boolean solid;
 	public boolean doomed;
 
 	protected GameObject(Vec2 position, Image image, boolean solid) {
 		doomed = false;
-		this.solid = solid;
+		//this.solid = solid;
 		GameWorld.getGameWorld().getGameObjects().add(this);
 		GameWorld.getGameWorld();
-		id = GameWorld.idnum++;
+		id = GameWorld.idNum++;
 		if (!solid) {
-			BodyDef bd = new BodyDef();
-			bd.fixedRotation = true;
-			bd.userData = this;
-			bd.awake=false;
-			bd.position.set(position);
-			setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
+			initialiseBodyDef(position);
 		}
 		this.image = image;
 	}
 
+	private void initialiseBodyDef(Vec2 position) {
+		BodyDef bd = new BodyDef();
+		bd.fixedRotation = true;
+		bd.userData = this;
+		bd.awake=false;
+		bd.position.set(position);
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
+	}
+	
 	abstract public void update(int delta, GameContainer gc);
 
 	void render(Graphics g, float xrender, float yrender) {

@@ -66,31 +66,18 @@ public class Creature extends GameObject {
 			GameWorld.getGameWorld().setPlayer(id);
 
 			// super creature for testing TODO delete!
-//			for (Gene gene : dna.getGenes()) {
-//				gene.setLeftAllele(true);
-//				gene.setRightAllele(true);
-//			}
-//			dna.buffCreature(this);
+			for (Gene gene : dna.getGenes()) {
+				gene.setLeftAllele(true);
+				gene.setRightAllele(true);
+			}
+			dna.buffCreature(this);
 
 		} else {
 			controller = new AIController(this);
 			behaviour = new CreatureBehaviours(this,
 					((AIController) controller).stateMachine);
 		}
-		switch (attackType) {
-		case Utils.shotgunBullets:
-			coolDown *= Utils.NUMSHOTGUNBULLETS;
-			break;
-		case Utils.machineGunBullets:
-			coolDown /= Utils.MACHINEGUNSPEED;
-			damage /= Utils.MACHINEGUNSPEED;
-			break;
-		case 3:
-			coolDown *= Utils.ROCKETLAUNCHERDAMAGE;
-			damage *= Utils.ROCKETLAUNCHERDAMAGE;
-		default:
-			break;
-		}
+		setupAttackType();
 	}
 
 	public Creature(Vec2 position, Controller controller, DNA dna)
@@ -118,23 +105,25 @@ public class Creature extends GameObject {
 
 		}
 
+		setupAttackType();
+
+	}
+
+	private void setupAttackType() {
 		switch (attackType) {
-		case Utils.shotgunBullets:
+		case Utils.SHOTGUN_BULLETS:
 			coolDown *= Utils.NUMSHOTGUNBULLETS;
 			break;
-		case Utils.machineGunBullets:
+		case Utils.MACHINE_GUN_BULLETS:
 			coolDown /= Utils.MACHINEGUNSPEED;
 			damage /= Utils.MACHINEGUNSPEED;
 			break;
 		case 3:
 			coolDown *= Utils.ROCKETLAUNCHERDAMAGE;
 			damage *= Utils.ROCKETLAUNCHERDAMAGE;
-			break;
-
 		default:
 			break;
 		}
-
 	}
 
 	@Override
@@ -152,14 +141,14 @@ public class Creature extends GameObject {
 				tired = false;
 			}
 		}
-		if(currShieldCooldown>=shieldCooldown) {
-			setCurrShield(getCurrShield() + (delta/1000f)*getHealth()*Utils.SHIELDRECHARGERATE);
-			if(getCurrShield()>health/2) {
-				setCurrShield(health/2);
+		if (currShieldCooldown >= shieldCooldown) {
+			setCurrShield(getCurrShield() + (delta / 1000f) * getHealth()
+					* Utils.SHIELDRECHARGERATE);
+			if (getCurrShield() > health / 2) {
+				setCurrShield(health / 2);
 			}
-		}
-		else {
-			currShieldCooldown+=delta;
+		} else {
+			currShieldCooldown += delta;
 		}
 	}
 
@@ -177,13 +166,13 @@ public class Creature extends GameObject {
 	}
 
 	public void hit(int damage) {
-		
+
 		if (shield) {
-			currShieldCooldown=0;
+			currShieldCooldown = 0;
 			setCurrShield(getCurrShield() - damage);
-			if(getCurrShield()<0) {
-				//shield didnt block all the damage
-				currHealth+=getCurrShield();
+			if (getCurrShield() < 0) {
+				// shield didnt block all the damage
+				currHealth += getCurrShield();
 				setCurrShield(0);
 			}
 			return;
@@ -201,10 +190,10 @@ public class Creature extends GameObject {
 			return;
 		}
 		switch (attackType) {
-		case Utils.defaultAttack:
+		case Utils.DEFAULT_ATTACK:
 			shootForward(direction);
 			break;
-		case Utils.shotgunBullets:
+		case Utils.SHOTGUN_BULLETS:
 			double angle = -(Utils.NUMSHOTGUNBULLETS - 1) * Math.PI
 					/ (Utils.bullet1Width * 2);
 			for (int i = 0; i < Utils.NUMSHOTGUNBULLETS; i++) {
@@ -212,10 +201,10 @@ public class Creature extends GameObject {
 				angle += Math.PI / (Utils.bullet1Width);
 			}
 			break;
-		case Utils.machineGunBullets:
+		case Utils.MACHINE_GUN_BULLETS:
 			shootForwardRandom(direction.mul(Utils.MACHINEGUNBULLETSPEED),
 					Utils.MACHINEGUNSPRAY);
-		case Utils.rocketBullets:
+		case Utils.ROCKET_BULLETS:
 			shootForward(direction.mul(Utils.ROCKETLAUNCHERSPEED));
 		}
 
@@ -241,7 +230,10 @@ public class Creature extends GameObject {
 		spawnLoc.addLocal(tempAdd);
 
 		try {
-			new Bullet(spawnLoc, velocity.mul(Utils.BULLETVELOCITY).add(getBody().getLinearVelocity().mul(Utils.BULLETVELOCITYINHERITENCE)), damage, id, attackType);
+			new Bullet(spawnLoc, velocity.mul(Utils.BULLET_VELOCITY).add(
+					getBody().getLinearVelocity().mul(
+							Utils.BULLET_VELOCITY_INHERITENCE)), damage, id,
+					attackType);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -262,7 +254,7 @@ public class Creature extends GameObject {
 			setSprinting(false);
 		}
 		if (isSprinting()) {
-			move.mulLocal(Utils.sprintModifier);
+			move.mulLocal(Utils.SPRINT_MODIFIER);
 		}
 		move.mulLocal((getTopSpeed() - getBody().getLinearVelocity().length())
 				* acceleration);
@@ -306,14 +298,15 @@ public class Creature extends GameObject {
 		super.render(g, xrender, yrender);
 		ArrayList<Gene> genes = this.getDna().getGenes();
 		for (Gene gene : genes) {
-			if(gene instanceof ShieldGene) {
-				if(!shield||currShield<=0) {
+			if (gene instanceof ShieldGene) {
+				if (!shield || currShield <= 0) {
 					continue;
 				}
 			}
 			if (gene.isExpressed()) {
-				if(gene.getCreatureTag()!=null) {
-					gene.getCreatureTag().setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
+				if (gene.getCreatureTag() != null) {
+					gene.getCreatureTag().setRotation(
+							(float) (-getBody().getAngle() * 180 / Math.PI));
 					gene.getCreatureTag().drawCentered(xrender, yrender);
 				}
 			}
@@ -345,38 +338,38 @@ public class Creature extends GameObject {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = dynamicCircle;
 		// density
-		fixtureDef.density = Utils.stamina;
+		fixtureDef.density = Utils.STAMINA;
 		getBody().createFixture(fixtureDef);
-		getBody().setLinearDamping(Utils.handling);
+		getBody().setLinearDamping(Utils.HANDLING);
 	}
 
 	private void initialiseStats() {
 		// movement
-		topSpeed = (Utils.topSpeed);
-		acceleration = Utils.acceleration;
-		handling = Utils.handling;
-		sprintTime = Utils.sprintTime;
+		topSpeed = (Utils.TOP_SPEED);
+		acceleration = Utils.ACCELERATION;
+		handling = Utils.HANDLING;
+		sprintTime = Utils.SPRINT_TIME;
 		currSprint = sprintTime;
-		sprintRestitution = Utils.sprintRestitution;
+		sprintRestitution = Utils.SPRINT_RESTITUTION;
 		// health
-		health = Utils.health;
+		health = Utils.HEALTH;
 		currHealth = health;
-		stamina = Utils.stamina;
-		shield = Utils.shield;
-		currShieldCooldown = Utils.shieldCooldown;
-		shieldCooldown = Utils.shieldCooldown;
+		stamina = Utils.STAMINA;
+		shield = Utils.SHIELD;
+		currShieldCooldown = Utils.SHIELD_COOLDOWN;
+		shieldCooldown = Utils.SHIELD_COOLDOWN;
 		// damage
-		damage = Utils.damage;
-		coolDown = Utils.cooldown;
+		damage = Utils.DAMAGE;
+		coolDown = Utils.COOLDOWN;
 		timeSinceLastAttack = coolDown;
-		attackType = Utils.attackType;
+		attackType = Utils.ATTACK_TYPE;
 	}
 
 	// Getters and Setters
 
 	public float getTopSpeed() {
 		if (isSprinting()) {
-			return topSpeed * Utils.sprintModifier;
+			return topSpeed * Utils.SPRINT_MODIFIER;
 		}
 		return topSpeed;
 	}
@@ -531,7 +524,8 @@ public class Creature extends GameObject {
 	}
 
 	/**
-	 * @param currShield the currShield to set
+	 * @param currShield
+	 *            the currShield to set
 	 */
 	public void setCurrShield(float currShield) {
 		this.currShield = currShield;

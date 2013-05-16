@@ -38,7 +38,6 @@ public class Overlay {
 		if (expressedGenes.isEmpty()) {
 			return;
 		}
-		// g.setColor(Color.red);
 		for (Gene gene : expressedGenes) {
 			gene.renderIcon(g, xRender, yRender);
 			if (gene.getIcon() != null) {

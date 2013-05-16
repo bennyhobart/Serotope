@@ -45,7 +45,7 @@ public class Bullet extends GameObject {
 		if (doomed) {
 			return;
 		}
-		if (attackType == Utils.rocketBullets) {
+		if (attackType == Utils.ROCKET_BULLETS) {
 			explode();
 		} else {
 			new ExplosionEffect(getBody().getPosition(), 3, 100);
@@ -90,7 +90,7 @@ public class Bullet extends GameObject {
 	}
 
 	private void explode() {
-		if (attackType != Utils.rocketBullets) {
+		if (attackType != Utils.ROCKET_BULLETS) {
 			return;
 		}
 		new ExplosionEffect(getBody().getPosition(), 15, 500);
