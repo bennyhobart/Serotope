@@ -147,26 +147,26 @@ public class Utils {
         public static final int bullet1Width = 16;
         //creature default stats
         //Move Variables
-        public static final float topSpeed=6;
-        public static final float acceleration=1f;
-        public static final float handling=1;
+        public static final float TOP_SPEED=6;
+        public static final float ACCELERATION=1f;
+        public static final float HANDLING=1;
         
-        public static final float sprintTime = 1000;
-        public static final float sprintRestitution = 0.5f;
-        public static final float sprintModifier=1.5f;
+        public static final float SPRINT_TIME = 1000;
+        public static final float SPRINT_RESTITUTION = 0.5f;
+        public static final float SPRINT_MODIFIER=1.5f;
         //Health Variables
-        public static final int health=600;
-        public static final float stamina=20;
-        public static final boolean shield=false;
+        public static final int HEALTH=600;
+        public static final float STAMINA=20;
+        public static final boolean SHIELD=false;
 		public static final float SHIELDRECHARGERATE = 0.05f;
-		public static int shieldCooldown = 5000;
+		public static int SHIELD_COOLDOWN = 5000;
 
         //Damage Variables
-        public static final int damage=20;
-        public static final int cooldown=300;
-        public static final int attackType=0;
-        public static final float BULLETVELOCITY = 8;
-		public static final float BULLETVELOCITYINHERITENCE = 0.3f;
+        public static final int DAMAGE=20;
+        public static final int COOLDOWN=300;
+        public static final int ATTACK_TYPE=0;
+        public static final float BULLET_VELOCITY = 8;
+		public static final float BULLET_VELOCITY_INHERITENCE = 0.3f;
 
         
         //AttackType Variables
@@ -226,10 +226,10 @@ public class Utils {
 		public static final int DAMAGE_BUFF = 2;
 		public static final int HANDLING_BUFF = 2;
 
-		public static final int defaultAttack = 0;
-		public static final int shotgunBullets = 1;
-		public static final int machineGunBullets = 2;
-		public static final int rocketBullets = 3;
+		public static final int DEFAULT_ATTACK = 0;
+		public static final int SHOTGUN_BULLETS = 1;
+		public static final int MACHINE_GUN_BULLETS = 2;
+		public static final int ROCKET_BULLETS = 3;
 
 		public static final int NUMPARTICLESEXPLOSION = 5;
 

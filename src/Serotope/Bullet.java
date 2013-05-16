@@ -61,6 +61,7 @@ public class Bullet extends GameObject {
 
 			break;
 		}
+		this.die();
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class Bullet extends GameObject {
 	}
 
 	private void explode() {
-		if (attackType != Utils.rocketBullets) {
+		if (attackType != Utils.ROCKET_BULLETS) {
 			return;
 		}
 		new ExplosionEffect(getBody().getPosition(), 15, 500);

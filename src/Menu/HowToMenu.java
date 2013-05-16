@@ -2,8 +2,6 @@ package Menu;
 
 import java.util.ArrayList;
 
-import javax.swing.JSlider;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -17,38 +15,23 @@ public class HowToMenu extends BasicGameState {
 	
 	
 	private int id;
-	private float goBackScale;
-	private final float enlarge = 0.0001f;
-	private static final String TITLE = "assets/image/menus/HowToTitle.png";
-	private static final String PREV = "assets/image/menus/HowToPrev.png";
-	private static final String NEXT = "assets/image/menus/HowToNext.png";
-	private static final String DUMMY = "assets/image/menus/HowToPages/DummyPage.png";
-	private static final int BUFFER = 20;
 	private static int pageNum;
 	private HowToPage currentPage;
 	private boolean showPrev;
 	private boolean showNext;
-	private int titlePosX;
-	private int titlePosY;
-	private int prevPosX;
-	private int prevPosY;
-	private int nextPosX;
-	private int nextPosY;
-	private int goBackPosX;
-	private int goBackPosY;
 	private int leftPosX;
 	private int leftPosY;
 	private int rightPosX;
 	private int rightPosY;
 	private int pageNumberX;
 	private int pageNumberY;	
-	private Image title;
-	private Image prev;
-	private Image next;
-	private Image dummy;
-	private Image goBack;
+	private ArrayList<Heading> headingList;
+	private Button goBack;
+	private Button prev;
+	private Button next;
 	private ArrayList<HowToPage> pageList;
 
+	//Helper class that holds the page number and left and right tutorial page images
 	public class HowToPage{
 		private String name;
 		private Image right;
@@ -68,30 +51,36 @@ public class HowToMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException{
+		//Sets background colour
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
-		title = new Image(TITLE);
-		next = new Image(NEXT);
-		prev = new Image(PREV);
-		dummy = new Image(DUMMY);
-		goBack = new Image(MainMenu.GOBACK);
-		titlePosX = gc.getWidth()/8;
-		titlePosY = gc.getHeight()/6;
-		nextPosX = gc.getWidth()-next.getWidth()-BUFFER;
-		nextPosY = gc.getHeight()/2;
-		prevPosX = 20;
-		prevPosY = gc.getHeight()/2;
-		leftPosX = prev.getWidth()+BUFFER*2;
+        
+        //Creates dummy images of the page arrows and tutorial screen images
+		Image nexti = new Image(Utils.HOWTONEXT);
+		Image previ = new Image(Utils.HOWTOPREV);
+		Image dummy = new Image(Utils.HOWTODUMMY);
+		
+		//Initialises the headings and buttons of this page
+		headingList = new ArrayList<Heading>();
+		headingList.add(new Heading(Utils.HOWTOTITLE,gc.getWidth()/8,gc.getHeight()/6));
+		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		//next and prev are not added to headingList since they are not always rendered
+		next = new Button(Utils.HOWTONEXT,gc.getWidth()-nexti.getWidth(),gc.getHeight()/2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
+		prev = new Button(Utils.HOWTOPREV,0,gc.getHeight()/2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
+		
+		//Helps with adjusting rendering positions
+		int adjust = gc.getWidth()/25;
+		
+		//Sets the rendering positions for the left and right tutorial images and page number
+		leftPosX = previ.getWidth()+adjust;
 		leftPosY = gc.getHeight()/3;
-		rightPosX = gc.getWidth()-dummy.getWidth()-next.getWidth()-BUFFER*2;
+		rightPosX = gc.getWidth()-dummy.getWidth()-nexti.getWidth()-adjust;
 		rightPosY = gc.getHeight()/3;
-		pageNumberX = gc.getWidth()/2-BUFFER*2;
+		pageNumberX = gc.getWidth()/2-adjust;
 		pageNumberY = gc.getHeight()/12*11;
-		goBackPosX = gc.getWidth()/8*7;
-		goBackPosY = gc.getHeight()/12*11;
-		goBackScale = 1;
 		pageNum = 0;
 		
+		//Creates a list of all the tutorial pages and sets the current page to the first
 		pageList = new ArrayList<HowToPage>();
 		pageList.add(currentPage = new HowToPage(dummy,dummy));
 		pageList.add(new HowToPage(dummy,dummy));
@@ -103,14 +92,19 @@ public class HowToMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		title.draw(titlePosX,titlePosY);
+		//Draws each of the page's headings and buttons
+		for(Heading heading : headingList)
+			heading.draw();
+		
+		//Checks if the page arrows need to be drawn and then does so
 		if(showNext){
-			next.draw(nextPosX,nextPosY);
+			next.draw();
 		}
 		if(showPrev){
-			prev.draw(prevPosX,prevPosY);
+			prev.draw();
 		}
-		goBack.draw(goBackPosX,goBackPosY,goBackScale);
+		
+		//Draws the current page of the tutorial to the screen and page number
 		currentPage.left.draw(leftPosX,leftPosY);
 		currentPage.right.draw(rightPosX,rightPosY);
 		g.drawString(currentPage.name + " of " + pageNum,pageNumberX,pageNumberY);
@@ -120,13 +114,28 @@ public class HowToMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Gets mouse co-oridnates and the current page number
 		int mouseX;
 		int mouseY;
-		int curPageNum;
-    	
+		int curPageNum; 	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
     	curPageNum = pageList.indexOf(currentPage);
+    	
+    	//Checks if the next or prev page buttons are pressed and changes the current page respectively if logical
+    	if(prev.isInside(mouseX, mouseY)){
+    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum-1 >= 0){
+    			currentPage = pageList.get(curPageNum-1);
+    		}
+    	}
+    	
+    	if(next.isInside(mouseX, mouseY)){
+    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum+1 < pageList.size()){
+    			currentPage = pageList.get(curPageNum+1);
+    		}
+    	}
+    	
+    	//Sets the page arrows to visible depending on the current page
     	if(curPageNum == 0)
     		showPrev = false;
     	else
@@ -136,40 +145,11 @@ public class HowToMenu extends BasicGameState {
     	else
     		showNext = true;
     	
-    	if(onButton(mouseX,mouseY,goBackPosX,goBackPosY,goBack)){
-    		if(goBackScale < 1.05f)
-    			goBackScale += enlarge * delta;
-    		
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.MAINMENUID);
-    		}
-    	}else{
-    		if(goBackScale > 1.0f)
-    			goBackScale -= enlarge *delta;
-    	}
-    	
-    	if(onButton(mouseX,mouseY,prevPosX,prevPosY,prev)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum-1 >= 0){
-    			currentPage = pageList.get(curPageNum-1);
-    		}
-    	}
-    	
-    	if(onButton(mouseX,mouseY,nextPosX,nextPosY,next)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum+1 < pageList.size()){
-    			currentPage = pageList.get(curPageNum+1);
-    		}
-    	}
+    	//Checks if the Go Back button is pressed and executes the action if so
+    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
     	
 	}
 	
-	private boolean onButton(int mouseX, int mouseY, int buttonX, int buttonY, Image button){
-    	if( ( mouseX >= buttonX && mouseX <= buttonX + button.getWidth()) &&
-    		    ( mouseY >= buttonY && mouseY <= buttonY + button.getHeight()) ){
-    		return true;
-    	}else
-    		return false;
-    	
-	}
 
 	@Override
 	public int getID() {

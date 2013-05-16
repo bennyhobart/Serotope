@@ -1,31 +1,26 @@
 package Menu;
 
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
+import Serotope.GameWorld;
 
 public class GameOverMenu extends BasicGameState {
 	
 	
 	private int id;
-	private final float startScale = 1;
-	private final float enlarge = 0.0001f;
-	private static final String GAMEOVERTITLE = "assets/image/menus/GameOverTitle.png";
-	private static final String FINALSCORE = "assets/image/menus/GameOverScore.png";
-	private static final String REPLAY = "assets/image/menus/GameOverReplay.png";
-	private static final String RETURNMAINMENU = "assets/image/menus/GameOverReturn.png";
+	private TrueTypeFont scoreFont;
 	private ArrayList<Heading> headingsList;
-	private Heading gameOver;
-	private Heading finalScore;
-	private ArrayList<Button> gameOverButtons;
+	private ArrayList<Button> buttonList;
 	private Button replay;
 	private Button returnMainMenu;
 
@@ -36,59 +31,57 @@ public class GameOverMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
+		//Sets background and font
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
-		gameOver = new Heading(GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6);
-		finalScore = new Heading(FINALSCORE,gc.getWidth()/8,gc.getHeight()/2);
-		replay = new Button(REPLAY,gc.getWidth()/8,gc.getHeight()/3*2,startScale,enlarge);
-		returnMainMenu = new Button(RETURNMAINMENU,gc.getWidth()/8,gc.getHeight()/6*5,startScale,enlarge);
-		gameOverButtons = new ArrayList<Button>();
+        scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 48), false);
+        
+        //Initialises page's headings and buttons and puts them into some respectively ArrayLists
 		headingsList = new ArrayList<Heading>();
-		gameOverButtons.add(replay);
-		gameOverButtons.add(returnMainMenu);
-		headingsList.add(gameOver);
-		headingsList.add(replay);
-		headingsList.add(returnMainMenu);
-		headingsList.add(finalScore);
+		headingsList.add(new Heading(Utils.GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6));
+		headingsList.add(replay = new Button(Utils.GAMEOVERREPLAY,gc.getWidth()/8,gc.getHeight()/3*2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
+		headingsList.add(returnMainMenu = new Button(Utils.GAMEOVERRETURNMAINMENU,gc.getWidth()/8,gc.getHeight()/6*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		headingsList.add(new Heading(Utils.GAMEOVERFINALSCORE,gc.getWidth()/8,gc.getHeight()/2));
+		buttonList = new ArrayList<Button>();
+		buttonList.add(replay);
+		buttonList.add(returnMainMenu);
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		//Helps for slight adjustments to rendering positions
+		int adjust = gc.getHeight()/70;
+		
+		//Draws all the headings and buttons
 		for(Heading heading : headingsList){
 			heading.draw();
 		}
+		
+		//Draws the Player's final score
+		g.setFont(scoreFont);
+		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/3+adjust, gc.getHeight()/2-adjust);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Gets mouse co-ordinates
 		int mouseX;
 		int mouseY;
-    	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
+		
+    	//Creates a new game and resets player's score
+    	Play.world = new GameWorld("Serotope");
+		GameWorld.setScore(0);
     	
-    	if(replay.isInside(mouseX, mouseY)){
-    		replay.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.PLAYID);
-    		}
-    	}else{
-    		replay.decreaseSize(delta);
-    	}
-
-    	if(returnMainMenu.isInside(mouseX, mouseY)){
-    		returnMainMenu.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.MAINMENUID);
-    		}
-    	}else{
-    		returnMainMenu.decreaseSize(delta);
-    	}
-
+		//Checks if a button is pressed and executes its action
+		for(Button button : buttonList)
+			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
+		
 	}
 
 	@Override
