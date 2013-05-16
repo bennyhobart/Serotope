@@ -225,7 +225,7 @@ public class Creature extends GameObject {
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
-		tempAdd.mulLocal(image.getWidth() / 2 + Utils.BULLETSIZES[attackType]);
+		tempAdd.mulLocal(image.getWidth() / 2 + Utils.BULLETIMAGES[attackType].getWidth());
 		tempAdd.mulLocal(1 / Utils.SCALE);
 		spawnLoc.addLocal(tempAdd);
 

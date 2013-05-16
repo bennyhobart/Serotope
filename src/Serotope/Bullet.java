@@ -46,10 +46,10 @@ public class Bullet extends GameObject {
 			return;
 		}
 		switch(attackType) {
-		case Utils.rocketBullets:
+		case Utils.ROCKET_BULLETS:
 			explode();
 			break;
-		case Utils.machineGunBullets:
+		case Utils.MACHINE_GUN_BULLETS:
 			new ExplosionEffect(getBody().getPosition(), 2, 20);
 			break;
 		case Utils.SINGLESHOT:

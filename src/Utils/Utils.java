@@ -69,7 +69,6 @@ public class Utils {
         public static Image rocketImage;
 		public static Image dnaImage;
         public static Image[] BULLETIMAGES;
-		public static final int[] BULLETSIZES = {8,16,8,32};
 		
 		//particles
 		public static Image BLUESPECKIMAGE;
