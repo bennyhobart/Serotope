@@ -18,6 +18,7 @@ public class SettingsMenu extends BasicGameState {
 	
 	
 	private int id;
+	static boolean changingKey= false;
 	private float maxVolume;
 	private int rectsLevel;
 	public static float volumeLevel;
@@ -32,6 +33,7 @@ public class SettingsMenu extends BasicGameState {
 	public class ControlBox extends Heading{
 		private String name;
 		private int curKey;
+		boolean changingKey=false;
 		public ControlBox(String n,int x,int y,String i, int k) throws SlickException{
 			super(i,x,y);
 			name = n;
@@ -66,6 +68,7 @@ public class SettingsMenu extends BasicGameState {
 			throws SlickException{
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
+        int buffer = gc.getHeight()/10;
 		
 		headingList = new ArrayList<Heading>();
 		headingList.add(new Heading(Utils.SETTINGSTITLE,gc.getWidth()/8,gc.getHeight()/6));
@@ -76,25 +79,17 @@ public class SettingsMenu extends BasicGameState {
 		headingList.add(incVol = new Button(Utils.SETTINGSINC,gc.getWidth()/14*13,gc.getHeight()/12*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
 		
 		controlList = new ArrayList<ControlBox>();
-		controlList.add(new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.MoveLeft));
-		controlList.add(new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.MoveRight));
-		controlList.add(new ControlBox("Move Up",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*3,Utils.SETTINGSBOX,InputManager.MoveUp));
-		controlList.add(new ControlBox("Move Down",gc.getWidth()/8,gc.getHeight()/2+Utils.BUFFER*4,Utils.SETTINGSBOX,InputManager.MoveDown));
-		controlList.add(new ControlBox("Shoot Left",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.ShootLeft));
-		controlList.add(new ControlBox("Shoot Right",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.ShootRight));
-		controlList.add(new ControlBox("Shoot Up",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*3,Utils.SETTINGSBOX,InputManager.ShootUp));
-		controlList.add(new ControlBox("Shoot Down",gc.getWidth()/8*3,gc.getHeight()/2+Utils.BUFFER*4,Utils.SETTINGSBOX,InputManager.ShootDown));
-		controlList.add(new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER,Utils.SETTINGSBOX,InputManager.KeyEscape));
-		controlList.add(new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+Utils.BUFFER*2,Utils.SETTINGSBOX,InputManager.KeySprint));
+		controlList.add(new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+buffer,Utils.SETTINGSBOX,InputManager.MoveLeftRef));
+		controlList.add(new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+buffer*2,Utils.SETTINGSBOX,InputManager.MoveRightRef));
+		controlList.add(new ControlBox("Move Up",gc.getWidth()/8,gc.getHeight()/2+buffer*3,Utils.SETTINGSBOX,InputManager.MoveUpRef));
+		controlList.add(new ControlBox("Move Down",gc.getWidth()/8,gc.getHeight()/2+buffer*4,Utils.SETTINGSBOX,InputManager.MoveDownRef));
+		controlList.add(new ControlBox("Shoot Left",gc.getWidth()/8*3,gc.getHeight()/2+buffer,Utils.SETTINGSBOX,InputManager.ShootLeftRef));
+		controlList.add(new ControlBox("Shoot Right",gc.getWidth()/8*3,gc.getHeight()/2+buffer*2,Utils.SETTINGSBOX,InputManager.ShootRightRef));
+		controlList.add(new ControlBox("Shoot Up",gc.getWidth()/8*3,gc.getHeight()/2+buffer*3,Utils.SETTINGSBOX,InputManager.ShootUpRef));
+		controlList.add(new ControlBox("Shoot Down",gc.getWidth()/8*3,gc.getHeight()/2+buffer*4,Utils.SETTINGSBOX,InputManager.ShootDownRef));
+		controlList.add(new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+buffer,Utils.SETTINGSBOX,InputManager.PauseRef));
+		controlList.add(new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+buffer*2,Utils.SETTINGSBOX,InputManager.SprintRef));
 
-		/*
-		volumeLevel = Utils.VOL_MAX;
-		volumeSlider = new JSlider(Utils.VOL_MIN,Utils.VOL_MAX,volumeLevel);
-		volumeSlider.setMajorTickSpacing(10);
-		volumeSlider.setPaintTicks(true);
-		volumeSlider.addChangeListener(new VolumeChanged());
-		*/
-		
 		maxVolume = gc.getSoundVolume();
 		rectsLevel = 10;		
 		
@@ -103,12 +98,13 @@ public class SettingsMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		int adjust = gc.getHeight()/70;
 		for(Heading heading : headingList)
 			heading.draw();
 		for(ControlBox boxi : controlList){
 			boxi.draw();
-			g.drawString(boxi.name, boxi.xpos+Utils.STRINGBUFFER, boxi.ypos+(boxi.img.getHeight()/2)-Utils.SETTINGSBUFFER);
-			g.drawString(Input.getKeyName(boxi.curKey), boxi.xpos+Utils.BOXBUFFER, boxi.ypos+boxi.img.getHeight()/2-Utils.SETTINGSBUFFER);
+			g.drawString(boxi.name, boxi.xpos+gc.getWidth()/10, boxi.ypos+boxi.img.getHeight()/2-adjust);
+			g.drawString(InputManager.returnkey(boxi.curKey), boxi.xpos+adjust, boxi.ypos+boxi.img.getHeight()/2-adjust);
 		}		
 		
 		g.setColor(Color.blue);
@@ -156,9 +152,16 @@ public class SettingsMenu extends BasicGameState {
     		}
     	}
     	
-    	for(ControlBox control : controlList)
+    	for(ControlBox control : controlList) {
     		changeControl(control, mouseX, mouseY, gc);
-    	
+    		if(control.changingKey) {
+    			int newKey = InputManager.returnKeyPressed(gc.getInput());
+				if(newKey != -1){
+					control.changingKey=false;
+					InputManager.changeKey(control.curKey, newKey);
+				}
+    		}
+    	}
 	}
 	
 	@Override
@@ -167,14 +170,9 @@ public class SettingsMenu extends BasicGameState {
 	}
 	
 	private static void changeControl(ControlBox control, int x, int y, GameContainer gc){
-		int newKey;
 		if(control.isInside(x, y)){
 			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				newKey = InputManager.returnKeyPressed(gc.getInput());
-				if(newKey != -1){
-					InputManager.KeyEscape = newKey;
-					control.curKey = newKey;
-				}
+				control.changingKey=true;
 			}
 		}
 	}

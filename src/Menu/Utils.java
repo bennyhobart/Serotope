@@ -5,15 +5,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Utils {
-	public static final int VOL_MIN = 0;
-	public static final int VOL_MAX = 100;
-	public static final int BUFFER = 60;
-	public static final int STRINGBUFFER = 100;
-	public static final int BOXBUFFER = 10;
-	public static final int ARROWBUFFER = 20;
-	public static final int FSCOREBUFFER = 10;
-	public static final int SCOREBUFFER = 30;
-	public static final int SETTINGSBUFFER = 10;
 	public static final float ENLARGE = 0.0001f;
 	public static final float STARTSCALE = 1f;
 	public static final String HIGHSCOREFILE = "assets/data/highscores.txt";

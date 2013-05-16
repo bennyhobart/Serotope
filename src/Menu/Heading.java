@@ -3,6 +3,7 @@ package Menu;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+//Helper class for all the game's headings
 public class Heading {
 
 	Image img;
@@ -16,6 +17,7 @@ public class Heading {
 				
 	}
 	
+	//Draws Headings image to the screen
 	public void draw(){
 		img.draw(xpos,ypos);
 	}

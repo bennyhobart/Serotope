@@ -17,6 +17,17 @@ public class InputManager {
 	static int KeyStart;
 	static int KeySprint;
 	
+	static final int  MoveRightRef = 1;
+	static final int MoveDownRef = 2;
+	static final int MoveUpRef = 3;
+	static final int MoveLeftRef = 4;
+	static final int ShootRightRef = 5;
+	static final int ShootDownRef = 6;
+	static final int ShootUpRef = 7;
+	static final int ShootLeftRef = 8;
+	static final int SprintRef = 9;
+	static final int PauseRef = 10;
+	
 	public static boolean isSprint;
 	public static boolean isMoveRight;
 	public static boolean isMoveDown;
@@ -50,6 +61,48 @@ public class InputManager {
 		KeyStart = Keyboard.KEY_RETURN;
 		KeySprint = Keyboard.KEY_LSHIFT;
 	}
+	
+	static void changeKey(int from, int to) {
+		switch(from) {
+		case MoveRightRef: MoveRight = to;
+		break;
+		case MoveDownRef: MoveDown = to;
+		break;
+		case MoveUpRef: MoveUp = to;
+		break;
+		case MoveLeftRef: MoveLeft = to;
+		break;
+		case ShootRightRef: ShootRight = to;
+		break;
+		case ShootDownRef: ShootDown = to;
+		break;
+		case ShootUpRef: ShootUp = to;
+		break;
+		case ShootLeftRef: ShootLeft = to;
+		break;
+		case SprintRef: KeySprint = to;
+		break;
+		case PauseRef: KeyEscape = to;
+		
+		}
+	}
+	
+	static String returnkey(int ref){
+		switch(ref) {
+		case MoveRightRef: return Keyboard.getKeyName(MoveRight);
+		case MoveDownRef: return Keyboard.getKeyName(MoveDown);
+		case MoveUpRef: return Keyboard.getKeyName(MoveUp);
+		case MoveLeftRef: return Keyboard.getKeyName(MoveLeft);
+		case ShootRightRef: return Keyboard.getKeyName(ShootRight);
+		case ShootDownRef: return Keyboard.getKeyName(ShootDown);
+		case ShootUpRef: return Keyboard.getKeyName(ShootUp);
+		case ShootLeftRef: return Keyboard.getKeyName(ShootLeft);
+		case SprintRef: return Keyboard.getKeyName(KeySprint);
+		case PauseRef: return Keyboard.getKeyName(KeyEscape);
+		}
+		return "";
+	}
+	
 	public static void update(GameContainer gc) {
 		//input
 		if(gc.getInput().isKeyDown(MoveRight)) {

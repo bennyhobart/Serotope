@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
@@ -35,10 +34,12 @@ public class AchievementsMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException{
+		//Set background colour to black and font.
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
         scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 18), false);
 
+        //Read in the highscores from the text file
 		try {
 			String hLine;
 			reader = new BufferedReader(new FileReader(Utils.HIGHSCOREFILE));
@@ -57,8 +58,10 @@ public class AchievementsMenu extends BasicGameState {
 			}
 		}
 
+		//Set rendering co-ordinates for highscores
 		highscoreListPosX = gc.getWidth()/8;
 		highscoreListPosY = gc.getHeight()/2;
+		//Initialise page headings and buttons
 		headingList = new ArrayList<Heading>();
 		headingList.add(new Heading(Utils.ACHIEVEMENTSTITLE,gc.getWidth()/8,gc.getHeight()/6));
 		headingList.add(new Heading(Utils.ACHIEVEMENTSHIGHSCORE,gc.getWidth()/8,gc.getHeight()/3));
@@ -72,13 +75,15 @@ public class AchievementsMenu extends BasicGameState {
 			throws SlickException {
 		g.setFont(scoreFont);
 		
+		//Draw each heading and button onto the page
 		for(Heading heading : headingList)
 			heading.draw();
 		
+		//Draw each highscore on the page in their ranked order
 		int scorePosY = highscoreListPosY;
 		for(int i=0;i<highscoreList.size();i++){
 			g.drawString((i+1) + ".  " + highscoreList.get(i), highscoreListPosX, scorePosY);
-			scorePosY += Utils.SCOREBUFFER;
+			scorePosY += gc.getHeight()/20;
 		}
 	}
 
@@ -86,19 +91,14 @@ public class AchievementsMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Get mouse co-ordinates
 		int mouseX;
 		int mouseY;    	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
 
-    	if(goBack.isInside(mouseX, mouseY)){
-    		goBack.increaseSize(delta);
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    			sbg.enterState(gPanel.MAINMENUID);
-    		}
-    	}else{
-    		goBack.decreaseSize(delta);
-    	}
+    	//Check if button has been pressed and execute action if so
+    	Utils.buttonPressed(mouseX, mouseX, mouseY, goBack, gc, sbg);
     	
 	}
 

@@ -30,8 +30,11 @@ public class MainMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
-        Color background = new Color(Color.black);
+        //Set background colour
+		Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background); 
+        
+        //Intialise page's headings and buttons and put it in their respective lists
 		headingList = new ArrayList<Heading>();
 		headingList.add(new Heading(Utils.MAINTITLE,gc.getWidth()/8,gc.getHeight()/6));
 		headingList.add(play = new Button(Utils.MAINPLAY,gc.getWidth()/8,gc.getHeight()/3,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
@@ -50,6 +53,7 @@ public class MainMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		//Draw all the headings and buttons on the page
 		for(Heading heading : headingList)
 			heading.draw();
 	}
@@ -58,18 +62,22 @@ public class MainMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Get the mouse's co-ordinates
 		int mouseX;
 		int mouseY;
-    	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
     	
     	for(Button button : buttonList)
     		Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
     	
-    	if(quit.isInside(mouseX, mouseY) && gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-    		gc.exit();
-    	}
+    	if(quit.isInside(mouseX, mouseY)){
+    		quit.increaseSize(delta);
+    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+    			gc.exit();
+    		}
+    	}else
+    		quit.decreaseSize(delta);
 
 	}
 

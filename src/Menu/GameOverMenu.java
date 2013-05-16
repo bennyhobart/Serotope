@@ -31,10 +31,12 @@ public class GameOverMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {	
+		//Sets background and font
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
         scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 48), false);
         
+        //Initialises page's headings and buttons and puts them into some respectively ArrayLists
 		headingsList = new ArrayList<Heading>();
 		headingsList.add(new Heading(Utils.GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6));
 		headingsList.add(replay = new Button(Utils.GAMEOVERREPLAY,gc.getWidth()/8,gc.getHeight()/3*2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
@@ -49,25 +51,34 @@ public class GameOverMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		//Helps for slight adjustments to rendering positions
+		int adjust = gc.getHeight()/70;
+		
+		//Draws all the headings and buttons
 		for(Heading heading : headingsList){
 			heading.draw();
 		}
+		
+		//Draws the Player's final score
 		g.setFont(scoreFont);
-		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/3+Utils.FSCOREBUFFER, gc.getHeight()/2-Utils.FSCOREBUFFER);
+		g.drawString(Integer.toString(Play.gameScore), gc.getWidth()/3+adjust, gc.getHeight()/2-adjust);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Gets mouse co-ordinates
 		int mouseX;
 		int mouseY;
-    	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
-		Play.world = new GameWorld("Serotope");
+		
+    	//Creates a new game and resets player's score
+    	Play.world = new GameWorld("Serotope");
 		GameWorld.setScore(0);
     	
+		//Checks if a button is pressed and executes its action
 		for(Button button : buttonList)
 			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
 		
