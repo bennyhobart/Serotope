@@ -13,6 +13,7 @@ public class Play extends BasicGameState {
 	static GameWorld world;
 	private int id;
 	public static int gameScore;
+	public static int rank;
 
 	public Play(int id) {
 		this.id=id;
@@ -40,7 +41,14 @@ public class Play extends BasicGameState {
 		world.update(delta, gc);
 		gameScore = world.getScore();
 		if(world.getPlayer().doomed){
-			sbg.enterState(gPanel.GAMEOVERMENUID);
+			if(gPanel.highscores.size() == 0 || gameScore >= gPanel.highscores.get(gPanel.highscores.size()-1).getScore()){
+				for(int i=0;i<gPanel.highscores.size();i++){
+		    		if(gameScore > gPanel.highscores.get(i).getScore())
+		    			rank = i;
+		    	}
+				sbg.enterState(gPanel.ENTERSCOREID);
+			}else
+				sbg.enterState(gPanel.GAMEOVERMENUID);
 		}
 	}
 

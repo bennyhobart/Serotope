@@ -392,4 +392,83 @@ public class InputManager {
 			return -1;
 	}
 	
+	public static int returnLetterPressed(Input input){
+		if(input.isKeyPressed(Keyboard.KEY_BACK))
+			return Keyboard.KEY_BACK;
+		else if(input.isKeyPressed(Keyboard.KEY_0))
+			return Keyboard.KEY_0;
+		else if(input.isKeyPressed(Keyboard.KEY_1))
+			return Keyboard.KEY_1;
+		else if(input.isKeyPressed(Keyboard.KEY_2))
+			return Keyboard.KEY_2;
+		else if(input.isKeyPressed(Keyboard.KEY_3))
+			return Keyboard.KEY_3;
+		else if(input.isKeyPressed(Keyboard.KEY_4))
+			return Keyboard.KEY_4;
+		else if(input.isKeyPressed(Keyboard.KEY_5))
+			return Keyboard.KEY_5;
+		else if(input.isKeyPressed(Keyboard.KEY_6))
+			return Keyboard.KEY_6;
+		else if(input.isKeyPressed(Keyboard.KEY_7))
+			return Keyboard.KEY_7;
+		else if(input.isKeyPressed(Keyboard.KEY_8))
+			return Keyboard.KEY_8;
+		else if(input.isKeyPressed(Keyboard.KEY_9))
+			return Keyboard.KEY_9;
+		else if(input.isKeyPressed(Keyboard.KEY_Q))
+			return Keyboard.KEY_Q;
+		else if(input.isKeyPressed(Keyboard.KEY_W))
+			return Keyboard.KEY_W;
+		else if(input.isKeyPressed(Keyboard.KEY_E))
+			return Keyboard.KEY_E;
+		else if(input.isKeyPressed(Keyboard.KEY_R))
+			return Keyboard.KEY_R;
+		else if(input.isKeyPressed(Keyboard.KEY_T))
+			return Keyboard.KEY_T;
+		else if(input.isKeyPressed(Keyboard.KEY_Y))
+			return Keyboard.KEY_Y;
+		else if(input.isKeyPressed(Keyboard.KEY_U))
+			return Keyboard.KEY_U;
+		else if(input.isKeyPressed(Keyboard.KEY_I))
+			return Keyboard.KEY_I;
+		else if(input.isKeyPressed(Keyboard.KEY_O))
+			return Keyboard.KEY_O;
+		else if(input.isKeyPressed(Keyboard.KEY_P))
+			return Keyboard.KEY_P;
+		else if(input.isKeyPressed(Keyboard.KEY_A))
+			return Keyboard.KEY_A;
+		else if(input.isKeyPressed(Keyboard.KEY_S))
+			return Keyboard.KEY_S;
+		else if(input.isKeyPressed(Keyboard.KEY_D))
+			return Keyboard.KEY_D;
+		else if(input.isKeyPressed(Keyboard.KEY_F))
+			return Keyboard.KEY_F;
+		else if(input.isKeyPressed(Keyboard.KEY_G))
+			return Keyboard.KEY_G;
+		else if(input.isKeyPressed(Keyboard.KEY_H))
+			return Keyboard.KEY_H;
+		else if(input.isKeyPressed(Keyboard.KEY_J))
+			return Keyboard.KEY_J;
+		else if(input.isKeyPressed(Keyboard.KEY_K))
+			return Keyboard.KEY_K;
+		else if(input.isKeyPressed(Keyboard.KEY_L))
+			return Keyboard.KEY_L;
+		else if(input.isKeyPressed(Keyboard.KEY_Z))
+			return Keyboard.KEY_Z;
+		else if(input.isKeyPressed(Keyboard.KEY_X))
+			return Keyboard.KEY_X;
+		else if(input.isKeyPressed(Keyboard.KEY_C))
+			return Keyboard.KEY_C;
+		else if(input.isKeyPressed(Keyboard.KEY_V))
+			return Keyboard.KEY_V;
+		else if(input.isKeyPressed(Keyboard.KEY_B))
+			return Keyboard.KEY_B;
+		else if(input.isKeyPressed(Keyboard.KEY_N))
+			return Keyboard.KEY_N;
+		else if(input.isKeyPressed(Keyboard.KEY_M))
+			return Keyboard.KEY_M;
+		else
+			return -1;
+	}
+	
 }

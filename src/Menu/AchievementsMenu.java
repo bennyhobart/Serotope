@@ -19,9 +19,7 @@ public class AchievementsMenu extends BasicGameState {
 	
 	
 	private int id;
-	private TrueTypeFont scoreFont;
-	private BufferedReader reader;
-	private ArrayList<String> highscoreList;
+	private Font scoreFont;
 	private int highscoreListPosX;
 	private int highscoreListPosY;
 	private ArrayList<Heading> headingList;
@@ -37,26 +35,7 @@ public class AchievementsMenu extends BasicGameState {
 		//Set background colour to black and font.
         Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
-        scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 18), false);
-
-        //Read in the highscores from the text file
-		try {
-			String hLine;
-			reader = new BufferedReader(new FileReader(Utils.HIGHSCOREFILE));
-			highscoreList = new ArrayList<String>();
-			while((hLine = reader.readLine()) != null){
-				highscoreList.add(hLine);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(reader != null)
-					reader.close();
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-		}
+        scoreFont = new Font("Verdana", Font.BOLD, 18);
 
 		//Set rendering co-ordinates for highscores
 		highscoreListPosX = gc.getWidth()/8;
@@ -73,7 +52,7 @@ public class AchievementsMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		g.setFont(scoreFont);
+		g.setFont(new TrueTypeFont(scoreFont,false));
 		
 		//Draw each heading and button onto the page
 		for(Heading heading : headingList)
@@ -81,8 +60,10 @@ public class AchievementsMenu extends BasicGameState {
 		
 		//Draw each highscore on the page in their ranked order
 		int scorePosY = highscoreListPosY;
-		for(int i=0;i<highscoreList.size();i++){
-			g.drawString((i+1) + ".  " + highscoreList.get(i), highscoreListPosX, scorePosY);
+		int rank = 1;
+		for(Highscore highscore : gPanel.highscores){
+			highscore.drawLine(highscoreListPosX, scorePosY, rank, g);
+			rank++;
 			scorePosY += gc.getHeight()/20;
 		}
 	}
@@ -98,7 +79,7 @@ public class AchievementsMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY();
 
     	//Check if button has been pressed and execute action if so
-    	Utils.buttonPressed(mouseX, mouseX, mouseY, goBack, gc, sbg);
+    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
     	
 	}
 

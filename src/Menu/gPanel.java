@@ -1,4 +1,9 @@
 package Menu;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -16,18 +21,18 @@ public class gPanel extends StateBasedGame
 	public static final int ACHIEVEMENTSMENUID = 4;
 	public static final int SETTINGSMENUID = 5;
 	public static final int GAMEOVERMENUID = 6;
+	public static final int ENTERSCOREID = 7;
 	
 	public static final int PWIDTH = 1100;
 	public static final int PHEIGHT=700;
 	public static final int FPS = 60;
-	
-	
-	
+		
+	public static ArrayList<Highscore> highscores;
 	public static InputManager Input;
-	
 	
 	public static void main(String[] args) {
 		try {
+			readInHighscores();
 			AppGameContainer app = new AppGameContainer(new gPanel());
 			app.setDisplayMode(PWIDTH, PHEIGHT, false);
 			Input = new InputManager(app); 
@@ -38,6 +43,28 @@ public class gPanel extends StateBasedGame
 		}
 		catch(SlickException e) {
 			e.printStackTrace();
+		}
+	}	
+		
+	private static void readInHighscores(){
+		BufferedReader reader = null;
+		String nameLine, scoreLine;
+		//Read in the highscores from the text file
+		try {
+			reader = new BufferedReader(new FileReader(Utils.HIGHSCOREFILE));
+			highscores = new ArrayList<Highscore>();
+			while((nameLine = reader.readLine()) != null && (scoreLine = reader.readLine()) != null){
+				highscores.add(new Highscore(nameLine,scoreLine));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(reader != null)
+					reader.close();
+			} catch (IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -50,6 +77,7 @@ public class gPanel extends StateBasedGame
 		this.addState(new AchievementsMenu(ACHIEVEMENTSMENUID));
 		this.addState(new SettingsMenu(SETTINGSMENUID));
 		this.addState(new GameOverMenu(GAMEOVERMENUID));
+		this.addState(new EnterHighscore(ENTERSCOREID));
 	}
 	
 	
@@ -63,5 +91,6 @@ public class gPanel extends StateBasedGame
 		this.getState(ACHIEVEMENTSMENUID).init(gc, this);
 		this.getState(SETTINGSMENUID).init(gc, this);
 		this.getState(GAMEOVERMENUID).init(gc, this);
+		this.getState(ENTERSCOREID).init(gc, this);
 	}
 }
