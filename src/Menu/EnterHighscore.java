@@ -82,7 +82,7 @@ public class EnterHighscore extends BasicGameState{
 					writer = new BufferedWriter(new FileWriter(Utils.HIGHSCOREFILE));
 					gPanel.highscores.add(Play.rank, new Highscore(name,gameScore));
 					if(gPanel.highscores.size() > Utils.MAXHIGHSCORES)
-						gPanel.highscores.remove(gPanel.highscores.size());
+						gPanel.highscores.remove(gPanel.highscores.size()-1);
 					for(Highscore score : gPanel.highscores){
 						writer.write(score.getName());
 						writer.newLine();
