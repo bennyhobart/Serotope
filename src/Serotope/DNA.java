@@ -68,7 +68,7 @@ public class DNA extends GameObject {
 		getBody().setFixedRotation(true);
 
 	}
-
+	
 	public void buffCreature(Creature creature) {
 		for (Gene gene : genes) {
 			gene.buffCreature(creature);

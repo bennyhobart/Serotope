@@ -40,17 +40,14 @@ public class Play extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		rank = 0;
-		ArrayList<Highscore> highscores = gPanel.database.getHighscore();
 		world.update(delta, gc);
-		gameScore = world.getScore();
 		if(world.getPlayer().doomed){
+			gPanel.database.updateAchievements(GameWorld.gameStats);
+			gameScore = world.getScore();
+			rank = 0;
+			ArrayList<Highscore> highscores = gPanel.database.getHighscore();
 			if(highscores.size() < Utils.MAXHIGHSCORES || gameScore >= highscores.get(highscores.size()-1).getScore()){
-				for(Highscore score : highscores){
-		    		if(gameScore > score.getScore())
-		    			break;
-		    		rank++;
-		    	}
+				rank = gPanel.database.calcRank(gameScore);
 				sbg.enterState(gPanel.ENTERSCOREID);
 			}else
 				sbg.enterState(gPanel.GAMEOVERMENUID);

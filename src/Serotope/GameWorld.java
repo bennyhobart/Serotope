@@ -25,6 +25,7 @@ public class GameWorld {
 	private static ArrayList<GameObject> gameObjects;
 	private static Camera focus;
 	static int idNum = 0;
+	public static GameStats gameStats;
 	private static Random randomGenerator;
 	private static int playerId;
 	private Overlay ui;
@@ -38,6 +39,7 @@ public class GameWorld {
 	}
 
 	public GameWorld(String string) {
+		gameStats = new GameStats();
 		try {
 			Utils.initImages();
 		} catch (SlickException e2) {
@@ -178,6 +180,7 @@ public class GameWorld {
 
 	public boolean setPlayer(int id) {
 		playerId = id;
+		gameStats.incrementGenerations();
 		for (int i = 0; i < gameObjects.size(); i++) {
 			if (gameObjects.get(i).id == playerId) {
 				player = (Creature) gameObjects.get(i);

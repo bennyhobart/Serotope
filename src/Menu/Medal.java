@@ -66,19 +66,19 @@ public class Medal {
 	}
 	
 	public void updateMedal(){
-		if(current>platinum){
+		if(current>=platinum){
 			platinumUnlocked = true;
 			goldUnlocked = true;
 			silverUnlocked = true;
 			bronzeUnlocked = true;
-		}else if(current>gold){
+		}else if(current>=gold){
 			goldUnlocked = true;
 			silverUnlocked = true;
 			bronzeUnlocked = true;
-		}else if(current>silver){
+		}else if(current>=silver){
 			silverUnlocked = true;
 			bronzeUnlocked = true;
-		}else if(current>bronze)
+		}else if(current>=bronze)
 			bronzeUnlocked = true;
 	}
 	

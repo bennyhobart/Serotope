@@ -131,6 +131,7 @@ public class Creature extends GameObject {
 		controller.update(delta);
 		if (currHealth <= 0) {
 			die();
+			GameWorld.gameStats.incrementEnemiesKilled();
 		}
 		timeSinceLastAttack += delta;
 		if (isSprinting()) {

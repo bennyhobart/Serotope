@@ -194,6 +194,16 @@ public class SerotopeData {
     	}
 	}
 	
+	public int calcRank(int gameScore){
+		int rank = 0;
+		for(Highscore score : highscores){
+    		if(gameScore > score.getScore())
+    			break;
+    		rank++;
+    	}
+		return rank;
+	}
+	
 	public ArrayList<Highscore> getHighscore(){
 		return highscores;
 	}
