@@ -27,12 +27,12 @@ public class gPanel extends StateBasedGame
 	public static final int PHEIGHT=700;
 	public static final int FPS = 60;
 		
-	public static ArrayList<Highscore> highscores;
+	public static SerotopeData database;
 	public static InputManager Input;
 	
 	public static void main(String[] args) {
 		try {
-			readInHighscores();
+			database = SerotopeData.getInstance(Utils.HIGHSCOREFILE,Utils.ACHIEVEMENTSFILE,Utils.CURRENTSTATSFILE);
 			AppGameContainer app = new AppGameContainer(new gPanel());
 			app.setDisplayMode(PWIDTH, PHEIGHT, false);
 			Input = new InputManager(app); 
@@ -45,28 +45,6 @@ public class gPanel extends StateBasedGame
 			e.printStackTrace();
 		}
 	}	
-		
-	private static void readInHighscores(){
-		BufferedReader reader = null;
-		String nameLine, scoreLine;
-		//Read in the highscores from the text file
-		try {
-			reader = new BufferedReader(new FileReader(Utils.HIGHSCOREFILE));
-			highscores = new ArrayList<Highscore>();
-			while((nameLine = reader.readLine()) != null && (scoreLine = reader.readLine()) != null){
-				highscores.add(new Highscore(nameLine,scoreLine));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(reader != null)
-					reader.close();
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	public gPanel(){
 		super(gameName+ " " +VERSION );

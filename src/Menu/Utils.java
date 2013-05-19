@@ -12,10 +12,17 @@ public class Utils {
 	public static final int SPACING = gPanel.PWIDTH/6;
 	public static final int MAXHIGHSCORES = 10;
 	public static final String HIGHSCOREFILE = "assets/data/highscores.txt";
+	public static final String ACHIEVEMENTSFILE = "assets/data/medals.txt";
+	public static final String BRONZEMEDAL = "assets/image/menus/BronzeMedal.png";
+	public static final String SILVERMEDAL = "assets/image/menus/SilverMedal.png";
+	public static final String GOLDMEDAL = "assets/image/menus/GoldMedal.png";
+	public static final String PLATINUMMEDAL = "assets/image/menus/PlatinumMedal.png";
+	public static final String CURRENTSTATSFILE = "assets/data/curStats.txt";
 	public static final String GOBACK = "assets/image/menus/GoBack.png";
 	public static final String ACHIEVEMENTSTITLE = "assets/image/menus/AchievementsTitle.png";
 	public static final String ACHIEVEMENTSHIGHSCORE = "assets/image/menus/AchievementsHighscore.png";
 	public static final String ACHIEVEMENTSMEDAL = "assets/image/menus/AchievementsMedal.png";
+	public static final String ACHIEVEMENTSLOCKED = "assets/image/menus/AchievementsLocked.png";
 	public static final String SETTINGSTITLE = "assets/image/menus/SettingsTitle.png";
 	public static final String SETTINGSBOX = "assets/image/menus/SettingsBox.png";
 	public static final String SETTINGSVOLUME = "assets/image/menus/SettingsVolume.png";

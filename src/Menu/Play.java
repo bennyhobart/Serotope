@@ -2,6 +2,8 @@ package Menu;
 
 
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -39,11 +41,12 @@ public class Play extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		rank = 0;
+		ArrayList<Highscore> highscores = gPanel.database.getHighscore();
 		world.update(delta, gc);
 		gameScore = world.getScore();
 		if(world.getPlayer().doomed){
-			if(gPanel.highscores.size() < Utils.MAXHIGHSCORES || gameScore >= gPanel.highscores.get(gPanel.highscores.size()-1).getScore()){
-				for(Highscore score : gPanel.highscores){
+			if(highscores.size() < Utils.MAXHIGHSCORES || gameScore >= highscores.get(highscores.size()-1).getScore()){
+				for(Highscore score : highscores){
 		    		if(gameScore > score.getScore())
 		    			break;
 		    		rank++;

@@ -74,38 +74,14 @@ public class EnterHighscore extends BasicGameState{
 			}
     	}
     	
-    	BufferedWriter writer = null;
-    	try{
-			if(done.isInside(mouseX, mouseY)){
-				done.increaseSize(delta);
-				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					writer = new BufferedWriter(new FileWriter(Utils.HIGHSCOREFILE));
-					gPanel.highscores.add(Play.rank, new Highscore(name,gameScore));
-					if(gPanel.highscores.size() > Utils.MAXHIGHSCORES)
-						gPanel.highscores.remove(gPanel.highscores.size()-1);
-					for(Highscore score : gPanel.highscores){
-						writer.write(score.getName());
-						writer.newLine();
-						writer.write(Integer.toString(score.getScore()));
-						writer.newLine();
-					}
-					toGameOver = true;
-				}
-			}else
-				done.decreaseSize(delta);
-					
-    	} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			try{
-				if(writer != null){
-					writer.flush();
-					writer.close();
-				}
-			} catch (IOException e){
-				e.printStackTrace();
+    	if(done.isInside(mouseX, mouseY)){
+			done.increaseSize(delta);
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				gPanel.database.writeToHighscores(name, gameScore);
+				toGameOver = true;
 			}
-    	}
+		}else
+			done.decreaseSize(delta);
 
     	if(toGameOver){
     		toGameOver = false;

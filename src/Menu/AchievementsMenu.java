@@ -22,6 +22,8 @@ public class AchievementsMenu extends BasicGameState {
 	private Font scoreFont;
 	private int highscoreListPosX;
 	private int highscoreListPosY;
+	private int medalPosX;
+	private int medalPosY;
 	private ArrayList<Heading> headingList;
 	private Button goBack;
 	
@@ -40,6 +42,8 @@ public class AchievementsMenu extends BasicGameState {
 		//Set rendering co-ordinates for highscores
 		highscoreListPosX = gc.getWidth()/8;
 		highscoreListPosY = gc.getHeight()/2;
+		medalPosX = gc.getWidth()/2;
+		medalPosY = gc.getHeight()/2;
 		//Initialise page headings and buttons
 		headingList = new ArrayList<Heading>();
 		headingList.add(new Heading(Utils.ACHIEVEMENTSTITLE,gc.getWidth()/8,gc.getHeight()/6));
@@ -52,20 +56,18 @@ public class AchievementsMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		int highscoreSpacing = gc.getHeight()/20;
+		
 		g.setFont(new TrueTypeFont(scoreFont,false));
 		
 		//Draw each heading and button onto the page
 		for(Heading heading : headingList)
 			heading.draw();
 		
-		//Draw each highscore on the page in their ranked order
-		int scorePosY = highscoreListPosY;
-		int rank = 1;
-		for(Highscore highscore : gPanel.highscores){
-			highscore.drawLine(highscoreListPosX, scorePosY, rank, g);
-			rank++;
-			scorePosY += gc.getHeight()/20;
-		}
+		
+    	gPanel.database.drawHighscores(highscoreListPosX, highscoreListPosY, highscoreSpacing, g);
+    	gPanel.database.drawMedals(medalPosX, medalPosY, gc, g);
+
 	}
 
 	@Override
@@ -79,8 +81,7 @@ public class AchievementsMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY();
 
     	//Check if button has been pressed and execute action if so
-    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
-    	
+    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);    	
 	}
 
 	@Override
