@@ -15,6 +15,7 @@ import org.newdawn.slick.SlickException;
 import ParticleEffects.ExplosionEffect;
 import Utils.Utils;
 
+
 public class Bullet extends GameObject {
 
 	private int damage;
@@ -22,6 +23,16 @@ public class Bullet extends GameObject {
 	public int creatorId;
 	public int attackType;
 
+	/**
+	 * Creates a new bullet
+	 * 
+	 * @param position Vector of where the bullet exists
+	 * @param velocity Bullet's velocity
+	 * @param damage Amount of damage the bullet deals
+	 * @param id Unique identifier
+	 * @param attackType Type of bullet
+	 * @throws SlickException
+	 */
 	Bullet(Vec2 position, Vec2 velocity, int damage, int id, int attackType)
 			throws SlickException {
 		super(position, Utils.BULLETIMAGES[attackType], true);
@@ -41,6 +52,11 @@ public class Bullet extends GameObject {
 
 	}
 
+	/** 
+	 * Generate explosions on collision with another bullet
+	 * 
+	 * @param colidingwith Another bullet that is colliding with this one
+	 */
 	public void collide(Bullet colidingwith) {
 		if (doomed) {
 			return;
@@ -50,14 +66,14 @@ public class Bullet extends GameObject {
 			explode();
 			break;
 		case Utils.MACHINE_GUN_BULLETS:
-			new ExplosionEffect(getBody().getPosition(), 2, 20);
+			new ExplosionEffect(getBody().getPosition(), 1, 10);
 			break;
 		case Utils.SINGLESHOT:
-			new ExplosionEffect(getBody().getPosition(), 3, 100);
+			new ExplosionEffect(getBody().getPosition(), 3, 50);
 
 			break;
 		case Utils.SHOTGUN:
-			new ExplosionEffect(getBody().getPosition(), 3, 100);
+			new ExplosionEffect(getBody().getPosition(), 2, 50);
 
 			break;
 		}
@@ -100,6 +116,9 @@ public class Bullet extends GameObject {
 		return;
 	}
 
+	/**
+	 * Generate explosion particles
+	 */
 	private void explode() {
 		if (attackType != Utils.ROCKET_BULLETS) {
 			return;
@@ -133,6 +152,8 @@ public class Bullet extends GameObject {
 		}
 	}
 
+	// Initialise a BodyDef Object with the required attributes for a new bullet
+	
 	private void initialiseBodyDef(Vec2 position) {
 		// solid object needs a body
 		BodyDef bd = new BodyDef();
@@ -149,6 +170,8 @@ public class Bullet extends GameObject {
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
 
+	// Initialise a FixtureDef object with the required attributes for a new bullet
+	
 	private void initialiseFixtureDefinition() {
 		CircleShape dynamicCircle = new CircleShape();
 		dynamicCircle.m_radius = (image.getWidth() / 2) / Utils.SCALE;

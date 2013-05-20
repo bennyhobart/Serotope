@@ -45,6 +45,17 @@ public class Creature extends GameObject {
 
 	public Controller controller;
 
+	/**
+	 * Create a Creature object
+	 * 
+	 * @param position
+	 *            Creature's position in the gameworld
+	 * @param playercontrolled
+	 *            True if creature is to be controlled by the player
+	 * @param dna
+	 *            DNA object defining the creature's traits
+	 * @throws SlickException
+	 */
 	public Creature(Vec2 position, boolean playercontrolled, DNA dna)
 			throws SlickException {
 		super(position, Utils.CREATUREIMAGES[GameWorld.getRandomGenerator()
@@ -80,6 +91,17 @@ public class Creature extends GameObject {
 		setupAttackType();
 	}
 
+	/**
+	 * Create a Creature object
+	 * 
+	 * @param position
+	 *            Creature's position in the gameworld
+	 * @param controller
+	 *            controller for the creature
+	 * @param dna
+	 *            DNA object defining the creature's traits
+	 * @throws SlickException
+	 */
 	public Creature(Vec2 position, Controller controller, DNA dna)
 			throws SlickException {
 		super(position, Utils.CREATUREIMAGES[GameWorld.getRandomGenerator()
@@ -126,6 +148,9 @@ public class Creature extends GameObject {
 		}
 	}
 
+	// Update function checks if the Creature has taken enough damage to cause
+	// it to die.
+	// Updates the creature's stats and timers (such as sprint and shield)
 	@Override
 	public void update(int delta, GameContainer gc) {
 		controller.update(delta);
@@ -153,11 +178,15 @@ public class Creature extends GameObject {
 		}
 	}
 
+	// Set's doomed to true for garbage collection from gameWorld
+	// Drops the creatures DNA object
 	protected void die() {
 		doomed = true;
 		dropDna();
 	}
 
+	// Drop's the creature's DNA object into the game world at its current
+	// position
 	private void dropDna() {
 		DNA dna = this.getDna();
 		Vec2 position = this.getBody().getPosition();
@@ -166,13 +195,19 @@ public class Creature extends GameObject {
 		GameWorld.getGameWorld().getGameObjects().add(dna);
 	}
 
+	/**
+	 * Deals damage to a creature
+	 * 
+	 * @param damage
+	 *            Amount of damage being dealt
+	 */
 	public void hit(int damage) {
 
 		if (shield) {
 			currShieldCooldown = 0;
 			setCurrShield(getCurrShield() - damage);
 			if (getCurrShield() < 0) {
-				// shield didnt block all the damage
+				// shield didn't block all the damage
 				currHealth += getCurrShield();
 				setCurrShield(0);
 			}
@@ -182,6 +217,14 @@ public class Creature extends GameObject {
 
 	}
 
+	
+	/**
+	 * Shoot bullets
+	 * 
+	 * The creature shoots bullets based on its attackType and damage attributes
+	 * 
+	 * @param direction The direction the bullets are being shot
+	 */
 	public void shoot(Vec2 direction) {
 		direction.normalize();
 		if (direction.length() == 0) {
@@ -211,11 +254,13 @@ public class Creature extends GameObject {
 
 	}
 
+	// Shoot forward at the givin angle
 	private void shootForwardAngle(Vec2 velocity, double angle) {
 		shootForward(Utils.rotateVector(velocity, angle));
 		return;
 	}
 
+	// Shoot forward, rotated slightly at a random angle
 	private void shootForwardRandom(Vec2 velocity, double angle) {
 		double randomAngle = GameWorld.getRandomGenerator().nextFloat() * angle
 				- angle / 2;
@@ -223,10 +268,14 @@ public class Creature extends GameObject {
 		return;
 	}
 
+	// Shoot directly in front of the creature with bullet speed based on
+	// the given direction
+	
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
-		tempAdd.mulLocal(image.getWidth() / 2 + Utils.BULLETIMAGES[attackType].getWidth());
+		tempAdd.mulLocal(image.getWidth() / 2
+				+ Utils.BULLETIMAGES[attackType].getWidth());
 		tempAdd.mulLocal(1 / Utils.SCALE);
 		spawnLoc.addLocal(tempAdd);
 
@@ -242,6 +291,16 @@ public class Creature extends GameObject {
 
 	}
 
+	
+	/**
+	 * Moves the creature
+	 * 
+	 * Moves the creature in the given direction, using velocity and acceleration
+	 * derived from the creature's attributes, and whether the creature is currently
+	 * sprinting.
+	 * 
+	 * @param move The direction to move
+	 */
 	public void move(Vec2 move) {
 		if (move == null) {
 			return;
