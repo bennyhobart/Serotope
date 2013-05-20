@@ -36,11 +36,11 @@ public class HowToMenu extends BasicGameState {
 		private String name;
 		private Image right;
 		private Image left;
-		public HowToPage(Image l,Image r){
+		public HowToPage(String l,String r) throws SlickException{
 			pageNum++;
 			name = "Page " + pageNum;
-			right = r;
-			left = l;
+			right = new Image(r);
+			left = new Image(l);
 		}
 	}
 
@@ -82,8 +82,11 @@ public class HowToMenu extends BasicGameState {
 		
 		//Creates a list of all the tutorial pages and sets the current page to the first
 		pageList = new ArrayList<HowToPage>();
-		pageList.add(currentPage = new HowToPage(dummy,dummy));
-		pageList.add(new HowToPage(dummy,dummy));
+		pageList.add(currentPage = new HowToPage(Utils.HOWTOPAGE1P,Utils.HOWTOPAGE1T));
+		pageList.add(new HowToPage(Utils.HOWTOPAGE2P,Utils.HOWTOPAGE2T));
+		pageList.add(new HowToPage(Utils.HOWTOPAGE3P,Utils.HOWTOPAGE3T));
+		pageList.add(new HowToPage(Utils.HOWTOPAGE4P,Utils.HOWTOPAGE4T));
+		pageList.add(new HowToPage(Utils.HOWTOPAGE5P,Utils.HOWTOPAGE5T));
 		showPrev = false;
 		showNext = true;
 

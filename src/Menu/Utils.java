@@ -46,6 +46,17 @@ public class Utils {
 	public static final String MAINACHIEVEMENTS = "assets/image/menus/MainAchievements.png";
 	public static final String MAINSETTINGS = "assets/image/menus/MainSettings.png";
 	public static final String MAINQUIT = "assets/image/menus/MainQuit.png";
+	
+	public static final String HOWTOPAGE1T = "assets/image/menus/HowToPages/Page1T.png";
+	public static final String HOWTOPAGE1P = "assets/image/menus/HowToPages/Page1P.png";
+	public static final String HOWTOPAGE2T = "assets/image/menus/HowToPages/Page2T.png";
+	public static final String HOWTOPAGE2P = "assets/image/menus/HowToPages/Page2P.png";
+	public static final String HOWTOPAGE3T = "assets/image/menus/HowToPages/Page3T.png";
+	public static final String HOWTOPAGE3P = "assets/image/menus/HowToPages/Page3P.png";
+	public static final String HOWTOPAGE4T = "assets/image/menus/HowToPages/Page4T.png";
+	public static final String HOWTOPAGE4P = "assets/image/menus/HowToPages/Page4P.png";
+	public static final String HOWTOPAGE5T = "assets/image/menus/HowToPages/Page5T.png";
+	public static final String HOWTOPAGE5P = "assets/image/menus/HowToPages/Page5P.png";
 
 	
 	public static void buttonPressed(int delta, int x, int y, Button button, GameContainer gc, StateBasedGame sbg){
