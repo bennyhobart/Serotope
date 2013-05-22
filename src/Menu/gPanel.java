@@ -48,9 +48,9 @@ public class gPanel extends StateBasedGame
 	
 	public gPanel(){
 		super(gameName+ " " +VERSION );
+		this.addState(new SplashMenu(SPLASHMENUID));
 		this.addState(new MainMenu(MAINMENUID));
 		this.addState(new Play(PLAYID));
-		this.addState(new SplashMenu(SPLASHMENUID));
 		this.addState(new HowToMenu(HOWTOMENUID));
 		this.addState(new AchievementsMenu(ACHIEVEMENTSMENUID));
 		this.addState(new SettingsMenu(SETTINGSMENUID));

@@ -1,23 +1,21 @@
 package Genes;
 
-import java.util.Random;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import Serotope.Creature;
+import Serotope.GameWorld;
 
 
 public abstract class Gene {
 	
-	// 0 for recessive, 1 for dominant
+	// false for recessive, true for dominant
 	private boolean leftAllele;
 	private boolean rightAllele;
 	private Image icon = null;
 	private Image creatureTag = null;
 
-	private Random randomGenerator = new Random(System.nanoTime());
-	
 	public Gene(boolean leftAllele, boolean rightAllele){
 		this.leftAllele = leftAllele;
 		this.rightAllele = rightAllele;
@@ -28,6 +26,13 @@ public abstract class Gene {
 		this.rightAllele = false;
 	}
 	
+	/**
+	 * Renders the UI icon associated with the gene
+	 * 
+	 * @param g Graphics
+	 * @param xrender x co-ordinate
+	 * @param yrender y co-ordinate
+	 */
 	public void renderIcon(Graphics g, float xrender, float yrender) {
 		if (icon == null) {
 			return;
@@ -35,6 +40,13 @@ public abstract class Gene {
 		icon.drawCentered(xrender, yrender);
 	}
 	
+	/**
+	 * Renders the creature icon associated with the gene
+	 * 
+	 * @param g Graphics
+	 * @param xrender x co-ordinate
+	 * @param yrender y co-ordinate
+	 */
 	public void renderTag(Graphics g, float xrender, float yrender) {
 		if (creatureTag == null) {
 			return;
@@ -42,12 +54,20 @@ public abstract class Gene {
 		creatureTag.drawCentered(xrender, yrender);
 	}
 	
+	/**
+	 * Checks if the gene is expressed (both the alleles are recessive)
+	 */
 	public boolean isExpressed(){
 		return (leftAllele && rightAllele);
 	}
 
+	/**
+	 * Randomly picks one of the gene's alleles
+	 * 
+	 * @return either the leftAllele or rightAllele
+	 */
 	public boolean getRandomAllele(){
-		boolean left = randomGenerator.nextBoolean();
+		boolean left = GameWorld.getRandomGenerator().nextBoolean();
 		if (left)
 			return leftAllele;
 		else

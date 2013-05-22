@@ -30,6 +30,8 @@ public class GameWorld {
 	private static int playerId;
 	private Overlay ui;
 	private static int score = 0;
+	
+	public static final float MAX_DISTANCE = 10000;
 
 	public static GameWorld getGameWorld() {
 		if (gameWorld == null) {
@@ -102,7 +104,7 @@ public class GameWorld {
 			float distanceFromPlayer = gameObjects.get(i).getBody()
 					.getPosition().sub(focus.target.getBody().getPosition())
 					.lengthSquared();
-			if (distanceFromPlayer > 10000) {
+			if (distanceFromPlayer > MAX_DISTANCE) {
 				gameObjects.get(i).doomed = true;
 			}
 			if (gameObjects.get(i).doomed) {

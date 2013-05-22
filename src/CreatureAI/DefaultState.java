@@ -5,7 +5,7 @@ import Serotope.Creature;
 /**
  * 
  * @author BenedictHobart
- *the default creature state that every StateMachine<Creature> should be initialize with
+ * The default creature state that every StateMachine<Creature> should be initialize with
  */
 public class DefaultState extends State<Creature> {
 	

@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's rate of decrease in health over time
+ *
+ */
 public class LifeSpanGene extends Gene {
 	
 	public LifeSpanGene(boolean left, boolean right) {

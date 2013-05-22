@@ -12,15 +12,15 @@ import Serotope.GameWorld;
 
 public class Overlay {
 	Creature target;
-	private static final int border = 30;
-	int backgroundsize;
+	private static final int border = 28;
+	int statSize;
 	int traitBorderWidth;
 	int traitBorderHeight;
 
 	public Overlay() {
 		traitBorderWidth = Utils.TRAITBORDER.getWidth();
 		traitBorderHeight = Utils.TRAITBORDER.getHeight();
-		backgroundsize = Utils.HEALTHBACKGROUND.getWidth();
+		statSize = Utils.HEALTHBACKGROUND.getWidth();
 		target = GameWorld.getGameWorld().getPlayer();
 	}
 
@@ -33,7 +33,7 @@ public class Overlay {
 
 	private void drawTraits(Graphics g) {
 		ArrayList<Gene> expressedGenes = target.getExpressedGenes();
-		int xRender = 7 * border + 3 * backgroundsize;
+		int xRender = 6 * border + 3 * statSize;
 		int yRender = 2*border ;
 		if (expressedGenes.isEmpty()) {
 			return;
@@ -41,7 +41,7 @@ public class Overlay {
 		for (Gene gene : expressedGenes) {
 			gene.renderIcon(g, xRender, yRender);
 			if (gene.getIcon() != null) {
-				xRender += gene.getIcon().getWidth() + border ;
+				xRender += gene.getIcon().getWidth() + border - 5;
 			}
 		}
 
@@ -62,14 +62,14 @@ public class Overlay {
 			g.drawString(String.format("%.0f", target.getCurrShield()),xRender+border+10,yRender);
 		}
 
-		xRender += (backgroundsize + border);
+		xRender += (statSize + border);
 		// draw Speed stuff
 		drawBoxes((float) (target.getCurrSprint() / target.getSprintTime()),
 				xRender, yRender, g);
 
 		g.drawString("" + (int) target.getTopSpeed(), xRender, yRender);
 
-		xRender += (backgroundsize + border);
+		xRender += (statSize + border);
 
 		// draw Damage stuff
 		drawBoxes(
@@ -77,7 +77,7 @@ public class Overlay {
 				xRender, yRender, g);
 		g.drawString("" + (int) target.getDamage(), xRender, yRender);
 
-		xRender += (backgroundsize + border);
+		xRender += (statSize + border);
 		xRender += traitBorderWidth + border;
 
 		// draw Score stuff
@@ -87,49 +87,49 @@ public class Overlay {
 
 	private void drawBoxes(float i, int xRender, int yRender, Graphics g) {
 		int y = yRender;
-		int x = xRender + backgroundsize / 2 - Utils.FILLER.getWidth() / 2;
+		int x = xRender + statSize / 2 - Utils.FILLER.getWidth() / 2;
 		if (i > 7f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x += backgroundsize / 4;
-		y += backgroundsize / 8;
+		x += statSize / 4;
+		y += statSize / 8;
 		if (i > 6f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x += backgroundsize / 8;
-		y += backgroundsize / 4;
+		x += statSize / 8;
+		y += statSize / 4;
 		if (i > 5f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x -= backgroundsize / 8;
-		y += backgroundsize / 4;
+		x -= statSize / 8;
+		y += statSize / 4;
 		if (i > 4f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x -= backgroundsize / 4;
-		y += backgroundsize / 8;
+		x -= statSize / 4;
+		y += statSize / 8;
 		if (i > 3f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x -= backgroundsize / 4;
-		y -= backgroundsize / 8;
+		x -= statSize / 4;
+		y -= statSize / 8;
 		if (i > 2f / 8f) {
 			return;
 		}
 		Utils.FILLER.draw(x, y);
-		x -= backgroundsize / 8;
-		y -= backgroundsize / 4;
+		x -= statSize / 8;
+		y -= statSize / 4;
 		Utils.FILLER.draw(x, y);
 		if (i > 1f / 8f) {
 			return;
 		}
-		x += backgroundsize / 8;
-		y -= backgroundsize / 4;
+		x += statSize / 8;
+		y -= statSize / 4;
 		Utils.FILLER.draw(x, y);
 	}
 
@@ -137,13 +137,13 @@ public class Overlay {
 		int xRender = border;
 		int yRender = border;
 		Utils.HEALTHBACKGROUND.draw(xRender, yRender);
-		xRender += backgroundsize;
+		xRender += statSize;
 		xRender += border;
 		Utils.SPEEDBACKGROUND.draw(xRender, yRender);
-		xRender += backgroundsize;
+		xRender += statSize;
 		xRender += border;
 		Utils.DAMAGEBACKGROUND.draw(xRender, yRender);
-		xRender += backgroundsize + border;
+		xRender += statSize + border;
 		yRender = border;
 		Utils.TRAITBORDER.draw(xRender, yRender);
 	}

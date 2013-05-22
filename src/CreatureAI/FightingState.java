@@ -7,7 +7,7 @@ import Serotope.Creature;
 /**
  * 
  * @author BenedictHobart
- *The state representing a Creature "Fighting" another creature
+ * The state representing a Creature "Fighting" another creature
  */
 public class FightingState extends State<Creature> {
 	static FightingState instance;

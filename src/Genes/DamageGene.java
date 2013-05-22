@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's damage output
+ *
+ */
 public class DamageGene extends Gene {
 
 	public DamageGene(boolean leftAllele, boolean rightAllele) {

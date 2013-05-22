@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's ease of handling
+ *
+ */
 public class HandlingGene extends Gene {
 
 	public HandlingGene(boolean leftAllele, boolean rightAllele) {

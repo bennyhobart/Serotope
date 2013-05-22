@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's attack speed (cool down time)
+ *
+ */
 public class AttackSpeedGene extends Gene {
 
 	public AttackSpeedGene(boolean leftAllele, boolean rightAllele) {

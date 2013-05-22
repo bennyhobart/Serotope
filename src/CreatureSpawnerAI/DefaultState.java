@@ -19,7 +19,6 @@ public class DefaultState extends State<CreatureSpawner> {
 		try {
 			target.behaviour.spawnCreatureSomewhere();
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

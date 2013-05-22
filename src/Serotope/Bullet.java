@@ -69,11 +69,11 @@ public class Bullet extends GameObject {
 			new ExplosionEffect(getBody().getPosition(), 1, 10);
 			break;
 		case Utils.SINGLESHOT:
-			new ExplosionEffect(getBody().getPosition(), 3, 50);
+			new ExplosionEffect(getBody().getPosition(), Utils.NUMPARTICLESEXPLOSION, Utils.EXPLOSION_LIFESPAN);
 
 			break;
 		case Utils.SHOTGUN:
-			new ExplosionEffect(getBody().getPosition(), 2, 50);
+			new ExplosionEffect(getBody().getPosition(), Utils.NUMPARTICLESEXPLOSION, 40);
 
 			break;
 		}
@@ -85,6 +85,7 @@ public class Bullet extends GameObject {
 		ContactEdge contact = getBody().getContactList();
 
 		while (contact != null) {
+			// Collisions with creatures
 			if (contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
 				if (creature.id == creatorId) {
@@ -92,13 +93,14 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				creature.hit(damage);
-				if (attackType == 3) {
+				if (attackType == Utils.ROCKET) {
 					explode();
 				} else {
-					new ExplosionEffect(getBody().getPosition(), 8, 300);
+					new ExplosionEffect(getBody().getPosition(), 4, 200);
 				}
 				this.die();
 
+			// Collisions with other bullets
 			} else if (contact.other.getUserData() instanceof Bullet) {
 				Bullet bullet = (Bullet) contact.other.getUserData();
 				if (bullet.creatorId == this.creatorId) {
@@ -106,7 +108,7 @@ public class Bullet extends GameObject {
 					continue;
 				}
 				bullet.collide(this);
-				if (attackType == 3) {
+				if (attackType == Utils.ROCKET) {
 					explode();
 				}
 				die();
@@ -123,7 +125,7 @@ public class Bullet extends GameObject {
 		if (attackType != Utils.ROCKET_BULLETS) {
 			return;
 		}
-		new ExplosionEffect(getBody().getPosition(), 15, 500);
+		new ExplosionEffect(getBody().getPosition(), 10, 300);
 		AABB zone = new AABB(this
 				.getBody()
 				.getPosition()

@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Determine's if a creature has a shield to absorb damage
+ *
+ */
 public class ShieldGene extends Gene {
 
 	public ShieldGene(boolean left, boolean right) {

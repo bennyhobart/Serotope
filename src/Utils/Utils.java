@@ -19,56 +19,106 @@ public class Utils {
         
         public static final String BACKGROUND = "assets/image/Background.png";
         
-        //ui
-        public static Image DAMAGEBACKGROUND;
-        public static Image HEALTHBACKGROUND;
-        public static Image SPEEDBACKGROUND;
-        public static Image MACHINEGUNICON;
-        public static Image ROCKETICON;
-        public static Image SHOTGUNICON;
-        public static Image SINGLESHOTICON;
-        public static Image[] ATTACKTYPEICONS;
-        public static final int SINGLESHOT=0;
-        public static final int SHOTGUN=1;
-        public static final int MACHINEGUN=2;
-        public static final int ROCKET=3;
-        public static Image TRAITBORDER;
+		 
+        //creature default stats
+        //Move Variables
+        public static final float TOP_SPEED=6;
+        public static final float ACCELERATION=1f;
+        public static final float HANDLING=1;
+        public static final float SPRINT_TIME = 1000;
+        public static final float SPRINT_RESTITUTION = 0.5f;
+        public static final float SPRINT_MODIFIER=1.5f;
+        
+        //Health Variables
+        public static final int HEALTH=600;
+        public static final float STAMINA=20;
+        public static final boolean SHIELD=false;
+		public static final float SHIELDRECHARGERATE = 0.05f;
+		public static int SHIELD_COOLDOWN = 5000;
+
+        //Damage Variables
+        public static final int DAMAGE=20;
+        public static final int COOLDOWN=300;
+        public static final int ATTACK_TYPE=0;
+        public static final float BULLET_VELOCITY = 8;
+		public static final float BULLET_VELOCITY_INHERITENCE = 0.3f;
+        
+        //AttackType Variables
+        public static final int NUMSHOTGUNBULLETS = 6;
+        public static final double MACHINEGUNSPEED = 4;
+        public static final double MACHINEGUNSPRAY = Math.PI/8;
+        public static final float MACHINEGUNBULLETSPEED = 0.7f;
+		public static final float ROCKETLAUNCHERDAMAGE = 4f;
+		public static final float ROCKETLAUNCHERSPEED = 0.8f;
+		public static final float ROCKETEXPLOSIONRADIUS = 2;
+		public static final float ROCKETEXPLOSIONDAMAGE = 0.4f;
+		public static final int EXPLOSION_LIFESPAN = 40;
+		
+        // Modifiers - buffs caused by genes
+		public static final int HEALTH_BUFF = 2;
+		public static final int STAMINA_BUFF = 2;
+		public static final int SPEED_BUFF = 2;
+		public static final int ACCELERATION_BUFF = 2;
+		public static final int ATTACK_SPEED_BUFF = 2;
+		public static final int DAMAGE_BUFF = 2;
+		public static final int HANDLING_BUFF = 2;
+
+		// Attack Types
+		public static final int DEFAULT_ATTACK = 0;
+		public static final int SHOTGUN_BULLETS = 1;
+		public static final int MACHINE_GUN_BULLETS = 2;
+		public static final int ROCKET_BULLETS = 3;
+
+		//ui
+		public static Image DAMAGEBACKGROUND;
+		public static Image HEALTHBACKGROUND;
+		public static Image SPEEDBACKGROUND;
+		public static Image MACHINEGUNICON;
+		public static Image ROCKETICON;
+		public static Image SHOTGUNICON;
+		public static Image SINGLESHOTICON;
+		public static Image[] ATTACKTYPEICONS;
+		public static final int SINGLESHOT=0;
+		public static final int SHOTGUN=1;
+		public static final int MACHINEGUN=2;
+		public static final int ROCKET=3;
+		public static Image TRAITBORDER;
 		public static Image FILLER;
-        
-        //creatures
-        public static Image CREATUREIMAGE1;
-        public static Image CREATUREIMAGE2;
-        public static Image CREATUREIMAGE3;
-        public static Image CREATUREIMAGE4;
-        public static Image CREATUREIMAGE5;
-        public static Image CREATUREIMAGE6;
-        public static Image CREATUREIMAGE7;
-        public static Image[] CREATUREIMAGES = {};
-        
-        //traits
-        public static Image ACCELERATION_ICON;
-        public static Image ACCELERATION_TAG;
-        public static Image ATTACKSPEED_ICON;
-        public static Image ATTACKSPEED_TAG;
-        public static Image DAMAGE_ICON;
-        public static Image DAMAGE_TAG;
-        public static Image HANDLING_ICON;
-        public static Image HANDLING_TAG;
-        public static Image HEALTH_ICON;
-        public static Image HEALTH_TAG;
-        public static Image LIFESPAN_ICON;
-        public static Image LIFESPAN_TAG;
-        public static Image SHIELD_ICON;
-        public static Image SHIELD_TAG;
-        public static Image SPEED_ICON;
-        public static Image SPEED_TAG;
-       
-        //bullets
-        public static Image bulletImage1;
-        public static Image bulletImage2;
-        public static Image rocketImage;
+		
+		//creatures
+		public static Image CREATUREIMAGE1;
+		public static Image CREATUREIMAGE2;
+		public static Image CREATUREIMAGE3;
+		public static Image CREATUREIMAGE4;
+		public static Image CREATUREIMAGE5;
+		public static Image CREATUREIMAGE6;
+		public static Image CREATUREIMAGE7;
+		public static Image[] CREATUREIMAGES = {};
+		
+		//traits
+		public static Image ACCELERATION_ICON;
+		public static Image ACCELERATION_TAG;
+		public static Image ATTACKSPEED_ICON;
+		public static Image ATTACKSPEED_TAG;
+		public static Image DAMAGE_ICON;
+		public static Image DAMAGE_TAG;
+		public static Image HANDLING_ICON;
+		public static Image HANDLING_TAG;
+		public static Image HEALTH_ICON;
+		public static Image HEALTH_TAG;
+		public static Image LIFESPAN_ICON;
+		public static Image LIFESPAN_TAG;
+		public static Image SHIELD_ICON;
+		public static Image SHIELD_TAG;
+		public static Image SPEED_ICON;
+		public static Image SPEED_TAG;
+		
+		//bullets
+		public static Image bulletImage1;
+		public static Image bulletImage2;
+		public static Image rocketImage;
 		public static Image dnaImage;
-        public static Image[] BULLETIMAGES;
+		public static Image[] BULLETIMAGES;
 		
 		//particles
 		public static Image BLUESPECKIMAGE;
@@ -82,9 +132,9 @@ public class Utils {
 		public static Image YELLOWSPECKIMAGE;
 		public static Image BLACKSPECKIMAGE;
 		public static Image[] PARTICLES;
-
-
-		
+		public static final int NUMPARTICLESEXPLOSION = 2;
+		public static final float PARTICLESPEED = 0.8f;
+		public static final int bullet1Width = 16;
 		
 		public static void initImages() throws SlickException {
 			 BLUESPECKIMAGE = new Image("assets/image/particles/bluespeck.png");
@@ -143,40 +193,7 @@ public class Utils {
 	        SPEED_TAG = new Image("assets/image/traits/speed.png");
 		}
 
-        public static final int bullet1Width = 16;
-        //creature default stats
-        //Move Variables
-        public static final float TOP_SPEED=6;
-        public static final float ACCELERATION=1f;
-        public static final float HANDLING=1;
-        
-        public static final float SPRINT_TIME = 1000;
-        public static final float SPRINT_RESTITUTION = 0.5f;
-        public static final float SPRINT_MODIFIER=1.5f;
-        //Health Variables
-        public static final int HEALTH=600;
-        public static final float STAMINA=20;
-        public static final boolean SHIELD=false;
-		public static final float SHIELDRECHARGERATE = 0.05f;
-		public static int SHIELD_COOLDOWN = 5000;
-
-        //Damage Variables
-        public static final int DAMAGE=20;
-        public static final int COOLDOWN=300;
-        public static final int ATTACK_TYPE=0;
-        public static final float BULLET_VELOCITY = 8;
-		public static final float BULLET_VELOCITY_INHERITENCE = 0.3f;
-
-        
-        //AttackType Variables
-        public static final int NUMSHOTGUNBULLETS = 6;
-        public static final double MACHINEGUNSPEED = 4;
-        public static final double MACHINEGUNSPRAY = Math.PI/8;
-        public static final float MACHINEGUNBULLETSPEED = 0.7f;
-		public static final float ROCKETLAUNCHERDAMAGE = 4f;
-		public static final float ROCKETLAUNCHERSPEED = 0.8f;
-		public static final float ROCKETEXPLOSIONRADIUS = 2;
-		public static final float ROCKETEXPLOSIONDAMAGE = 0.4f;
+       
         
         //Body Utils
         //clockwise to the vector between a and b
@@ -215,30 +232,6 @@ public class Utils {
         public static final float WANDERJITTER = 0.1f;
         
         public static final int spawnTime = 1200;
-
-        // Modifiers - buffs caused by genes
-		public static final int HEALTH_BUFF = 2;
-		public static final int STAMINA_BUFF = 2;
-		public static final int SPEED_BUFF = 2;
-		public static final int ACCELERATION_BUFF = 2;
-		public static final int ATTACK_SPEED_BUFF = 2;
-		public static final int DAMAGE_BUFF = 2;
-		public static final int HANDLING_BUFF = 2;
-
-		public static final int DEFAULT_ATTACK = 0;
-		public static final int SHOTGUN_BULLETS = 1;
-		public static final int MACHINE_GUN_BULLETS = 2;
-		public static final int ROCKET_BULLETS = 3;
-
-		public static final int NUMPARTICLESEXPLOSION = 5;
-
-		public static final float PARTICLESPEED = 0.8f;
-
-		public static final int ICON_SPACING = 10;
-
-
-
-
 
         
         public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {

@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's acceleration
+ *
+ */
 public class AccelerationGene extends Gene {
 
 	public AccelerationGene(boolean left, boolean right) {

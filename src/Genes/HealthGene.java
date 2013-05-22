@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's maximum health
+ *
+ */
 public class HealthGene extends Gene {
 
 	public HealthGene(boolean left, boolean right) {

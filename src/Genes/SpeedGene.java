@@ -3,6 +3,10 @@ package Genes;
 import Serotope.Creature;
 import Utils.Utils;
 
+/**
+ * Modifies a creature's top speed
+ *
+ */
 public class SpeedGene extends Gene {
 
 	

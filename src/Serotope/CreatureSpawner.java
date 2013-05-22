@@ -17,10 +17,9 @@ public class CreatureSpawner extends GameObject {
 	Creature target;
 	// Initial probability of AI getting a recessive allele in a gene
 	private static final float BASE_PROBABILITY = 0.3f;
-	// Rate at which the probability increase with time
-	// This makes the ai spawn with stringer dna as the game progresses
+	// Rate at which the probability increases with time
+	// This makes the ai spawn with stronger DNA as the game progresses
 	private static final float PROBABILITY_MODIFIER = 0.000005f;
-	private Random randomGenerator = new Random(System.nanoTime());
 
 	CreatureSpawner(Vec2 position) throws SlickException {
 		super(position, null, false);
@@ -61,7 +60,6 @@ public class CreatureSpawner extends GameObject {
 	private float getProbabiliyRecessiveGene(){
 		float timeElapsed = GameWorld.getGameWorld().getScore();
 		float probability = PROBABILITY_MODIFIER * timeElapsed + BASE_PROBABILITY;
-		System.out.println(probability);
 		if (probability > 1)
 			probability = 1;
 		return probability;
@@ -90,10 +88,10 @@ public class CreatureSpawner extends GameObject {
 	DNA dna = new DNA();
 
 	for (int i = 1; i < dna.getGenes().size(); i++){
-		int randomNum = randomGenerator.nextInt(100);
+		int randomNum = GameWorld.getRandomGenerator().nextInt(100);
 		boolean left = (randomNum <= probability*100);
 		
-		randomNum = randomGenerator.nextInt(100);
+		randomNum = GameWorld.getRandomGenerator().nextInt(100);
 		boolean right = (randomNum <= probability*100);
 		
 		dna.getGenes().get(i).setLeftAllele(left);

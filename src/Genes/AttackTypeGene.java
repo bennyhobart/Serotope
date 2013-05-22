@@ -2,6 +2,10 @@ package Genes;
 
 import Serotope.Creature;
 
+/**
+ * Modifies a creature's attack type
+ *
+ */
 public class AttackTypeGene extends Gene {
 
 	public AttackTypeGene(boolean leftAllele, boolean rightAllele) {
