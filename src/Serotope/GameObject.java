@@ -11,12 +11,10 @@ public abstract class GameObject {
 	protected Image image;
 	public int id;
 	private Body body;
-	//boolean solid;
 	public boolean doomed;
 
 	protected GameObject(Vec2 position, Image image, boolean solid) {
 		doomed = false;
-		//this.solid = solid;
 		GameWorld.getGameWorld().getGameObjects().add(this);
 		GameWorld.getGameWorld();
 		id = GameWorld.idNum++;
@@ -26,23 +24,29 @@ public abstract class GameObject {
 		this.image = image;
 	}
 
-	private void initialiseBodyDef(Vec2 position) {
-		BodyDef bd = new BodyDef();
-		bd.fixedRotation = true;
-		bd.userData = this;
-		bd.awake=false;
-		bd.position.set(position);
-		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
-	}
-	
 	abstract public void update(int delta, GameContainer gc);
 
+	// Draw the game objects image at the given position
 	void render(Graphics g, float xrender, float yrender) {
 		if (image == null) {
 			return;
 		}
 		image.setRotation((float) (-getBody().getAngle() * 180 / Math.PI));
 		image.drawCentered(xrender, yrender);
+	}
+
+	protected void die() {
+		doomed = true;
+	}
+
+	// Initialise a BodyDef object with the physical attributes
+	private void initialiseBodyDef(Vec2 position) {
+		BodyDef bd = new BodyDef();
+		bd.fixedRotation = true;
+		bd.userData = this;
+		bd.awake = false;
+		bd.position.set(position);
+		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
 
 	public Body getBody() {
@@ -53,10 +57,6 @@ public abstract class GameObject {
 		this.body = body;
 	}
 
-	protected void die() {
-		doomed = true;
-	}
-	
 	public int getId() {
 		return id;
 	}

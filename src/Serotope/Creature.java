@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
+import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -46,7 +47,7 @@ public class Creature extends GameObject {
 	public Controller controller;
 
 	/**
-	 * Create a Creature object
+	 * Create a Creature object with a new Controller
 	 * 
 	 * @param position
 	 *            Creature's position in the gameworld
@@ -72,7 +73,6 @@ public class Creature extends GameObject {
 
 		// set controller
 		if (playercontrolled) {
-			attackType = 0;
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
 
@@ -92,12 +92,14 @@ public class Creature extends GameObject {
 	}
 
 	/**
-	 * Create a Creature object
+	 * Create a Creature object using an existing Controller
+	 * 
+	 * Use this when passing a controller from an existing creature to a new one
 	 * 
 	 * @param position
 	 *            Creature's position in the gameworld
 	 * @param controller
-	 *            controller for the creature
+	 *            Controller for the creature
 	 * @param dna
 	 *            DNA object defining the creature's traits
 	 * @throws SlickException
@@ -115,6 +117,7 @@ public class Creature extends GameObject {
 
 		this.dna = dna;
 		dna.buffCreature(this);
+		setupAttackType();
 
 		if (controller instanceof AIController) {
 			this.controller = new AIController(this);
@@ -124,11 +127,7 @@ public class Creature extends GameObject {
 			this.controller = controller;
 			controller.target = this;
 			GameWorld.getGameWorld().setPlayer(this.id);
-
 		}
-
-		setupAttackType();
-
 	}
 
 	private void setupAttackType() {
@@ -156,7 +155,7 @@ public class Creature extends GameObject {
 		controller.update(delta);
 		if (currHealth <= 0) {
 			die();
-			GameWorld.gameStats.incrementEnemiesKilled();
+			//GameWorld.gameStats.incrementEnemiesKilled();
 		}
 		timeSinceLastAttack += delta;
 		if (isSprinting()) {
@@ -196,7 +195,7 @@ public class Creature extends GameObject {
 	}
 
 	/**
-	 * Deals damage to a creature
+	 * Deals damage to the creature
 	 * 
 	 * @param damage
 	 *            Amount of damage being dealt
@@ -217,13 +216,13 @@ public class Creature extends GameObject {
 
 	}
 
-	
 	/**
 	 * Shoot bullets
 	 * 
 	 * The creature shoots bullets based on its attackType and damage attributes
 	 * 
-	 * @param direction The direction the bullets are being shot
+	 * @param direction
+	 *            The direction the bullets are being shot
 	 */
 	public void shoot(Vec2 direction) {
 		direction.normalize();
@@ -270,7 +269,7 @@ public class Creature extends GameObject {
 
 	// Shoot directly in front of the creature with bullet speed based on
 	// the given direction
-	
+
 	private void shootForward(Vec2 velocity) {
 		Vec2 spawnLoc = new Vec2(getBody().getPosition());
 		Vec2 tempAdd = new Vec2(velocity);
@@ -291,15 +290,15 @@ public class Creature extends GameObject {
 
 	}
 
-	
 	/**
 	 * Moves the creature
 	 * 
-	 * Moves the creature in the given direction, using velocity and acceleration
-	 * derived from the creature's attributes, and whether the creature is currently
-	 * sprinting.
+	 * Moves the creature in the given direction, using velocity and
+	 * acceleration derived from the creature's attributes, and whether the
+	 * creature is currently sprinting.
 	 * 
-	 * @param move The direction to move
+	 * @param move
+	 *            The direction to move
 	 */
 	public void move(Vec2 move) {
 		if (move == null) {
@@ -327,6 +326,9 @@ public class Creature extends GameObject {
 	public void pickUpDna(DNA dna) {
 		try {
 			DNA newDna = mergeDna(this.getDna(), dna);
+			if (this.id == GameWorld.getGameWorld().getPlayerId()){
+				GameWorld.gameStats.updateMaxNumGenes(newDna.getNumGenesExpressed());
+			}
 			new Creature(getBody().getPosition(), this.controller, newDna);
 		} catch (SlickException e) {
 			e.printStackTrace();

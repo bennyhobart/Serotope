@@ -14,14 +14,6 @@ public class PlayerController extends Controller {
 	public void update(int delta) {
 		move(delta);
 		shoot(delta);
-		
-		int numGenes = 0;
-		for (Gene gene : target.getDna().getGenes()) {
-			if(gene.isExpressed())
-				numGenes++;
-		}
-		if(numGenes > GameWorld.gameStats.getMaxNumGenes())
-			GameWorld.gameStats.setMaxNumGenes(numGenes);
 	}
 
 	void move(int delta) {

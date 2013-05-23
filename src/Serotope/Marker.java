@@ -8,7 +8,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-
+// TODO delete
 public class Marker extends GameObject {
 	float xVel;
 	float yVel;

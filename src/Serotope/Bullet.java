@@ -15,7 +15,6 @@ import org.newdawn.slick.SlickException;
 import ParticleEffects.ExplosionEffect;
 import Utils.Utils;
 
-
 public class Bullet extends GameObject {
 
 	private int damage;
@@ -26,11 +25,16 @@ public class Bullet extends GameObject {
 	/**
 	 * Creates a new bullet
 	 * 
-	 * @param position Vector of where the bullet exists
-	 * @param velocity Bullet's velocity
-	 * @param damage Amount of damage the bullet deals
-	 * @param id Unique identifier
-	 * @param attackType Type of bullet
+	 * @param position
+	 *            Vector of where the bullet exists
+	 * @param velocity
+	 *            Bullet's velocity
+	 * @param damage
+	 *            Amount of damage the bullet deals
+	 * @param id
+	 *            Unique identifier
+	 * @param attackType
+	 *            Type of bullet
 	 * @throws SlickException
 	 */
 	Bullet(Vec2 position, Vec2 velocity, int damage, int id, int attackType)
@@ -52,16 +56,17 @@ public class Bullet extends GameObject {
 
 	}
 
-	/** 
+	/**
 	 * Generate explosions on collision with another bullet
 	 * 
-	 * @param colidingwith Another bullet that is colliding with this one
+	 * @param colidingwith
+	 *            Another bullet that is colliding with this one
 	 */
 	public void collide(Bullet colidingwith) {
 		if (doomed) {
 			return;
 		}
-		switch(attackType) {
+		switch (attackType) {
 		case Utils.ROCKET_BULLETS:
 			explode();
 			break;
@@ -69,11 +74,13 @@ public class Bullet extends GameObject {
 			new ExplosionEffect(getBody().getPosition(), 1, 10);
 			break;
 		case Utils.SINGLESHOT:
-			new ExplosionEffect(getBody().getPosition(), Utils.NUMPARTICLESEXPLOSION, Utils.EXPLOSION_LIFESPAN);
+			new ExplosionEffect(getBody().getPosition(),
+					Utils.NUMPARTICLESEXPLOSION, Utils.EXPLOSION_LIFESPAN);
 
 			break;
 		case Utils.SHOTGUN:
-			new ExplosionEffect(getBody().getPosition(), Utils.NUMPARTICLESEXPLOSION, 40);
+			new ExplosionEffect(getBody().getPosition(),
+					Utils.NUMPARTICLESEXPLOSION, 40);
 
 			break;
 		}
@@ -88,25 +95,36 @@ public class Bullet extends GameObject {
 			// Collisions with creatures
 			if (contact.other.getUserData() instanceof Creature) {
 				Creature creature = (Creature) contact.other.getUserData();
+				// Check if that creature shot this bullet
 				if (creature.id == creatorId) {
 					contact = contact.next;
 					continue;
 				}
+				// Deal damage to creature
 				creature.hit(damage);
+
+				// Increment the number of enemies killed statistic if a creature is killed
+				// by the player
+				if (creatorId == GameWorld.getGameWorld().getPlayerId() && creature.getCurrHealth() <= 0)
+					GameWorld.gameStats.incrementEnemiesKilled();
+				
 				if (attackType == Utils.ROCKET) {
 					explode();
 				} else {
 					new ExplosionEffect(getBody().getPosition(), 4, 200);
 				}
+				// Destroy bullet
 				this.die();
 
-			// Collisions with other bullets
+				// Collisions with other bullets
 			} else if (contact.other.getUserData() instanceof Bullet) {
 				Bullet bullet = (Bullet) contact.other.getUserData();
+				// Check if the bullet is from the same creature as this one
 				if (bullet.creatorId == this.creatorId) {
 					contact = contact.next;
 					continue;
 				}
+				// Collide with the other bullet and explode
 				bullet.collide(this);
 				if (attackType == Utils.ROCKET) {
 					explode();
@@ -155,7 +173,7 @@ public class Bullet extends GameObject {
 	}
 
 	// Initialise a BodyDef Object with the required attributes for a new bullet
-	
+
 	private void initialiseBodyDef(Vec2 position) {
 		// solid object needs a body
 		BodyDef bd = new BodyDef();
@@ -172,8 +190,9 @@ public class Bullet extends GameObject {
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
 
-	// Initialise a FixtureDef object with the required attributes for a new bullet
-	
+	// Initialise a FixtureDef object with the required attributes for a new
+	// bullet
+
 	private void initialiseFixtureDefinition() {
 		CircleShape dynamicCircle = new CircleShape();
 		dynamicCircle.m_radius = (image.getWidth() / 2) / Utils.SCALE;

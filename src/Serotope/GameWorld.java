@@ -30,7 +30,7 @@ public class GameWorld {
 	private static int playerId;
 	private Overlay ui;
 	private static int score = 0;
-	
+
 	public static final float MAX_DISTANCE = 10000;
 
 	public static GameWorld getGameWorld() {
@@ -190,6 +190,10 @@ public class GameWorld {
 			}
 		}
 		return false;
+	}
+
+	public int getPlayerId() {
+		return playerId;
 	}
 
 	/**

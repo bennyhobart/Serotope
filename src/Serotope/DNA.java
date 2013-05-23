@@ -29,11 +29,19 @@ public class DNA extends GameObject {
 	private ArrayList<Gene> genes = new ArrayList<Gene>();
 	private boolean dropped = false;
 
+	/**
+	 * Create a new DNA object
+	 * 
+	 * @throws SlickException
+	 */
 	public DNA() throws SlickException {
 		super(new Vec2(0, 0), Utils.dnaImage, true);
+		// Remove the DNA object from the game world, as it is to be initially
+		// associated with a creature
 		GameWorld.getGameWorld().getGameObjects().remove(this);
 		initialiseBodyDefinition();
 
+		// Add each of the required genes
 		genes.add(new HealthGene());
 		genes.add(new LifeSpanGene());
 		genes.add(new ShieldGene());
@@ -47,6 +55,57 @@ public class DNA extends GameObject {
 		genes.add(new AttackTypeGene());
 	}
 
+	/**
+	 * Apply any modifiers to the given creature's stats based on the genes in
+	 * its DNA
+	 * 
+	 * @param creature
+	 *            The creature to be modified
+	 */
+	public void buffCreature(Creature creature) {
+		for (Gene gene : genes) {
+			gene.buffCreature(creature);
+		}
+	}
+
+	@Override
+	public void update(int delta, GameContainer gc) {
+		// Only update if DNA object is in the game world, and not in a creature
+		if (!dropped) {
+			return;
+		}
+		// Create a body fixture if it doesn't have one, so it can partake
+		// in physics in the game world (collisions, etc)
+		if (this.getBody().getFixtureList() == null) {
+			initialiseFixture();
+		}
+
+		// Check if a creature makes contact with this object
+		ContactEdge contact = this.getBody().getContactList();
+		ArrayList<Creature> creatures = Utils.getCreatures(contact);
+		// Said creature picks up the dna
+		if (!creatures.isEmpty()) {
+			creatures.get(0).pickUpDna(this);
+			this.dropped = false;
+			this.destroyFixture();
+		}
+		return;
+	}
+
+	@Override
+	// Render the DNA only if it is in the game world, and not in a creature
+	void render(Graphics g, float xrender, float yrender) {
+		if (dropped) {
+			super.render(g, xrender, yrender);
+		} else
+			return;
+	}
+
+	private void destroyFixture() {
+		this.getBody().destroyFixture(getBody().getFixtureList());
+	}
+
+	// Initialise BodyDef object with the required physical attributes
 	private void initialiseBodyDefinition() {
 		BodyDef bd = new BodyDef();
 		bd.fixedRotation = true;
@@ -57,6 +116,7 @@ public class DNA extends GameObject {
 		setBody(GameWorld.getGameWorld().getPhysicsWorld().createBody(bd));
 	}
 
+	// Initialise FictureDef object with the required physical attributes
 	private void initialiseFixture() {
 
 		CircleShape circle = new CircleShape();
@@ -68,51 +128,23 @@ public class DNA extends GameObject {
 		getBody().setFixedRotation(true);
 
 	}
-	
-	public void buffCreature(Creature creature) {
-		for (Gene gene : genes) {
-			gene.buffCreature(creature);
-		}
-	}
 
 	public ArrayList<Gene> getGenes() {
 		return genes;
 	}
 
-	@Override
-	public void update(int delta, GameContainer gc) {
-		if (!dropped) {
-			return;
-		}
-		if (this.getBody().getFixtureList() == null) {
-			initialiseFixture();
-		}
+	public void setDropped(boolean dropped) {
+		this.dropped = dropped;
 
-		ContactEdge contact = this.getBody().getContactList();
-		ArrayList<Creature> creatures = Utils.getCreatures(contact);
-		if (!creatures.isEmpty()) {
-			creatures.get(0).pickUpDna(this);
-			this.dropped = false;
-			this.destroyFixture();
-		}
-		return;
 	}
 
-	private void destroyFixture() {
-		this.getBody().destroyFixture(getBody().getFixtureList());
-	}
-
-	@Override
-	void render(Graphics g, float xrender, float yrender) {
-		if (dropped) {
-			super.render(g, xrender, yrender);
-		} else
-			return;
-	}
-
-	public void setDropped(boolean b) {
-		this.dropped = b;
-
+	public int getNumGenesExpressed() {
+		int count = 0;
+		for (Gene gene : genes) {
+			if (gene.isExpressed())
+				count++;
+		}
+		return count;
 	}
 
 }

@@ -6,7 +6,8 @@ public abstract class Controller {
 	/**
 	 * Create a new controller
 	 * 
-	 * @param creature Creature object being controlled by this object
+	 * @param creature
+	 *            Creature object being controlled by this object
 	 */
 	public Controller(Creature creature) {
 		target = creature;

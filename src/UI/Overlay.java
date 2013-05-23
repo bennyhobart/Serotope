@@ -34,7 +34,7 @@ public class Overlay {
 	private void drawTraits(Graphics g) {
 		ArrayList<Gene> expressedGenes = target.getExpressedGenes();
 		int xRender = 6 * border + 3 * statSize;
-		int yRender = 2*border ;
+		int yRender = 2 * border + 5;
 		if (expressedGenes.isEmpty()) {
 			return;
 		}
@@ -44,7 +44,6 @@ public class Overlay {
 				xRender += gene.getIcon().getWidth() + border - 5;
 			}
 		}
-
 	}
 
 	private void drawDynamics(Graphics g) {
@@ -58,8 +57,9 @@ public class Overlay {
 				xRender, yRender, g);
 
 		g.drawString("" + target.getCurrHealth(), xRender, yRender);
-		if(target.isShield()) {
-			g.drawString(String.format("%.0f", target.getCurrShield()),xRender+border+10,yRender);
+		if (target.isShield()) {
+			g.drawString(String.format("%.0f", target.getCurrShield()), xRender
+					+ border + 10, yRender);
 		}
 
 		xRender += (statSize + border);

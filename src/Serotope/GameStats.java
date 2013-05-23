@@ -2,13 +2,12 @@ package Serotope;
 
 public class GameStats {
 
-	
 	private int enemiesKilled = 0;
 	private int generations = -1;
 	private int maxNumGenes = 0;
-	
+
 	public GameStats() {
-	
+
 	}
 
 	public void incrementEnemiesKilled() {
@@ -19,8 +18,9 @@ public class GameStats {
 		this.generations++;
 	}
 
-	public void setMaxNumGenes(int num) {
-		this.maxNumGenes = num;
+	public void updateMaxNumGenes(int num) {
+		if (num >= maxNumGenes)
+			this.maxNumGenes = num;
 	}
 
 	public int getEnemiesKilled() {
@@ -34,9 +34,5 @@ public class GameStats {
 	public int getMaxNumGenes() {
 		return maxNumGenes;
 	}
-	
-	
-	
-	
 
 }
