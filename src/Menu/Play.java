@@ -48,6 +48,7 @@ public class Play extends BasicGameState {
 			ArrayList<Highscore> highscores = gPanel.database.getHighscore();
 			if(highscores.size() < Utils.MAXHIGHSCORES || gameScore >= highscores.get(highscores.size()-1).getScore()){
 				rank = gPanel.database.calcRank(gameScore);
+				gc.getInput().clearKeyPressedRecord();
 				sbg.enterState(gPanel.ENTERSCOREID);
 			}else
 				sbg.enterState(gPanel.GAMEOVERMENUID);
