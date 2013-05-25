@@ -395,6 +395,8 @@ public class InputManager {
 	public static int returnLetterPressed(Input input){
 		if(input.isKeyPressed(Keyboard.KEY_BACK))
 			return Keyboard.KEY_BACK;
+		else if(input.isKeyPressed(Keyboard.KEY_RETURN))
+			return Keyboard.KEY_RETURN;
 		else if(input.isKeyPressed(Keyboard.KEY_0))
 			return Keyboard.KEY_0;
 		else if(input.isKeyPressed(Keyboard.KEY_1))

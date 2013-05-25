@@ -53,6 +53,7 @@ public class EnterHighscore extends BasicGameState{
 			heading.draw();
 		g.drawString(name, gc.getWidth()/8, gc.getHeight()/6*5);		
 		g.drawString(Integer.toString(gameScore), gc.getWidth()/8, gc.getHeight()/2);
+		g.drawRect(gc.getWidth()/8, gc.getHeight()/6*5 , gc.getWidth()/3, gc.getHeight()/8);
 	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
@@ -69,6 +70,9 @@ public class EnterHighscore extends BasicGameState{
 			if(newChar == Keyboard.KEY_BACK){
 				if(name.length()!=0)
 					name = name.substring(0, name.length()-1);
+			}else if(newChar == Keyboard.KEY_RETURN){
+				gPanel.database.writeToHighscores(name, gameScore);
+				toGameOver = true;
 			}else if(newChar != -1 && name.length()<Utils.MAXSTRING){
 				name += Keyboard.getKeyName(newChar);
 			}
