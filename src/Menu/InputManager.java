@@ -62,6 +62,7 @@ public class InputManager {
 		KeySprint = Keyboard.KEY_LSHIFT;
 	}
 	
+	//Changes the current key assignment
 	static void changeKey(int from, int to) {
 		switch(from) {
 		case MoveRightRef: MoveRight = to;
@@ -87,6 +88,7 @@ public class InputManager {
 		}
 	}
 	
+	//Returns the string of the respective key
 	static String returnkey(int ref){
 		switch(ref) {
 		case MoveRightRef: return Keyboard.getKeyName(MoveRight);
@@ -173,6 +175,7 @@ public class InputManager {
 		}
 	}
 	
+	//Returns the current key that is pressed
 	public static int returnKeyPressed(Input input){
 		if(input.isKeyDown(Keyboard.KEY_0))
 			return Keyboard.KEY_0;
@@ -392,6 +395,7 @@ public class InputManager {
 			return -1;
 	}
 	
+	//Returns the current key been pressed restricted to letters, numbers, backspace and return
 	public static int returnLetterPressed(Input input){
 		if(input.isKeyPressed(Keyboard.KEY_BACK))
 			return Keyboard.KEY_BACK;

@@ -27,9 +27,8 @@ public class SettingsMenu extends BasicGameState {
 	private Button incVol;
 	private Button decVol;
 	private ArrayList<ControlBox> controlList;
-	
-//	private JSlider volumeSlider;
 
+	//Data structure that helps with the customising of controls
 	public class ControlBox extends Heading{
 		private String name;
 		private int curKey;
@@ -40,6 +39,7 @@ public class SettingsMenu extends BasicGameState {
 			curKey = k;
 		}
 		
+		//Checks if (x,y) is inside the box
 		boolean isInside(int x, int y){
 	    	if( ( x >= xpos && x <= xpos + img.getWidth()) &&
 	    		    ( y >= ypos && y <= ypos + img.getHeight()) ){
@@ -49,15 +49,6 @@ public class SettingsMenu extends BasicGameState {
 		}
 		
 	}
-
-	public class VolumeChanged implements ChangeListener{	
-		public void stateChanged(ChangeEvent ce){
-			JSlider source = (JSlider) ce.getSource();
-			if (!source.getValueIsAdjusting()) {
-	            volumeLevel = (int)source.getValue();
-	        }
-		}
-	}
 	
 	public SettingsMenu(int id) {
 		this.id=id;
@@ -66,10 +57,11 @@ public class SettingsMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException{
-        Color background = new Color(Color.black);
+        //Sets colours and background
+		Color background = new Color(Color.black);
         gc.getGraphics().setBackground(background);
-        int buffer = gc.getHeight()/10;
-		
+        
+        //Initialises all buttons and headings and puts them into a list
 		headingList = new ArrayList<Heading>();
 		headingList.add(new Heading(Utils.SETTINGSTITLE,gc.getWidth()/8,gc.getHeight()/6));
 		headingList.add(new Heading(Utils.SETTINGSVOLUME,gc.getWidth()/8,gc.getHeight()/3));
@@ -78,6 +70,8 @@ public class SettingsMenu extends BasicGameState {
 		headingList.add(decVol = new Button(Utils.SETTINGSDEC,gc.getWidth()/8+20,gc.getHeight()/12*5+20,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
 		headingList.add(incVol = new Button(Utils.SETTINGSINC,gc.getWidth()/14*13,gc.getHeight()/12*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
 		
+		//Initialises the control boxes and adds them into a list together
+        int buffer = gc.getHeight()/10;
 		controlList = new ArrayList<ControlBox>();
 		controlList.add(new ControlBox("Move Left",gc.getWidth()/8,gc.getHeight()/2+buffer,Utils.SETTINGSBOX,InputManager.MoveLeftRef));
 		controlList.add(new ControlBox("Move Right",gc.getWidth()/8,gc.getHeight()/2+buffer*2,Utils.SETTINGSBOX,InputManager.MoveRightRef));
@@ -90,6 +84,7 @@ public class SettingsMenu extends BasicGameState {
 		controlList.add(new ControlBox("Pause Game",gc.getWidth()/8*5,gc.getHeight()/2+buffer,Utils.SETTINGSBOX,InputManager.PauseRef));
 		controlList.add(new ControlBox("Sprint",gc.getWidth()/8*5,gc.getHeight()/2+buffer*2,Utils.SETTINGSBOX,InputManager.SprintRef));
 
+		//Initialises sound variables
 		maxVolume = gc.getSoundVolume();
 		rectsLevel = 10;		
 		
@@ -98,15 +93,20 @@ public class SettingsMenu extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		int adjust = gc.getHeight()/70;
+		
+		//Draws each heading and button onto the screen
 		for(Heading heading : headingList)
 			heading.draw();
+		
+		//Draws each control box onto the screen
+		int adjust = gc.getHeight()/70;
 		for(ControlBox boxi : controlList){
 			boxi.draw();
 			g.drawString(boxi.name, boxi.xpos+gc.getWidth()/10, boxi.ypos+boxi.img.getHeight()/2-adjust);
 			g.drawString(InputManager.returnkey(boxi.curKey), boxi.xpos+adjust, boxi.ypos+boxi.img.getHeight()/2-adjust);
 		}		
 		
+		//Draws the sound bar as a collection of rectangles incrementally getting longer in length
 		g.setColor(Color.blue);
 		int numRects = rectsLevel;
 		int rectX = gc.getWidth()/14*3;
@@ -131,13 +131,16 @@ public class SettingsMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
+		//Gets the co-ordinates the mouses position
 		int mouseX;
 		int mouseY;
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY(); 
     	
+    	//Checks if the goBack button is pressed
     	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
     	
+    	//Checks if volume buttons are pressed and either raises or lowers the volume
     	if(incVol.isInside(mouseX, mouseY)){
     		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
     			rectsLevel ++;
@@ -152,6 +155,7 @@ public class SettingsMenu extends BasicGameState {
     		}
     	}
     	
+    	//Checks if the control box option is selected and then gets new input for the replacement key
     	for(ControlBox control : controlList) {
     		changeControl(control, mouseX, mouseY, gc);
     		if(control.changingKey) {
@@ -169,6 +173,7 @@ public class SettingsMenu extends BasicGameState {
 		return id;
 	}
 	
+	//Handles a flag for sensing when a key is been changed
 	private static void changeControl(ControlBox control, int x, int y, GameContainer gc){
 		if(control.isInside(x, y)){
 			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){

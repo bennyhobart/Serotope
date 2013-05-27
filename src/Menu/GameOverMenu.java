@@ -43,10 +43,10 @@ public class GameOverMenu extends BasicGameState {
         
         //Initialises page's headings and buttons and puts them into some respectively ArrayLists
 		headingsList = new ArrayList<Heading>();
-		headingsList.add(new Heading(Utils.GAMEOVERTITLE,gc.getWidth()/8,gc.getHeight()/6));
-		headingsList.add(replay = new Button(Utils.GAMEOVERREPLAY,gc.getWidth()/8,gc.getHeight()/3*2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
-		headingsList.add(returnMainMenu = new Button(Utils.GAMEOVERRETURNMAINMENU,gc.getWidth()/8,gc.getHeight()/6*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
-		headingsList.add(new Heading(Utils.GAMEOVERFINALSCORE,gc.getWidth()/8,gc.getHeight()/2));
+		headingsList.add(new Heading(Utils.GAMEOVERTITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
+		headingsList.add(replay = new Button(Utils.GAMEOVERREPLAY,Utils.LEFTALIGNX,Utils.THIRDHEADING,Utils.STARTSCALE,Utils.ENLARGE,gPanel.PLAYID));
+		headingsList.add(returnMainMenu = new Button(Utils.GAMEOVERRETURNMAINMENU,Utils.LEFTALIGNX,Utils.FOURTHHEADING,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		headingsList.add(new Heading(Utils.GAMEOVERFINALSCORE,Utils.LEFTALIGNX,Utils.SECONDHEADING));
 		buttonList = new ArrayList<Button>();
 		buttonList.add(replay);
 		buttonList.add(returnMainMenu);
@@ -67,9 +67,13 @@ public class GameOverMenu extends BasicGameState {
 			heading.draw();
 		}
 		
+		//Sets the x y position for the highscore
+		int highscoreX = gc.getWidth()/3+adjust;
+		int highscoreY = gc.getHeight()/2-adjust;
+		
 		//Draws the Player's final score
 		g.setFont(scoreFont);
-		g.drawString(Integer.toString(Play.gameScore),gc.getWidth()/3+adjust, gc.getHeight()/2-adjust);
+		g.drawString(Integer.toString(Play.gameScore),highscoreX,highscoreY);
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class GameOverMenu extends BasicGameState {
 		
     	//Creates a new game and resets player's score
     	Play.world = new GameWorld("Serotope");
-		GameWorld.setScore(0);
+		GameWorld.setScore(Utils.RESETSCORE);
 	}
 
 	@Override

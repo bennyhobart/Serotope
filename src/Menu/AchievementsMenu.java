@@ -24,6 +24,7 @@ public class AchievementsMenu extends BasicGameState {
 	private int highscoreListPosY;
 	private int medalPosX;
 	private int medalPosY;
+	private int medalHeadingX;
 	private ArrayList<Heading> headingList;
 	private Button goBack;
 	
@@ -44,27 +45,31 @@ public class AchievementsMenu extends BasicGameState {
 		highscoreListPosY = gc.getHeight()/2;
 		medalPosX = gc.getWidth()/2;
 		medalPosY = gc.getHeight()/2;
+		medalHeadingX = gc.getWidth()/8*5;
+		
 		//Initialise page headings and buttons
 		headingList = new ArrayList<Heading>();
-		headingList.add(new Heading(Utils.ACHIEVEMENTSTITLE,gc.getWidth()/8,gc.getHeight()/6));
-		headingList.add(new Heading(Utils.ACHIEVEMENTSHIGHSCORE,gc.getWidth()/8,gc.getHeight()/3));
-		headingList.add(new Heading(Utils.ACHIEVEMENTSMEDAL,gc.getWidth()/8*5,gc.getHeight()/3));
-		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		headingList.add(new Heading(Utils.ACHIEVEMENTSTITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
+		headingList.add(new Heading(Utils.ACHIEVEMENTSHIGHSCORE,Utils.LEFTALIGNX,Utils.FIRSTHEADING));
+		headingList.add(new Heading(Utils.ACHIEVEMENTSMEDAL,medalHeadingX,Utils.FIRSTHEADING));
+		headingList.add(goBack = new Button(Utils.GOBACK,Utils.BOTRIGHTX,Utils.BOTRIGHTY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
+		//Sets the spacing between highscore lines
 		int highscoreSpacing = gc.getHeight()/20;
 		
+		//Sets the font of highscores
 		g.setFont(new TrueTypeFont(scoreFont,false));
 		
 		//Draw each heading and button onto the page
 		for(Heading heading : headingList)
 			heading.draw();
 		
-		
+		//Draws the highscores and medals onto the page
     	gPanel.database.drawHighscores(highscoreListPosX, highscoreListPosY, highscoreSpacing, g);
     	gPanel.database.drawMedals(medalPosX, medalPosY, gc, g);
 

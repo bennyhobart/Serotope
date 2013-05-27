@@ -32,26 +32,14 @@ public class MainMenu extends BasicGameState {
 		Color background = new Color(Color.black);
 		gc.getGraphics().setBackground(background);
 
-		// Intialise page's headings and buttons, and put them in their respective
-		// lists
+		// Intialise page's headings and buttons, and put them in their respective lists
 		headingList = new ArrayList<Heading>();
-		headingList.add(new Heading(Utils.MAINTITLE, gc.getWidth() / 8, gc
-				.getHeight() / 6));
-		headingList.add(play = new Button(Utils.MAINPLAY, gc.getWidth() / 8, gc
-				.getHeight() / 3, Utils.STARTSCALE, Utils.ENLARGE,
-				gPanel.PLAYID));
-		headingList.add(howTo = new Button(Utils.MAINHOWTO, gc.getWidth() / 8,
-				gc.getHeight() / 2, Utils.STARTSCALE, Utils.ENLARGE,
-				gPanel.HOWTOMENUID));
-		headingList.add(achievements = new Button(Utils.MAINACHIEVEMENTS, gc
-				.getWidth() / 8, gc.getHeight() / 3 * 2, Utils.STARTSCALE,
-				Utils.ENLARGE, gPanel.ACHIEVEMENTSMENUID));
-		headingList.add(quit = new Button(Utils.MAINQUIT, gc.getWidth() / 8, gc
-				.getHeight() / 6 * 5, Utils.STARTSCALE, Utils.ENLARGE,
-				gPanel.MAINMENUID));
-		headingList.add(settings = new Button(Utils.MAINSETTINGS,
-				gc.getWidth() / 8 * 7, gc.getHeight() / 8 * 7,
-				Utils.STARTSCALE, Utils.ENLARGE, gPanel.SETTINGSMENUID));
+		headingList.add(new Heading(Utils.MAINTITLE, Utils.LEFTALIGNX, Utils.TITLEPOSY));
+		headingList.add(play = new Button(Utils.MAINPLAY, Utils.LEFTALIGNX, Utils.FIRSTHEADING, Utils.STARTSCALE, Utils.ENLARGE,gPanel.PLAYID));
+		headingList.add(howTo = new Button(Utils.MAINHOWTO, Utils.LEFTALIGNX, Utils.SECONDHEADING, Utils.STARTSCALE, Utils.ENLARGE,	gPanel.HOWTOMENUID));
+		headingList.add(achievements = new Button(Utils.MAINACHIEVEMENTS, Utils.LEFTALIGNX, Utils.THIRDHEADING, Utils.STARTSCALE,Utils.ENLARGE, gPanel.ACHIEVEMENTSMENUID));
+		headingList.add(quit = new Button(Utils.MAINQUIT, Utils.LEFTALIGNX, Utils.FOURTHHEADING, Utils.STARTSCALE, Utils.ENLARGE,gPanel.MAINMENUID));
+		headingList.add(settings = new Button(Utils.MAINSETTINGS, Utils.BOTRIGHTX, Utils.SETTINGSY,	Utils.STARTSCALE, Utils.ENLARGE, gPanel.SETTINGSMENUID));
 		buttonList = new ArrayList<Button>();
 		buttonList.add(play);
 		buttonList.add(howTo);
@@ -78,6 +66,7 @@ public class MainMenu extends BasicGameState {
 		mouseX = gc.getInput().getMouseX();
 		mouseY = gc.getInput().getMouseY();
 
+		//Checks if any of the buttons have been pressed and execute the appropriate action
 		for (Button button : buttonList) {
 			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
 		}

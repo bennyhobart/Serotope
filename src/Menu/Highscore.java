@@ -5,10 +5,11 @@ import org.newdawn.slick.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
 
-
+//Data structure that contains individual highscore data
 public class Highscore{
 	private String name;
 	private int score;
+	
 	public Highscore(String n, int sc){
 		name = n;
 		score = sc;
@@ -19,6 +20,7 @@ public class Highscore{
 		score = Integer.parseInt(sc);
 	}
 	
+	//Draws the highscore to the position (x,y)
 	public void drawLine(int x, int y, int rank, Graphics g){
 		String pScore = Integer.toString(score);
 		g.drawString(rank + ". " + name, x, y); 

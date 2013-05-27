@@ -15,6 +15,7 @@ import org.newdawn.slick.SlickException;
 
 import Serotope.GameStats;
 
+//Singleton data structure that holds all the game data been highscores and achievements
 public class SerotopeData {
 	private String highscoreFile;
 	private String achievementFile;
@@ -36,6 +37,7 @@ public class SerotopeData {
 		readInAchievements(achvfile, csfile);
 	}
 
+	//Returns the instance of the data or creates a new one
 	public static SerotopeData getInstance(String hsfile, String achvfile, String csfile){
 		if(instance == null){
 			instance = new SerotopeData(hsfile,achvfile,csfile);
@@ -43,6 +45,7 @@ public class SerotopeData {
 		return instance;
 	}
 
+	//Reads the highscores from file and enters them into the data structure
 	private void readInHighscores(String filename){
 		BufferedReader reader = null;
 		String nameLine, scoreLine;
@@ -65,6 +68,7 @@ public class SerotopeData {
 		}
 	}
 	
+	//Reads in the achievements from file and enters them into the data structure
 	private void readInAchievements(String achvfile, String csfile) {
 		BufferedReader achvReader = null;
 		BufferedReader statsReader = null;
@@ -96,8 +100,8 @@ public class SerotopeData {
 		}
 	}
 	
+	//Draws all the highscores in a ranked order from position (x,y)
 	public void drawHighscores(int x, int y, int spacing, Graphics g){
-		//Draw each highscore on the page in their ranked order
 		int scorePosY = y;
 		int rank = 1;
 		for(Highscore highscore : highscores){
@@ -107,8 +111,8 @@ public class SerotopeData {
 		}
 	}
 
+	//Draw all medals from position (x,y)
 	public void drawMedals(int x, int y, GameContainer gc, Graphics g) throws SlickException{
-		//Draw each highscore on the page in their ranked order
 		int boxX;
 		int boxY = y;
 		int nameLength = gc.getWidth()/4;
@@ -129,6 +133,7 @@ public class SerotopeData {
 		}
 	}
 	
+	//Updates each achievement using the GameStats passed to it
 	public void updateAchievements(GameStats gameStats){
 		int gamesPlayed = medals.get(GAMESPLAYEDID).getCurrent();
 		medals.get(GAMESPLAYEDID).setCurrent(gamesPlayed+1);
@@ -145,6 +150,7 @@ public class SerotopeData {
 		writeToAchievements();
 	}
 	
+	//Writes highscores to the file
 	public void writeToHighscores(String name, int gameScore){
 		BufferedWriter writer = null;
     	try{
@@ -172,6 +178,7 @@ public class SerotopeData {
     	}
 	}
 	
+	//Writes achievements to the file
 	private void writeToAchievements(){
 		BufferedWriter writer = null;
     	try{
@@ -194,6 +201,7 @@ public class SerotopeData {
     	}
 	}
 	
+	//Compares the gamescore against the highscores and returns its ranked  position
 	public int calcRank(int gameScore){
 		int rank = 0;
 		for(Highscore score : highscores){

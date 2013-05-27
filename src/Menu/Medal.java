@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+//Data structure that holds information on individidual achievements
 public class Medal {
 	private String name;
 	private int current;
@@ -36,6 +37,7 @@ public class Medal {
 		updateMedal();
 	}
 	
+	//Draws the medal achievement line to the screen from position (x,y)
 	public void drawLine(int x, int y, int buffer, int nameLength, int boxLength, Graphics g) throws SlickException{
 		g.drawString(name, x + buffer, y+boxLength/2);
 		x += nameLength;
@@ -65,6 +67,7 @@ public class Medal {
 			g.drawImage(locked, x, y, x+boxLength, y+boxLength, 0, 0, locked.getWidth(), locked.getHeight());
 	}
 	
+	//Checks which medals in the achievement are unlocked
 	public void updateMedal(){
 		if(current>=platinum){
 			platinumUnlocked = true;

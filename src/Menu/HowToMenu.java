@@ -23,6 +23,10 @@ public class HowToMenu extends BasicGameState {
 	private int leftPosY;
 	private int rightPosX;
 	private int rightPosY;
+	private int nextX;
+	private int nextY;
+	private int prevX;
+	private int prevY;
 	private int pageNumberX;
 	private int pageNumberY;	
 	private ArrayList<Heading> headingList;
@@ -60,13 +64,20 @@ public class HowToMenu extends BasicGameState {
 		Image previ = new Image(Utils.HOWTOPREV);
 		Image dummy = new Image(Utils.HOWTODUMMY);
 		
+		//The x y position the next and prev buttons are drawn at
+		nextX = gc.getWidth()-nexti.getWidth();
+		nextY = Utils.SECONDHEADING;
+		prevX = 0;
+		prevY = Utils.SECONDHEADING;
+		
 		//Initialises the headings and buttons of this page
 		headingList = new ArrayList<Heading>();
-		headingList.add(new Heading(Utils.HOWTOTITLE,gc.getWidth()/8,gc.getHeight()/6));
-		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		headingList.add(new Heading(Utils.HOWTOTITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
+		headingList.add(goBack = new Button(Utils.GOBACK,Utils.BOTRIGHTX,Utils.BOTRIGHTY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		
 		//next and prev are not added to headingList since they are not always rendered
-		next = new Button(Utils.HOWTONEXT,gc.getWidth()-nexti.getWidth(),gc.getHeight()/2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
-		prev = new Button(Utils.HOWTOPREV,0,gc.getHeight()/2,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
+		next = new Button(Utils.HOWTONEXT,nextX,nextY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
+		prev = new Button(Utils.HOWTOPREV,prevX,prevY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
 		
 		//Helps with adjusting rendering positions
 		int adjust = gc.getWidth()/25;

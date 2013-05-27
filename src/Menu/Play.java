@@ -41,6 +41,9 @@ public class Play extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		world.update(delta, gc);
+		
+		//Checks if player has died and ends the game
+		//Then checks player's score to see if a highscore needs to be entered or not
 		if(world.getPlayer().doomed){
 			gPanel.database.updateAchievements(GameWorld.gameStats);
 			gameScore = world.getScore();

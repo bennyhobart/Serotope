@@ -23,6 +23,8 @@ public class EnterHighscore extends BasicGameState{
 	private String name;
 	private int gameScore;
 	private boolean toGameOver;
+	private int donePosX;
+	private int donePosY;
 	private ArrayList<Heading> highscoreHeadings;
 	private Button done;
 	
@@ -38,33 +40,55 @@ public class EnterHighscore extends BasicGameState{
         gc.getGraphics().setBackground(background);
         scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 48), false);	
         
+        //Sets the x y position for the DONE button
+        donePosX = gc.getWidth()/2;
+        donePosY = gc.getHeight()/6*5;
+        
+        //Initialises headings and buttons for a page and puts them into a list together
         highscoreHeadings = new ArrayList<Heading>();
-        highscoreHeadings.add(new Heading(Utils.HIGHSCORETITLE,gc.getWidth()/8,gc.getHeight()/6));
-        highscoreHeadings.add(new Heading(Utils.GAMEOVERENTER,gc.getWidth()/8,gc.getHeight()/3*2));
-		highscoreHeadings.add(done = new Button(Utils.GAMEOVERDONE,gc.getWidth()/2,gc.getHeight()/6*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.GAMEOVERMENUID));
-        name = "";
+        highscoreHeadings.add(new Heading(Utils.HIGHSCORETITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
+        highscoreHeadings.add(new Heading(Utils.GAMEOVERENTER,Utils.LEFTALIGNX,Utils.THIRDHEADING));
+		highscoreHeadings.add(done = new Button(Utils.GAMEOVERDONE,donePosX,donePosY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.GAMEOVERMENUID));
+        
+		//Initialises the highscore name string and sets the toGameOver flag to false
+		name = "";
         toGameOver = false;
 	}
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		g.setFont(scoreFont);
+		
+		//Draws all the headings and buttons to the screen
 		for(Heading heading : highscoreHeadings)
 			heading.draw();
-		g.drawString(name, gc.getWidth()/8, gc.getHeight()/6*5);		
+		
+		//Sets the width and height for the box surrounding the name
+		int boxWidth = gc.getWidth()/3;
+		int boxHeight = gc.getHeight()/8;
+		
+		//Draws the current highscore name to the screen and rectangle surrounding it
+		g.drawString(name, Utils.LEFTALIGNX, Utils.FOURTHHEADING);		
+		g.drawRect(Utils.LEFTALIGNX, Utils.FOURTHHEADING , boxWidth, boxHeight);
+		
+		//Draws the highscore to the screen
 		g.drawString(Integer.toString(gameScore), gc.getWidth()/8, gc.getHeight()/2);
-		g.drawRect(gc.getWidth()/8, gc.getHeight()/6*5 , gc.getWidth()/3, gc.getHeight()/8);
 	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		//Gets the final game score from the game just ended
     	gameScore = Play.gameScore;
+    	
 		//Gets mouse co-ordinates
 		int mouseX;
 		int mouseY;
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();    	
     	
+    	
+    	//Gets input for highscore name if the game is in this menu screen
+    	//If enter is pressed highscore is entered and toGameOver flag set to true
     	if(sbg.getCurrentStateID() == gPanel.ENTERSCOREID){
 			int newChar = InputManager.returnLetterPressed(gc.getInput());
 			if(newChar == Keyboard.KEY_BACK){
@@ -78,6 +102,7 @@ public class EnterHighscore extends BasicGameState{
 			}
     	}
     	
+    	//Checks if mouse selects the DONE option and enters highscores and sets toGameOver flag to true
     	if(done.isInside(mouseX, mouseY)){
 			done.increaseSize(delta);
 			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
@@ -87,6 +112,7 @@ public class EnterHighscore extends BasicGameState{
 		}else
 			done.decreaseSize(delta);
 
+    	//Checks toGameOver flag and if true enters Game Over screen
     	if(toGameOver){
     		toGameOver = false;
     		name = "";
