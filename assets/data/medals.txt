@@ -3,7 +3,7 @@ Games Played
 20
 50
 100
-Enemies Survived
+Enemies Killed
 20
 100
 500
@@ -13,8 +13,8 @@ DNA Picked Up
 50
 200
 500
-Max Genes per Game
-3
-6
-9
-11
+Max Kills per Game
+10
+20
+30
+50

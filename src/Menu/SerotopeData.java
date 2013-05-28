@@ -27,7 +27,7 @@ public class SerotopeData {
 	public static final int GAMESPLAYEDID = 0;
 	public static final int ENEMIESKILLEDID = 1;
 	public static final int REGENERATIONSID = 2;
-	public static final int MAXGENESID = 3;
+	public static final int MAXKILLS = 3;
 	
 	public SerotopeData(String hsfile, String achvfile, String csfile) {
 		highscoreFile = hsfile;
@@ -141,9 +141,9 @@ public class SerotopeData {
 		medals.get(ENEMIESKILLEDID).setCurrent(enemiesKilled + gameStats.getEnemiesKilled());
 		int regenerations = medals.get(REGENERATIONSID).getCurrent();
 		medals.get(REGENERATIONSID).setCurrent(regenerations + gameStats.getGenerations());
-		int maxGenes = medals.get(MAXGENESID).getCurrent();
-		if(gameStats.getMaxNumGenes()>maxGenes){
-			medals.get(MAXGENESID).setCurrent(gameStats.getMaxNumGenes());
+		int maxKills = medals.get(MAXKILLS).getCurrent();
+		if(gameStats.getEnemiesKilled()>maxKills){
+			medals.get(MAXKILLS).setCurrent(gameStats.getEnemiesKilled());
 		}
 		for(Medal medal : medals)
 			medal.updateMedal();

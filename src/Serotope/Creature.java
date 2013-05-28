@@ -326,9 +326,6 @@ public class Creature extends GameObject {
 	public void pickUpDna(DNA dna) {
 		try {
 			DNA newDna = mergeDna(this.getDna(), dna);
-			if (this.id == GameWorld.getGameWorld().getPlayerId()){
-				GameWorld.gameStats.updateMaxNumGenes(newDna.getNumGenesExpressed());
-			}
 			new Creature(getBody().getPosition(), this.controller, newDna);
 		} catch (SlickException e) {
 			e.printStackTrace();

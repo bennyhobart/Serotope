@@ -4,7 +4,6 @@ public class GameStats {
 
 	private int enemiesKilled = 0;
 	private int generations = -1;
-	private int maxNumGenes = 0;
 
 	public GameStats() {
 
@@ -18,21 +17,12 @@ public class GameStats {
 		this.generations++;
 	}
 
-	public void updateMaxNumGenes(int num) {
-		if (num >= maxNumGenes)
-			this.maxNumGenes = num;
-	}
-
 	public int getEnemiesKilled() {
 		return enemiesKilled;
 	}
 
 	public int getGenerations() {
 		return generations;
-	}
-
-	public int getMaxNumGenes() {
-		return maxNumGenes;
 	}
 
 }
