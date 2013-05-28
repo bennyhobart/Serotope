@@ -54,6 +54,7 @@ public class AchievementsMenu extends BasicGameState {
 		headingList.add(new Heading(Utils.ACHIEVEMENTSHIGHSCORE,Utils.LEFTALIGNX,Utils.FIRSTHEADING));
 		headingList.add(new Heading(Utils.ACHIEVEMENTSMEDAL,medalHeadingX,Utils.FIRSTHEADING));
 		headingList.add(goBack = new Button(Utils.GOBACK,Utils.BOTRIGHTX,Utils.BOTRIGHTY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		goBack.setSelected(true);
 		
 	}
 

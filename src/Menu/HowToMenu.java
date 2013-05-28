@@ -64,6 +64,9 @@ public class HowToMenu extends BasicGameState {
 	    			currentPage = pageList.get(curPageNum+1);
 	    		}
 	    	}
+			if(gc.getInput().isKeyPressed(Input.KEY_RIGHT) && curPageNum+1 < pageList.size()){
+				currentPage = pageList.get(curPageNum+1);
+			}
 		}
 	}
 	
@@ -82,6 +85,9 @@ public class HowToMenu extends BasicGameState {
 	    			currentPage = pageList.get(curPageNum-1);
 	    		}
 	    	}
+			if(gc.getInput().isKeyPressed(Input.KEY_LEFT) && curPageNum-1 >= 0){
+				currentPage = pageList.get(curPageNum-1);
+			}
 		}
 	}
 
@@ -114,6 +120,7 @@ public class HowToMenu extends BasicGameState {
 		headingList.add(new Heading(Utils.HOWTOTITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
 		headingList.add(goBack = new Button(Utils.GOBACK,Utils.BOTRIGHTX,Utils.BOTRIGHTY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
 		buttonList.add(goBack);
+		goBack.setSelected(true);
 		
 		//next and prev are not added to headingList since they are not always rendered
 		buttonList.add(next = new NextButton(Utils.HOWTONEXT,nextX,nextY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID));

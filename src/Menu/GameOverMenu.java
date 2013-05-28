@@ -28,6 +28,7 @@ public class GameOverMenu extends BasicGameState {
 	private ArrayList<Button> buttonList;
 	private Button replay;
 	private Button returnMainMenu;
+	private int selection;
 
 	public GameOverMenu(int id) {
 		this.id=id;
@@ -50,6 +51,8 @@ public class GameOverMenu extends BasicGameState {
 		buttonList = new ArrayList<Button>();
 		buttonList.add(replay);
 		buttonList.add(returnMainMenu);
+		selection = 0;
+		replay.setSelected(true);
 		
 	}
 	
@@ -91,10 +94,23 @@ public class GameOverMenu extends BasicGameState {
 		for(Button button : buttonList)
 			button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
 		
+		if(gc.getInput().isKeyPressed(Input.KEY_DOWN)){
+			buttonList.get(selection).setSelected(false);
+			selection = (selection+1)%buttonList.size();
+			buttonList.get(selection).setSelected(true);
+		}else if(gc.getInput().isKeyPressed(Input.KEY_UP)){
+			buttonList.get(selection).setSelected(false);
+			if(selection==0){
+				selection = buttonList.size()-1;
+			}else
+				selection -= 1;
+			buttonList.get(selection).setSelected(true);
+		}
 		
     	//Creates a new game and resets player's score
     	Play.world = new GameWorld("Serotope");
 		GameWorld.setScore(Utils.RESETSCORE);
+		
 	}
 
 	@Override

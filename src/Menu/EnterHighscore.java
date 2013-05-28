@@ -32,6 +32,30 @@ public class EnterHighscore extends BasicGameState{
 		this.id=id;
 	}
 	
+	public class DoneButton extends Button{
+
+		public DoneButton(String src, int x, int y, float s, float e, int es)
+				throws SlickException {
+			super(src, x, y, s, e, es);
+		}
+		
+		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+	    	//Checks if mouse selects the DONE option and enters highscores and sets toGameOver flag to true
+	    	if(isInside(x, y)){
+				increaseSize(delta);
+				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					gPanel.database.writeToHighscores(name, gameScore);
+					toGameOver = true;
+				}
+			}else
+				decreaseSize(delta);
+			if(isSelected() && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
+				gPanel.database.writeToHighscores(name, gameScore);
+				toGameOver = true;
+			}
+		}
+	}
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
@@ -49,7 +73,8 @@ public class EnterHighscore extends BasicGameState{
         highscoreHeadings.add(new Heading(Utils.HIGHSCORETITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
         highscoreHeadings.add(new Heading(Utils.GAMEOVERENTER,Utils.LEFTALIGNX,Utils.THIRDHEADING));
 		highscoreHeadings.add(done = new Button(Utils.GAMEOVERDONE,donePosX,donePosY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.GAMEOVERMENUID));
-        
+        done.setSelected(true);
+		
 		//Initialises the highscore name string and sets the toGameOver flag to false
 		name = "";
         toGameOver = false;
@@ -102,20 +127,13 @@ public class EnterHighscore extends BasicGameState{
 			}
     	}
     	
-    	//Checks if mouse selects the DONE option and enters highscores and sets toGameOver flag to true
-    	if(done.isInside(mouseX, mouseY)){
-			done.increaseSize(delta);
-			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				gPanel.database.writeToHighscores(name, gameScore);
-				toGameOver = true;
-			}
-		}else
-			done.decreaseSize(delta);
+    	done.buttonPressed(delta, mouseX, mouseY, gc, sbg);
 
     	//Checks toGameOver flag and if true enters Game Over screen
     	if(toGameOver){
     		toGameOver = false;
     		name = "";
+    		gc.getInput().clearKeyPressedRecord();
     		sbg.enterState(gPanel.GAMEOVERMENUID);
     	}
     	

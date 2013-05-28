@@ -20,6 +20,7 @@ public class MainMenu extends BasicGameState {
 	private Button achievements;
 	private QuitButton quit;
 	private Button settings;
+	private int selection;
 
 	public class QuitButton extends Button{
 
@@ -36,6 +37,9 @@ public class MainMenu extends BasicGameState {
 				}
 			} else
 				decreaseSize(delta);
+			if(isSelected() && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
+				gc.exit();
+			}
 		}
 	}
 	
@@ -62,9 +66,10 @@ public class MainMenu extends BasicGameState {
 		buttonList.add(play);
 		buttonList.add(howTo);
 		buttonList.add(achievements);
-		buttonList.add(settings);
 		buttonList.add(quit);
-
+		buttonList.add(settings);
+		play.setSelected(true);
+		selection = 0;
 	}
 
 	@Override
@@ -88,6 +93,19 @@ public class MainMenu extends BasicGameState {
 		//Checks if any of the buttons have been pressed and execute the appropriate action
 		for (Button button : buttonList) {
 			button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
+		}
+		
+		if(gc.getInput().isKeyPressed(Input.KEY_DOWN)){
+			buttonList.get(selection).setSelected(false);
+			selection = (selection+1)%buttonList.size();
+			buttonList.get(selection).setSelected(true);
+		}else if(gc.getInput().isKeyPressed(Input.KEY_UP)){
+			buttonList.get(selection).setSelected(false);
+			if(selection==0){
+				selection = buttonList.size()-1;
+			}else
+				selection -= 1;
+			buttonList.get(selection).setSelected(true);
 		}
 
 	}

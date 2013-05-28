@@ -59,6 +59,10 @@ public class Button extends Heading {
 		return enterState;
 	}
 	
+	public boolean isSelected(){
+		return selected;
+	}
+	
 	public void setSelected(boolean select){
 		selected = select;
 	}
@@ -68,10 +72,15 @@ public class Button extends Heading {
 		if(isInside(x, y)){
 			increaseSize(delta);
 			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				sbg.enterState(getEnterState());
+				gc.getInput().clearKeyPressedRecord();
+				sbg.enterState(enterState);
 			}
 		}else{
 			decreaseSize(delta);
+		}
+		if(selected && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
+			gc.getInput().clearKeyPressedRecord();
+			sbg.enterState(enterState);
 		}
 	}
 }

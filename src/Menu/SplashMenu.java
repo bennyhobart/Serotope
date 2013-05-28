@@ -47,6 +47,7 @@ public class SplashMenu extends BasicGameState {
 
 		Input input = gc.getInput();
 		if(input.isKeyDown(InputManager.KeyStart) || input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			input.clearKeyPressedRecord();
 			sbg.enterState(gPanel.MAINMENUID);
 		}
 		

@@ -61,11 +61,15 @@ public class SettingsMenu extends BasicGameState {
 		@Override
 		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
 			//Checks if volume button is pressed and lowers the volume
-	    	if(incVol.isInside(x, y)){
+	    	if(isInside(x, y)){
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
 	    			rectsLevel ++;
 	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    		}
+	    	}
+	    	if(gc.getInput().isKeyPressed(Input.KEY_RIGHT) && rectsLevel<10){
+	    		rectsLevel ++;
+    			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    	}
 		}
 	}
@@ -80,11 +84,15 @@ public class SettingsMenu extends BasicGameState {
 		@Override
 		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
 			//Checks if volume button is pressed lowers the volume
-			if(decVol.isInside(x, y)){
+			if(isInside(x, y)){
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel>0){
 	    			rectsLevel --;
 	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    		}
+	    	}
+			if(gc.getInput().isKeyPressed(Input.KEY_LEFT) && rectsLevel>0){
+	    		rectsLevel --;
+    			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    	}
 		}
 	}
@@ -112,6 +120,7 @@ public class SettingsMenu extends BasicGameState {
 		buttonList.add(goBack);
 		buttonList.add(decVol);
 		buttonList.add(incVol);
+		goBack.setSelected(true);
 		
 		//Initialises the control boxes and adds them into a list together
         int buffer = gc.getHeight()/10;
