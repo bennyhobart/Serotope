@@ -41,7 +41,7 @@ public class EnterHighscore extends BasicGameState{
         scoreFont = new TrueTypeFont(new java.awt.Font("Verdana", Font.BOLD, 48), false);	
         
         //Sets the x y position for the DONE button
-        donePosX = gc.getWidth()/2;
+        donePosX = gc.getWidth()/3*2;
         donePosY = gc.getHeight()/6*5;
         
         //Initialises headings and buttons for a page and puts them into a list together
@@ -64,8 +64,8 @@ public class EnterHighscore extends BasicGameState{
 			heading.draw();
 		
 		//Sets the width and height for the box surrounding the name
-		int boxWidth = gc.getWidth()/3;
-		int boxHeight = gc.getHeight()/8;
+		int boxWidth = gc.getWidth()/2;
+		int boxHeight = gc.getHeight()/10;
 		
 		//Draws the current highscore name to the screen and rectangle surrounding it
 		g.drawString(name, Utils.LEFTALIGNX, Utils.FOURTHHEADING);		

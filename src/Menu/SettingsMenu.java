@@ -24,8 +24,9 @@ public class SettingsMenu extends BasicGameState {
 	public static float volumeLevel;
 	private ArrayList<Heading> headingList;
 	private Button goBack;
-	private Button incVol;
-	private Button decVol;
+	private IncButton incVol;
+	private DecButton decVol;
+	private ArrayList<Button> buttonList;
 	private ArrayList<ControlBox> controlList;
 
 	//Data structure that helps with the customising of controls
@@ -50,6 +51,44 @@ public class SettingsMenu extends BasicGameState {
 		
 	}
 	
+	public class IncButton extends Button{
+
+		public IncButton(String src, int x, int y, float s, float e, int es)
+				throws SlickException {
+			super(src, x, y, s, e, es);
+		}
+		
+		@Override
+		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
+			//Checks if volume button is pressed and lowers the volume
+	    	if(incVol.isInside(x, y)){
+	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
+	    			rectsLevel ++;
+	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
+	    		}
+	    	}
+		}
+	}
+	
+	public class DecButton extends Button{
+
+		public DecButton(String src, int x, int y, float s, float e, int es)
+				throws SlickException {
+			super(src, x, y, s, e, es);
+		}
+		
+		@Override
+		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
+			//Checks if volume button is pressed lowers the volume
+			if(decVol.isInside(x, y)){
+	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel>0){
+	    			rectsLevel --;
+	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
+	    		}
+	    	}
+		}
+	}
+	
 	public SettingsMenu(int id) {
 		this.id=id;
 	}
@@ -63,12 +102,16 @@ public class SettingsMenu extends BasicGameState {
         
         //Initialises all buttons and headings and puts them into a list
 		headingList = new ArrayList<Heading>();
+		buttonList = new ArrayList<Button>();
 		headingList.add(new Heading(Utils.SETTINGSTITLE,gc.getWidth()/8,gc.getHeight()/6));
 		headingList.add(new Heading(Utils.SETTINGSVOLUME,gc.getWidth()/8,gc.getHeight()/3));
 		headingList.add(new Heading(Utils.SETTINGSCONTROLS,gc.getWidth()/8,gc.getHeight()/2));
 		headingList.add(goBack = new Button(Utils.GOBACK,gc.getWidth()/8*7,gc.getHeight()/12*11,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
-		headingList.add(decVol = new Button(Utils.SETTINGSDEC,gc.getWidth()/8+20,gc.getHeight()/12*5+20,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
-		headingList.add(incVol = new Button(Utils.SETTINGSINC,gc.getWidth()/14*13,gc.getHeight()/12*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
+		headingList.add(decVol = new DecButton(Utils.SETTINGSDEC,gc.getWidth()/8+20,gc.getHeight()/12*5+20,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
+		headingList.add(incVol = new IncButton(Utils.SETTINGSINC,gc.getWidth()/14*13,gc.getHeight()/12*5,Utils.STARTSCALE,Utils.ENLARGE,gPanel.SETTINGSMENUID));
+		buttonList.add(goBack);
+		buttonList.add(decVol);
+		buttonList.add(incVol);
 		
 		//Initialises the control boxes and adds them into a list together
         int buffer = gc.getHeight()/10;
@@ -138,21 +181,8 @@ public class SettingsMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY(); 
     	
     	//Checks if the goBack button is pressed
-    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
-    	
-    	//Checks if volume buttons are pressed and either raises or lowers the volume
-    	if(incVol.isInside(mouseX, mouseY)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
-    			rectsLevel ++;
-    			gc.setSoundVolume(rectsLevel/10*maxVolume);
-    		}
-    	}
-    	
-    	if(decVol.isInside(mouseX, mouseY)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel>0){
-    			rectsLevel --;
-    			gc.setSoundVolume(rectsLevel/10*maxVolume);
-    		}
+    	for(Button button : buttonList){
+    		button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
     	}
     	
     	//Checks if the control box option is selected and then gets new input for the replacement key

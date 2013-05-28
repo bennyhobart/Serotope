@@ -76,15 +76,4 @@ public class Utils {
 	public static final String HOWTOPAGE5T = "assets/image/menus/HowToPages/Page5T.png";
 	public static final String HOWTOPAGE5P = "assets/image/menus/HowToPages/Page5P.png";
 
-	//General funcction to find if a button is pressed and enter a new game State
-	public static void buttonPressed(int delta, int x, int y, Button button, GameContainer gc, StateBasedGame sbg){
-		if(button.isInside(x, y)){
-			button.increaseSize(delta);
-			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				sbg.enterState(button.getEnterState());
-			}
-		}else{
-			button.decreaseSize(delta);
-		}
-	}
 }

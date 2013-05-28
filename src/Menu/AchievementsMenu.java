@@ -28,6 +28,7 @@ public class AchievementsMenu extends BasicGameState {
 	private ArrayList<Heading> headingList;
 	private Button goBack;
 	
+	
 	public AchievementsMenu(int id) {
 		this.id=id;
 	}
@@ -86,7 +87,7 @@ public class AchievementsMenu extends BasicGameState {
     	mouseY = gc.getInput().getMouseY();
 
     	//Check if button has been pressed and execute action if so
-    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);    	
+    	goBack.buttonPressed(delta, mouseX, mouseY, gc, sbg);    	
 	}
 
 	@Override

@@ -1,13 +1,18 @@
 package Menu;
 
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 //Extension of Heading except this checks if mouse is within its bounds and draws according to scale
 public class Button extends Heading {
 	private float scale;
 	private float enlarge;
 	private int enterState;
+	private boolean selected;
 	private final float scaleMin = 1f;
 	private final float scaleMax = 1.05f;
 	
@@ -16,11 +21,16 @@ public class Button extends Heading {
 		scale = s;
 		enlarge = e;
 		enterState = es;
+		selected = false;
 	}
 
 	//Overides Heading draw method taking into account scale
 	public void draw(){
-		img.draw(xpos, ypos, scale);
+		if(selected){
+			img.draw(xpos,ypos,scale,Color.blue);
+		}else{
+			img.draw(xpos, ypos, scale);
+		}
 	}
 	
 	//Checks if co-ordinate is inside button's bounds
@@ -47,5 +57,21 @@ public class Button extends Heading {
 	//Returns the game state the game will enter if button is pressed
 	public int getEnterState(){
 		return enterState;
+	}
+	
+	public void setSelected(boolean select){
+		selected = select;
+	}
+	
+	//General funcction to find if a button is pressed and enter a new game State
+	public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		if(isInside(x, y)){
+			increaseSize(delta);
+			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				sbg.enterState(getEnterState());
+			}
+		}else{
+			decreaseSize(delta);
+		}
 	}
 }

@@ -30,9 +30,10 @@ public class HowToMenu extends BasicGameState {
 	private int pageNumberX;
 	private int pageNumberY;	
 	private ArrayList<Heading> headingList;
+	private ArrayList<Button> buttonList;
 	private Button goBack;
-	private Button prev;
-	private Button next;
+	private PrevButton prev;
+	private NextButton next;
 	private ArrayList<HowToPage> pageList;
 
 	//Helper class that holds the page number and left and right tutorial page images
@@ -47,6 +48,43 @@ public class HowToMenu extends BasicGameState {
 			left = new Image(l);
 		}
 	}
+	
+	public class NextButton extends Button{
+
+		public NextButton(String src, int x, int y, float s, float e, int es)
+				throws SlickException {
+			super(src, x, y, s, e, es);
+		}
+		
+		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+			//Checks if the next page button is pressed and changes the current page respectively if logical
+			int curPageNum = pageList.indexOf(currentPage);
+			if(isInside(x, y)){
+	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum+1 < pageList.size()){
+	    			currentPage = pageList.get(curPageNum+1);
+	    		}
+	    	}
+		}
+	}
+	
+	public class PrevButton extends Button{
+
+		public PrevButton(String src, int x, int y, float s, float e, int es)
+				throws SlickException {
+			super(src, x, y, s, e, es);
+		}
+		
+		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+			int curPageNum = pageList.indexOf(currentPage);
+			//Checks if the prev page button is pressed and changes the current page respectively if logical
+	    	if(isInside(x, y)){
+	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum-1 >= 0){
+	    			currentPage = pageList.get(curPageNum-1);
+	    		}
+	    	}
+		}
+	}
+
 
 	public HowToMenu(int id) {
 		this.id=id;
@@ -72,12 +110,14 @@ public class HowToMenu extends BasicGameState {
 		
 		//Initialises the headings and buttons of this page
 		headingList = new ArrayList<Heading>();
+		buttonList = new ArrayList<Button>();
 		headingList.add(new Heading(Utils.HOWTOTITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
 		headingList.add(goBack = new Button(Utils.GOBACK,Utils.BOTRIGHTX,Utils.BOTRIGHTY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.MAINMENUID));
+		buttonList.add(goBack);
 		
 		//next and prev are not added to headingList since they are not always rendered
-		next = new Button(Utils.HOWTONEXT,nextX,nextY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
-		prev = new Button(Utils.HOWTOPREV,prevX,prevY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID);
+		buttonList.add(next = new NextButton(Utils.HOWTONEXT,nextX,nextY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID));
+		buttonList.add(prev = new PrevButton(Utils.HOWTOPREV,prevX,prevY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.HOWTOMENUID));
 		
 		//Helps with adjusting rendering positions
 		int adjust = gc.getWidth()/25;
@@ -131,36 +171,22 @@ public class HowToMenu extends BasicGameState {
 		//Gets mouse co-oridnates and the current page number
 		int mouseX;
 		int mouseY;
-		int curPageNum; 	
     	mouseX = gc.getInput().getMouseX();
     	mouseY = gc.getInput().getMouseY();
-    	curPageNum = pageList.indexOf(currentPage);
     	
-    	//Checks if the next or prev page buttons are pressed and changes the current page respectively if logical
-    	if(prev.isInside(mouseX, mouseY)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum-1 >= 0){
-    			currentPage = pageList.get(curPageNum-1);
-    		}
-    	}
-    	
-    	if(next.isInside(mouseX, mouseY)){
-    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum+1 < pageList.size()){
-    			currentPage = pageList.get(curPageNum+1);
-    		}
+    	for(Button button : buttonList){
+    		button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
     	}
     	
     	//Sets the page arrows to visible depending on the current page
-    	if(curPageNum == 0)
+    	if(pageList.indexOf(currentPage) == 0)
     		showPrev = false;
     	else
     		showPrev = true;
-    	if(curPageNum == pageList.size()-1)
+    	if(pageList.indexOf(currentPage) == pageList.size()-1)
     		showNext = false;
     	else
     		showNext = true;
-    	
-    	//Checks if the Go Back button is pressed and executes the action if so
-    	Utils.buttonPressed(delta, mouseX, mouseY, goBack, gc, sbg);
     	
 	}
 	

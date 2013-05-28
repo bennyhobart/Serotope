@@ -89,7 +89,7 @@ public class GameOverMenu extends BasicGameState {
     	
 		//Checks if a button is pressed and executes its action
 		for(Button button : buttonList)
-			Utils.buttonPressed(delta, mouseX, mouseY, button, gc, sbg);
+			button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
 		
 		
     	//Creates a new game and resets player's score

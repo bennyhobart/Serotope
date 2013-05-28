@@ -1,9 +1,11 @@
 package Menu;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -43,7 +45,8 @@ public class SplashMenu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 
-		if(gc.getInput().isKeyDown(InputManager.KeyStart)) {
+		Input input = gc.getInput();
+		if(input.isKeyDown(InputManager.KeyStart) || input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			sbg.enterState(gPanel.MAINMENUID);
 		}
 		
