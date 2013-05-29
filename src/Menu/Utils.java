@@ -63,6 +63,9 @@ public class Utils {
 	public static final String MAINACHIEVEMENTS = "assets/image/menus/MainAchievements.png";
 	public static final String MAINSETTINGS = "assets/image/menus/MainSettings.png";
 	public static final String MAINQUIT = "assets/image/menus/MainQuit.png";
+	public static final String PAUSETITLE = "assets/image/menus/PauseTitle.png";
+	public static final String PAUSERESUME = "assets/image/menus/PauseResume.png";
+	public static final String PAUSERESTART = "assets/image/menus/PauseRestart.png";
 	
 	//Image file paths for the How To Pages
 	public static final String HOWTOPAGE1T = "assets/image/menus/HowToPages/Page1T.png";
