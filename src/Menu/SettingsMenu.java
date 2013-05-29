@@ -59,9 +59,11 @@ public class SettingsMenu extends BasicGameState {
 		}
 		
 		@Override
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
 			//Checks if volume button is pressed and lowers the volume
-	    	if(isInside(x, y)){
+	    	boolean mouseOver = false;
+			if(isInside(x, y)){
+				mouseOver = true;
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel<10){
 	    			rectsLevel ++;
 	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
@@ -71,6 +73,7 @@ public class SettingsMenu extends BasicGameState {
 	    		rectsLevel ++;
     			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    	}
+	    	return mouseOver;
 		}
 	}
 	
@@ -82,9 +85,11 @@ public class SettingsMenu extends BasicGameState {
 		}
 		
 		@Override
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg) {
 			//Checks if volume button is pressed lowers the volume
+			boolean mouseOver = false;
 			if(isInside(x, y)){
+				mouseOver = true;
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && rectsLevel>0){
 	    			rectsLevel --;
 	    			gc.setSoundVolume(rectsLevel/10*maxVolume);
@@ -94,6 +99,7 @@ public class SettingsMenu extends BasicGameState {
 	    		rectsLevel --;
     			gc.setSoundVolume(rectsLevel/10*maxVolume);
 	    	}
+			return mouseOver;
 		}
 	}
 	

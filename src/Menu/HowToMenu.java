@@ -56,10 +56,12 @@ public class HowToMenu extends BasicGameState {
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
 			//Checks if the next page button is pressed and changes the current page respectively if logical
 			int curPageNum = pageList.indexOf(currentPage);
+			boolean mouseOver = false;
 			if(isInside(x, y)){
+				mouseOver = true;
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum+1 < pageList.size()){
 	    			currentPage = pageList.get(curPageNum+1);
 	    		}
@@ -67,6 +69,7 @@ public class HowToMenu extends BasicGameState {
 			if(gc.getInput().isKeyPressed(Input.KEY_RIGHT) && curPageNum+1 < pageList.size()){
 				currentPage = pageList.get(curPageNum+1);
 			}
+			return mouseOver;
 		}
 	}
 	
@@ -77,10 +80,12 @@ public class HowToMenu extends BasicGameState {
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
 			int curPageNum = pageList.indexOf(currentPage);
+			boolean mouseOver = false;
 			//Checks if the prev page button is pressed and changes the current page respectively if logical
 	    	if(isInside(x, y)){
+	    		mouseOver = true;
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON) && curPageNum-1 >= 0){
 	    			currentPage = pageList.get(curPageNum-1);
 	    		}
@@ -88,6 +93,7 @@ public class HowToMenu extends BasicGameState {
 			if(gc.getInput().isKeyPressed(Input.KEY_LEFT) && curPageNum-1 >= 0){
 				currentPage = pageList.get(curPageNum-1);
 			}
+			return mouseOver;
 		}
 	}
 

@@ -68,8 +68,10 @@ public class Button extends Heading {
 	}
 	
 	//General funcction to find if a button is pressed and enter a new game State
-	public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+	public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		boolean mouseOver = false;
 		if(isInside(x, y)){
+			mouseOver = true;
 			increaseSize(delta);
 			if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				gc.getInput().clearKeyPressedRecord();
@@ -82,5 +84,6 @@ public class Button extends Heading {
 			gc.getInput().clearKeyPressedRecord();
 			sbg.enterState(enterState);
 		}
+		return mouseOver;
 	}
 }

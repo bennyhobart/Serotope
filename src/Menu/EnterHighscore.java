@@ -39,9 +39,11 @@ public class EnterHighscore extends BasicGameState{
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
 	    	//Checks if mouse selects the DONE option and enters highscores and sets toGameOver flag to true
+			boolean mouseOver = false;
 	    	if(isInside(x, y)){
+	    		mouseOver = true;
 				increaseSize(delta);
 				if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					gPanel.database.writeToHighscores(name, gameScore);
@@ -53,6 +55,7 @@ public class EnterHighscore extends BasicGameState{
 				gPanel.database.writeToHighscores(name, gameScore);
 				toGameOver = true;
 			}
+			return mouseOver;
 		}
 	}
 	
@@ -72,7 +75,7 @@ public class EnterHighscore extends BasicGameState{
         highscoreHeadings = new ArrayList<Heading>();
         highscoreHeadings.add(new Heading(Utils.HIGHSCORETITLE,Utils.LEFTALIGNX,Utils.TITLEPOSY));
         highscoreHeadings.add(new Heading(Utils.GAMEOVERENTER,Utils.LEFTALIGNX,Utils.THIRDHEADING));
-		highscoreHeadings.add(done = new Button(Utils.GAMEOVERDONE,donePosX,donePosY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.GAMEOVERMENUID));
+		highscoreHeadings.add(done = new DoneButton(Utils.GAMEOVERDONE,donePosX,donePosY,Utils.STARTSCALE,Utils.ENLARGE,gPanel.GAMEOVERMENUID));
         done.setSelected(true);
 		
 		//Initialises the highscore name string and sets the toGameOver flag to false

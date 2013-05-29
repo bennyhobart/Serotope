@@ -37,8 +37,10 @@ public class Play extends BasicGameState {
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+			boolean mouseOver = false;
 			if(isInside(x, y)){
+				mouseOver = true;
 				increaseSize(delta);
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 	    			pause = false;
@@ -49,6 +51,7 @@ public class Play extends BasicGameState {
 			if(isSelected() && gc.getInput().isKeyPressed(Input.KEY_RETURN)){
 				pause = false;
 			}
+			return mouseOver;
 		}
 	}
 	
@@ -59,8 +62,10 @@ public class Play extends BasicGameState {
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+			boolean mouseOver = false;
 			if(isInside(x, y)){
+				mouseOver = true;
 				increaseSize(delta);
 	    		if(gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 	    			gc.getInput().clearKeyPressedRecord();
@@ -79,6 +84,7 @@ public class Play extends BasicGameState {
 				pause = false;
 				sbg.enterState(getEnterState());
 			}
+			return mouseOver;
 		}
 	}
 
@@ -138,7 +144,11 @@ public class Play extends BasicGameState {
 	    	
 			//Checks if a button is pressed and executes its action
 			for(Button button : buttonList)
-				button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
+				if(button.buttonPressed(delta, mouseX, mouseY, gc, sbg)){
+					buttonList.get(selection).setSelected(false);
+					button.setSelected(true);
+					selection = buttonList.indexOf(button);
+				}
 			
 			if(gc.getInput().isKeyPressed(Input.KEY_DOWN)){
 				buttonList.get(selection).setSelected(false);

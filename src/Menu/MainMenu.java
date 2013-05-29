@@ -29,8 +29,10 @@ public class MainMenu extends BasicGameState {
 			super(src, x, y, s, e, es);
 		}
 		
-		public void buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+		public boolean buttonPressed(int delta, int x, int y, GameContainer gc, StateBasedGame sbg){
+			boolean mouseOver = false;
 			if (isInside(x, y)) {
+				mouseOver = true;
 				increaseSize(delta);
 				if (gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 					gc.exit();
@@ -40,6 +42,7 @@ public class MainMenu extends BasicGameState {
 			if(isSelected() && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
 				gc.exit();
 			}
+			return mouseOver;
 		}
 	}
 	
@@ -92,7 +95,11 @@ public class MainMenu extends BasicGameState {
 
 		//Checks if any of the buttons have been pressed and execute the appropriate action
 		for (Button button : buttonList) {
-			button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
+			if(button.buttonPressed(delta, mouseX, mouseY, gc, sbg)){
+				buttonList.get(selection).setSelected(false);
+				button.setSelected(true);
+				selection = buttonList.indexOf(button);
+			}
 		}
 		
 		if(gc.getInput().isKeyPressed(Input.KEY_DOWN)){

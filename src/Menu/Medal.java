@@ -1,5 +1,7 @@
 package Menu;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -38,7 +40,10 @@ public class Medal {
 	}
 	
 	//Draws the medal achievement line to the screen from position (x,y)
-	public void drawLine(int x, int y, int buffer, int nameLength, int boxLength, Graphics g) throws SlickException{
+	public void drawLine(int x, int y, int buffer, int nameLength, int boxLength, Graphics g, GameContainer gc) throws SlickException{
+		int boxX = x + nameLength;
+		int boxY = y;
+		
 		g.drawString(name, x + buffer, y+boxLength/2);
 		x += nameLength;
 		Image locked = new Image(Utils.ACHIEVEMENTSLOCKED);
@@ -65,6 +70,40 @@ public class Medal {
 			g.drawImage(platinumMedal, x, y, x+boxLength, y+boxLength, 0, 0, platinumMedal.getWidth(), platinumMedal.getHeight());
 		else
 			g.drawImage(locked, x, y, x+boxLength, y+boxLength, 0, 0, locked.getWidth(), locked.getHeight());
+
+		renderMouseOver(boxX,boxY,boxLength,g,gc);
+	}
+	
+	private void renderMouseOver(int x, int y, int boxLength, Graphics g, GameContainer gc){
+		String text;
+		int mouseY = gc.getInput().getMouseY();
+		if(mouseY>y && mouseY<y+boxLength){
+			int mouseX = gc.getInput().getMouseX();
+			if(mouseX>x && mouseX<x+4*boxLength){
+				if(mouseX<x+boxLength){
+					text = Integer.toString(current) + '/' + Integer.toString(bronze);
+					printBoxMsg(text,mouseX,mouseY,g);
+				}else if(mouseX<x+2*boxLength){
+					text = Integer.toString(current) + '/' + Integer.toString(silver);
+					printBoxMsg(text,mouseX,mouseY,g);
+				}else if(mouseX<x+3*boxLength){
+					text = Integer.toString(current) + '/' + Integer.toString(gold);
+					printBoxMsg(text,mouseX,mouseY,g);
+				}else {
+					text = Integer.toString(current) + '/' + Integer.toString(platinum);
+					printBoxMsg(text,mouseX,mouseY,g);
+				}
+			}
+		}
+	}
+	
+	private void printBoxMsg(String text, int x, int y, Graphics g){
+		int tWidth = g.getFont().getWidth(text);
+		int tHeight = g.getFont().getHeight(text);
+		g.setColor(Color.black);
+		g.fillRect(x-tWidth, y-tHeight, tWidth, tHeight);
+		g.setColor(Color.white);
+		g.drawString(text, x-tWidth, y-tHeight);
 	}
 	
 	//Checks which medals in the achievement are unlocked

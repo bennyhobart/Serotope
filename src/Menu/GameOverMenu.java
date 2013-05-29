@@ -92,7 +92,11 @@ public class GameOverMenu extends BasicGameState {
     	
 		//Checks if a button is pressed and executes its action
 		for(Button button : buttonList)
-			button.buttonPressed(delta, mouseX, mouseY, gc, sbg);
+			if(button.buttonPressed(delta, mouseX, mouseY, gc, sbg)){
+				buttonList.get(selection).setSelected(false);
+				button.setSelected(true);
+				selection = buttonList.indexOf(button);
+			}
 		
 		if(gc.getInput().isKeyPressed(Input.KEY_DOWN)){
 			buttonList.get(selection).setSelected(false);

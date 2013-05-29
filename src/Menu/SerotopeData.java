@@ -128,7 +128,7 @@ public class SerotopeData {
 				boxX += boxSide;
 			}
 			
-			medal.drawLine(x, boxY, buffer, nameLength, boxSide, g);
+			medal.drawLine(x, boxY, buffer, nameLength, boxSide, g, gc);
 			boxY += boxSide;
 		}
 	}
