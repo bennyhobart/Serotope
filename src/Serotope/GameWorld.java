@@ -70,7 +70,6 @@ public class GameWorld {
 	}
 
 	public void render(Graphics g) {
-		Vec2 camScreenLoc = worldToScreen(focus.target.getBody().getPosition());
 		Vec2 objectScreenLoc;
 		GameObject target;
 		background.draw(-64 - focus.target.getBody().getPosition().x
@@ -79,21 +78,24 @@ public class GameWorld {
 				Color.gray);
 		for (int i = 0; i < gameObjects.size(); i++) {
 			target = gameObjects.get(i);
-			objectScreenLoc = worldToScreen(getGameObjects().get(i).getBody()
-					.getPosition());
-			float xRender = objectScreenLoc.x - camScreenLoc.x + gPanel.PWIDTH
-					/ 2;
-			float yRender = gPanel.PHEIGHT / 2 - objectScreenLoc.y
-					+ camScreenLoc.y;
-			if (target.image == null || xRender < -target.image.getWidth() / 2
-					|| xRender > gPanel.PWIDTH + target.image.getWidth() / 2
-					|| yRender < -target.image.getHeight() / 2
-					|| yRender > gPanel.PHEIGHT + target.image.getHeight() / 2)
-				;
-			else
+			objectScreenLoc = worldToScreen(target.getBody().getPosition());
+			float xRender = objectScreenLoc.x;
+			float yRender = objectScreenLoc.y;
+			if (isOnscreen(xRender,yRender,target));
 				getGameObjects().get(i).render(g, xRender, yRender);
 		}
 		ui.render(g);
+	}
+
+
+	public boolean isOnscreen(float xRender, float yRender, GameObject target) {
+		if(target.image == null || xRender < -target.image.getWidth() / 2
+					|| xRender > gPanel.PWIDTH + target.image.getWidth() / 2
+					|| yRender < -target.image.getHeight() / 2
+					|| yRender > gPanel.PHEIGHT + target.image.getHeight() / 2){ 
+			return false;
+		}
+		return true;
 	}
 
 	public void update(int delta, GameContainer gc) {
@@ -138,7 +140,12 @@ public class GameWorld {
 	}
 
 	public Vec2 worldToScreen(Vec2 position) {
-		return new Vec2(position).mul(Utils.SCALE);
+		Vec2 renderLoc = new Vec2(position).mul(Utils.SCALE);
+		renderLoc.subLocal(focus.target.getBody().getPosition().mul(Utils.SCALE));
+		renderLoc.y=-renderLoc.y;
+		renderLoc.addLocal(new Vec2((gPanel.PWIDTH/2),(gPanel.PHEIGHT/2)));
+		
+		return renderLoc;
 	}
 
 	public ArrayList<GameObject> getGameObjects() {

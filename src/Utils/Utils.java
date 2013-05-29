@@ -133,6 +133,8 @@ public class Utils {
 		public static Image YELLOWSPECKIMAGE;
 		public static Image BLACKSPECKIMAGE;
 		public static Image[] PARTICLES;
+		public static Image MARKERIMAGE;
+		
 		public static final int NUMPARTICLESEXPLOSION = 2;
 		public static final float PARTICLESPEED = 0.8f;
 		public static final int bullet1Width = 16;
@@ -192,6 +194,7 @@ public class Utils {
 	        SHIELD_TAG = new Image("assets/image/traits/shield.png");
 	        SPEED_ICON = new Image("assets/image/UI/traits/speed.png");
 	        SPEED_TAG = new Image("assets/image/traits/speed.png");
+	        MARKERIMAGE = new Image("assets/image/UI/Marker.png");
 		}
 
        

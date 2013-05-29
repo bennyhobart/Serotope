@@ -2,11 +2,16 @@ package UI;
 
 import java.util.ArrayList;
 
+import org.jbox2d.collision.AABB;
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
 
 import Utils.Utils;
 import Genes.Gene;
+import Menu.gPanel;
 import Serotope.Creature;
 import Serotope.GameWorld;
 
@@ -80,10 +85,29 @@ public class Overlay {
 		xRender += (statSize + border);
 		xRender += traitBorderWidth + border;
 
+		//draw local creatures
+		AABB zone = new AABB(new Vec2(GameWorld.getGameWorld().getFocus().getBody().getPosition().sub(new Vec2(10,10))), new Vec2(GameWorld.getGameWorld().getFocus().getBody().getPosition().add(new Vec2(10,10))));
+		ArrayList<Creature> localCreatures = Utils.getCreatures(Utils.getGameObjectsAABB(zone));
+		for(int i=0;i<localCreatures.size();i++) {
+			if(localCreatures.get(i).id==GameWorld.getGameWorld().getPlayerId()) {
+				continue;
+			}
+			Vec2 screenLoc = GameWorld.getGameWorld().worldToScreen(localCreatures.get(i).getBody().getPosition());
+			if(GameWorld.getGameWorld().isOnscreen(screenLoc.x,screenLoc.y,localCreatures.get(i))) {
+				continue;
+			}
+			Vec2 between = Utils.vectorBetween(GameWorld.getGameWorld().getFocus().getBody().getPosition(), localCreatures.get(i).getBody().getPosition());
+			between.normalize();
+			between.set(between.x,between.y*-1);
+			between.mulLocal(Utils.CREATUREIMAGE1.getWidth());
+			between.addLocal(new Vec2((gPanel.PWIDTH/2),(gPanel.PHEIGHT/2)));
+			Utils.MARKERIMAGE.drawCentered(between.x, between.y);
+		}
 		// draw Score stuff
 		g.drawString("" + GameWorld.getGameWorld().getScore(), xRender, yRender);
 
 	}
+	
 
 	private void drawBoxes(float i, int xRender, int yRender, Graphics g) {
 		int y = yRender;
