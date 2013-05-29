@@ -56,7 +56,7 @@ public class Overlay {
 				(float) ((float) target.getCurrHealth() / target.getHealth()),
 				xRender, yRender, g);
 
-		g.drawString("" + target.getCurrHealth(), xRender, yRender);
+		g.drawString(String.format("%.0f", target.getCurrHealth()), xRender, yRender);
 		if (target.isShield()) {
 			g.drawString(String.format("%.0f", target.getCurrShield()), xRender
 					+ border + 10, yRender);

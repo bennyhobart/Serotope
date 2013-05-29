@@ -22,8 +22,8 @@ public class Utils {
 		 
         //creature default stats
         //Move Variables
-        public static final float TOP_SPEED=6;
-        public static final float ACCELERATION=1f;
+        public static final float TOP_SPEED=9;
+        public static final float ACCELERATION=1.3f;
         public static final float HANDLING=1;
         public static final float SPRINT_TIME = 1000;
         public static final float SPRINT_RESTITUTION = 0.5f;
@@ -33,18 +33,19 @@ public class Utils {
         public static final int HEALTH=600;
         public static final float STAMINA=20;
         public static final boolean SHIELD=false;
-		public static final float SHIELDRECHARGERATE = 0.05f;
-		public static int SHIELD_COOLDOWN = 5000;
+		public static final float SHIELDRECHARGERATE = 0.2f;
+		public static int SHIELD_COOLDOWN = 500;
+		public static final float LIFESPANMOD = 0.4f;
 
         //Damage Variables
-        public static final int DAMAGE=20;
-        public static final int COOLDOWN=300;
+        public static final int DAMAGE=40;
+        public static final int COOLDOWN=400;
         public static final int ATTACK_TYPE=0;
-        public static final float BULLET_VELOCITY = 8;
+        public static final float BULLET_VELOCITY = 9;
 		public static final float BULLET_VELOCITY_INHERITENCE = 0.3f;
         
         //AttackType Variables
-        public static final int NUMSHOTGUNBULLETS = 6;
+        public static final int NUMSHOTGUNBULLETS = 4;
         public static final double MACHINEGUNSPEED = 4;
         public static final double MACHINEGUNSPRAY = Math.PI/8;
         public static final float MACHINEGUNBULLETSPEED = 0.7f;
@@ -55,13 +56,13 @@ public class Utils {
 		public static final int EXPLOSION_LIFESPAN = 40;
 		
         // Modifiers - buffs caused by genes
-		public static final int HEALTH_BUFF = 2;
-		public static final int STAMINA_BUFF = 2;
-		public static final int SPEED_BUFF = 2;
-		public static final int ACCELERATION_BUFF = 2;
-		public static final int ATTACK_SPEED_BUFF = 2;
-		public static final int DAMAGE_BUFF = 2;
-		public static final int HANDLING_BUFF = 2;
+		public static final float HEALTH_BUFF = 1.3f;
+		public static final float STAMINA_BUFF = 1.3f;
+		public static final float SPEED_BUFF = 2f;
+		public static final float ACCELERATION_BUFF = 2;
+		public static final float ATTACK_SPEED_BUFF = 1.3f;
+		public static final float DAMAGE_BUFF = 1.3f;
+		public static final float HANDLING_BUFF = 2;
 
 		// Attack Types
 		public static final int DEFAULT_ATTACK = 0;
@@ -231,7 +232,8 @@ public class Utils {
         public static final float WANDERDISTANCE =4f;
         public static final float WANDERJITTER = 0.1f;
         
-        public static final int spawnTime = 1200;
+        public static final int spawnTime = 900;
+
 
         
         public ArrayList<Bullet> getBullets(ArrayList<GameObject> gameObjects) {

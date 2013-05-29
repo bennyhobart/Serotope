@@ -7,7 +7,6 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -29,7 +28,7 @@ public class Creature extends GameObject {
 	private boolean tired;
 	// Health Variables
 	private int health;
-	private int currHealth;
+	private float currHealth;
 	private float stamina;
 	private boolean shield;
 	private float currShield;
@@ -75,14 +74,6 @@ public class Creature extends GameObject {
 		if (playercontrolled) {
 			controller = new PlayerController(this);
 			GameWorld.getGameWorld().setPlayer(id);
-
-			// super creature for testing TODO delete!
-			for (Gene gene : dna.getGenes()) {
-				gene.setLeftAllele(true);
-				gene.setRightAllele(true);
-			}
-			dna.buffCreature(this);
-
 		} else {
 			controller = new AIController(this);
 			behaviour = new CreatureBehaviours(this,
@@ -175,6 +166,7 @@ public class Creature extends GameObject {
 		} else {
 			currShieldCooldown += delta;
 		}
+		currHealth-=delta*Utils.LIFESPANMOD/stamina;
 	}
 
 	// Set's doomed to true for garbage collection from gameWorld
@@ -417,6 +409,7 @@ public class Creature extends GameObject {
 		shield = Utils.SHIELD;
 		currShieldCooldown = Utils.SHIELD_COOLDOWN;
 		shieldCooldown = Utils.SHIELD_COOLDOWN;
+		currShield=health/2;
 		// damage
 		damage = Utils.DAMAGE;
 		coolDown = Utils.COOLDOWN;
@@ -433,8 +426,8 @@ public class Creature extends GameObject {
 		return topSpeed;
 	}
 
-	public void increaseTopSpeed(int modifier) {
-		this.topSpeed *= modifier;
+	public void increaseTopSpeed(float speedBuff) {
+		this.topSpeed *= speedBuff;
 	}
 
 	public void setController(Controller controller) {
@@ -453,16 +446,16 @@ public class Creature extends GameObject {
 		return acceleration;
 	}
 
-	public void increaseAcceleration(int modifier) {
-		this.acceleration *= modifier;
+	public void increaseAcceleration(float accelerationBuff) {
+		this.acceleration *= accelerationBuff;
 	}
 
 	public float getHandling() {
 		return handling;
 	}
 
-	public void increaseHandling(int modifier) {
-		this.handling *= modifier;
+	public void increaseHandling(float handlingBuff) {
+		this.handling *= handlingBuff;
 	}
 
 	public float getSprintTime() {
@@ -501,11 +494,11 @@ public class Creature extends GameObject {
 		return health;
 	}
 
-	public void increaseHealth(int modifier) {
-		this.health *= modifier;
+	public void increaseHealth(float healthBuff) {
+		this.health *= healthBuff;
 	}
 
-	public int getCurrHealth() {
+	public float getCurrHealth() {
 		return currHealth;
 	}
 
@@ -517,8 +510,8 @@ public class Creature extends GameObject {
 		return stamina;
 	}
 
-	public void increaseStamina(int modifier) {
-		this.stamina *= modifier;
+	public void increaseStamina(float staminaBuff) {
+		this.stamina *= staminaBuff;
 	}
 
 	public boolean isShield() {
@@ -533,16 +526,16 @@ public class Creature extends GameObject {
 		return damage;
 	}
 
-	public void increaseDamage(int modifier) {
-		this.damage *= modifier;
+	public void increaseDamage(float damageBuff) {
+		this.damage *= damageBuff;
 	}
 
 	public int getCoolDown() {
 		return coolDown;
 	}
 
-	public void decreaseCoolDown(int modifier) {
-		this.coolDown /= modifier;
+	public void decreaseCoolDown(float attackSpeedBuff) {
+		this.coolDown /= attackSpeedBuff;
 	}
 
 	public int getTimeSinceLastAttack() {
