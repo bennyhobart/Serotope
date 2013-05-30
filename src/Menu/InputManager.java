@@ -355,8 +355,6 @@ public class InputManager {
 			return Keyboard.KEY_RBRACKET;
 		else if(input.isKeyDown(Keyboard.KEY_RCONTROL))
 			return Keyboard.KEY_RCONTROL;
-		else if(input.isKeyDown(Keyboard.KEY_RETURN))
-			return Keyboard.KEY_RETURN;
 		else if(input.isKeyDown(Keyboard.KEY_RIGHT))
 			return Keyboard.KEY_RIGHT;
 		else if(input.isKeyDown(Keyboard.KEY_RMENU))
