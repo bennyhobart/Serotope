@@ -159,6 +159,7 @@ public class SettingsMenu extends BasicGameState {
 		//Draws each control box onto the screen
 		int adjust = gc.getHeight()/70;
 		for(ControlBox boxi : controlList){
+			g.setColor(Color.white);
 			boxi.draw();
 			g.drawString(boxi.name, boxi.xpos+gc.getWidth()/10, boxi.ypos+boxi.img.getHeight()/2-adjust);
 			g.drawString(InputManager.returnkey(boxi.curKey), boxi.xpos+adjust, boxi.ypos+boxi.img.getHeight()/2-adjust);

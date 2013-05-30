@@ -76,6 +76,7 @@ public class GameOverMenu extends BasicGameState {
 		
 		//Draws the Player's final score
 		g.setFont(scoreFont);
+		g.setColor(Color.white);
 		g.drawString(Integer.toString(Play.gameScore),highscoreX,highscoreY);
 	}
 

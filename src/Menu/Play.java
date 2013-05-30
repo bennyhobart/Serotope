@@ -124,6 +124,7 @@ public class Play extends BasicGameState {
 			}
 			
 			gameScore = world.getScore();
+			g.setColor(Color.white);
 			g.drawString("Score: " + Integer.toString(gameScore), Utils.LEFTALIGNX, Utils.FIRSTHEADING);
 		}else
 			world.render(g);

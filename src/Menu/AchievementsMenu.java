@@ -72,6 +72,7 @@ public class AchievementsMenu extends BasicGameState {
 			heading.draw();
 		
 		//Draws the highscores and medals onto the page
+		g.setColor(Color.white);
     	gPanel.database.drawHighscores(highscoreListPosX, highscoreListPosY, highscoreSpacing, g);
     	gPanel.database.drawMedals(medalPosX, medalPosY, gc, g);
 

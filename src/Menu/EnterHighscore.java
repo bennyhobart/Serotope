@@ -96,6 +96,7 @@ public class EnterHighscore extends BasicGameState{
 		int boxHeight = gc.getHeight()/10;
 		
 		//Draws the current highscore name to the screen and rectangle surrounding it
+		g.setColor(Color.white);
 		g.drawString(name, Utils.LEFTALIGNX, Utils.FOURTHHEADING);		
 		g.drawRect(Utils.LEFTALIGNX, Utils.FOURTHHEADING , boxWidth, boxHeight);
 		

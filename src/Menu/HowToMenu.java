@@ -174,6 +174,7 @@ public class HowToMenu extends BasicGameState {
 		//Draws the current page of the tutorial to the screen and page number
 		currentPage.left.draw(leftPosX,leftPosY);
 		currentPage.right.draw(rightPosX,rightPosY);
+		g.setColor(Color.white);
 		g.drawString(currentPage.name + " of " + pageNum,pageNumberX,pageNumberY);
 	}
 
