@@ -31,7 +31,7 @@ public class Utils {
         
         //Health Variables
         public static final int HEALTH=600;
-        public static final float STAMINA=20;
+        public static final float STAMINA=100;
         public static final boolean SHIELD=false;
 		public static final float SHIELDRECHARGERATE = 0.2f;
 		public static int SHIELD_COOLDOWN = 500;
