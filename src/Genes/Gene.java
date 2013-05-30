@@ -23,7 +23,7 @@ public abstract class Gene {
 	
 	public Gene() {
 		this.leftAllele = false;
-		this.rightAllele = false;
+		this.rightAllele = true;
 	}
 	
 	/**

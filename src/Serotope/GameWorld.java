@@ -59,7 +59,7 @@ public class GameWorld {
 		physicsWorld = new World(new Vec2(0, 0));
 		setGameObjects(new ArrayList<GameObject>());
 		try {
-			Creature creature = new Creature(new Vec2(0, 0), true, new DNA());
+			Creature creature = new Creature(new Vec2(0, 0), true, new DNA(true));
 			focus = new Camera(getPlayer());
 			playerId = creature.getId();
 			new CreatureSpawner(new Vec2(0, 0));

@@ -55,6 +55,29 @@ public class DNA extends GameObject {
 		genes.add(new AttackTypeGene());
 	}
 
+
+	public DNA(boolean initialCreature) throws SlickException {
+		super(new Vec2(0, 0), Utils.dnaImage, true);
+		// Remove the DNA object from the game world, as it is to be initially
+		// associated with a creature
+		GameWorld.getGameWorld().getGameObjects().remove(this);
+		initialiseBodyDefinition();
+
+		// Add each of the required genes
+		genes.add(new HealthGene(true,true));
+		genes.add(new LifeSpanGene());
+		genes.add(new ShieldGene());
+		genes.add(new SpeedGene());
+		genes.add(new AccelerationGene());
+		genes.add(new HandlingGene());
+		genes.add(new DamageGene(true,true));
+		genes.add(new AttackSpeedGene());
+		genes.add(new AttackTypeGene());
+		genes.add(new AttackTypeGene());
+		genes.add(new AttackTypeGene());
+	}
+
+	
 	/**
 	 * Apply any modifiers to the given creature's stats based on the genes in
 	 * its DNA
