@@ -235,7 +235,7 @@ public class Utils {
         public static final float WANDERDISTANCE =4f;
         public static final float WANDERJITTER = 0.1f;
         
-        public static final int spawnTime = 900;
+        public static final int spawnTime = 1300;
 
 
         
